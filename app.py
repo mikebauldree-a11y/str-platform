@@ -24,6 +24,8 @@ import stripe
 
 load_dotenv()
 app = Flask(__name__)
+from markets import markets_bp
+app.register_blueprint(markets_bp, url_prefix="/markets")
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "change-me-in-production")
 
 # ── Config ───────────────────────────────────────────────────────────────────
