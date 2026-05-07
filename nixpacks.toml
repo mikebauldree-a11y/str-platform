@@ -1,0 +1,14 @@
+# System dependencies for WeasyPrint (HTML → PDF conversion)
+[phases.setup]
+nixPkgs = [
+  "glib",
+  "pango",
+  "cairo",
+  "gdk-pixbuf",
+  "gobject-introspection",
+  "libffi",
+  "fontconfig",
+  "freetype",
+  "harfbuzz",
+  "shared-mime-info"
+]

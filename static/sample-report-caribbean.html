@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>STR Deal Analysis — Ecos del Mar III, Downtown Punta Cana, Punta Cana La Altagracia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a18; --paper: #ffffff; --accent: #c84b2f;
+    --muted: #7a7870; --light: #f5f2eb;
+    --border: rgba(26,26,24,0.15);
+    --green: #2a7a4b; --amber: #b8942a;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans); font-weight: 300; font-size: 13px;
+    line-height: 1.65; color: var(--ink); background: white;
+    max-width: 820px; margin: 0 auto; padding: 3rem 2.5rem;
+  }
+  .report-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding-bottom: 1.5rem; border-bottom: 2px solid var(--ink); margin-bottom: 2rem;
+  }
+  .brand { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted); }
+  .report-id { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
+  .report-id span { display: block; }
+  .title-block { margin-bottom: 2rem; }
+  .property-name { font-family: var(--serif); font-size: 36px; line-height: 1.1; margin-bottom: 0.5rem; }
+  .property-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+  .verdict-banner {
+    padding: 1rem 1.25rem; margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .verdict-banner.buy { border-left: 4px solid var(--green); background: rgba(42,122,75,0.06); }
+  .verdict-banner.pass { border-left: 4px solid var(--accent); background: rgba(200,75,47,0.06); }
+  .verdict-banner.watch { border-left: 4px solid var(--amber); background: rgba(184,148,42,0.06); }
+  .verdict-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted); }
+  .verdict-text { font-family: var(--serif); font-size: 22px; }
+  .verdict-text.buy { color: var(--green); }
+  .verdict-text.pass { color: var(--accent); }
+  .verdict-text.watch { color: var(--amber); }
+  .section-title {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    color: var(--muted); text-transform: uppercase;
+    border-bottom: 0.5px solid var(--border); padding-bottom: 0.5rem;
+    margin-bottom: 1rem; margin-top: 2.5rem;
+  }
+  .metrics-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-bottom: 0.5rem; }
+  .metric-box { background: white; padding: 1rem; }
+  .metric-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+  .metric-val { font-family: var(--serif); font-size: 26px; line-height: 1; }
+  .metric-val.green { color: var(--green); }
+  .metric-val.red { color: var(--accent); }
+  .metric-val.amber { color: var(--amber); }
+  .metric-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 0.5rem; }
+  th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted);
+       text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); background: var(--light); }
+  td { padding: 0.6rem 0.75rem; border-bottom: 0.5px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  .scenario-upside td { color: var(--green); }
+  .scenario-downside td { color: var(--accent); }
+  .row-label { font-weight: 500; color: var(--muted); }
+  .row-total { font-weight: 500; background: var(--light); }
+  .analysis-block { margin-bottom: 1.5rem; }
+  .analysis-block h3 { font-family: var(--sans); font-weight: 500; font-size: 14px; margin-bottom: 0.5rem; }
+  .analysis-block p { color: var(--muted); line-height: 1.75; }
+  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+  .risk-cell { background: white; padding: 0.875rem 1rem; }
+  .risk-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .risk-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .risk-dot.green { background: var(--green); }
+  .risk-dot.amber { background: var(--amber); }
+  .risk-dot.red { background: var(--accent); }
+  .risk-name { font-weight: 500; font-size: 12px; }
+  .risk-note { font-size: 11px; color: var(--muted); padding-left: 16px; }
+  .steps-list { list-style: none; }
+  .steps-list li { display: flex; gap: 1rem; padding: 0.75rem 0; border-bottom: 0.5px solid var(--border); }
+  .steps-list li:last-child { border-bottom: none; }
+  .step-num { font-family: var(--mono); font-size: 11px; color: var(--accent); flex-shrink: 0; width: 24px; }
+  .step-text { font-size: 13px; line-height: 1.6; }
+  .amenity-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 1rem; }
+  .amenity-box { background: white; padding: 0.75rem 1rem; }
+  .amenity-icon { font-size: 18px; margin-bottom: 4px; }
+  .amenity-name { font-weight: 500; font-size: 12px; }
+  .amenity-detail { font-size: 11px; color: var(--muted); }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .detail-row { display: flex; justify-content: space-between; padding: 0.45rem 0.75rem; border-bottom: 0.5px solid var(--border); }
+  .detail-label { font-size: 12px; color: var(--muted); }
+  .detail-value { font-size: 12px; font-weight: 500; text-align: right; }
+  .highlight-box {
+    background: var(--light); padding: 1rem 1.25rem; margin: 1rem 0;
+    border-left: 3px solid var(--accent);
+  }
+  .highlight-box .hl-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 4px; }
+  .highlight-box .hl-text { font-size: 13px; line-height: 1.65; }
+  .return-stack { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1px; background: var(--border); margin: 1rem 0; }
+  .return-item { background: white; padding: 0.875rem 1rem; text-align: center; }
+  .return-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+  .return-val { font-family: var(--serif); font-size: 20px; }
+  .return-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .report-footer {
+    margin-top: 3rem; padding-top: 1rem; border-top: 0.5px solid var(--border);
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em;
+  }
+  .disclaimer { margin-top: 1rem; font-size: 10px; color: var(--muted); line-height: 1.6; }
+  @media print {
+    body { padding: 1.5rem; }
+    .verdict-banner, .metrics-grid, .amenity-grid, .return-stack, .risk-grid, .row-total, th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="report-header">
+  <div>
+    <div class="brand">Caribbean STR</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px;">Professional STR Underwriting</div>
+  </div>
+  <div class="report-id">
+    <span>REPORT #2026-04-28-CARIBBEAN</span>
+    <span>04/28/2026</span>
+    <span>PREPARED FOR: Sample Report</span>
+  </div>
+</div>
+<div class="title-block">
+  <div class="property-name">Ecos del Mar III, Downtown Punta Cana</div>
+  <div class="property-meta">Punta Cana, La Altagracia 23000 · Ecos del Mar · 3BR/2.5BA · 1,421 SF · Villa · ASK: $208,577</div>
+</div>
+<div class="verdict-banner buy">
+  <div>
+    <div class="verdict-label">ANALYST VERDICT</div>
+    <div class="verdict-text buy">Conditional Buy</div>
+  </div>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right;max-width:320px;line-height:1.5;">
+    CONFOTUR tax incentives eliminate property tax for 15 years.
+  </div>
+</div>
+<div class="section-title">Key metrics — base case</div>
+<div class="metrics-grid">
+  <div class="metric-box"><div class="metric-label">GROSS REVENUE</div><div class="metric-val">$29,500</div><div class="metric-sub">179 nights · 50.0% occ.</div></div>
+  <div class="metric-box"><div class="metric-label">TOTAL EXPENSES</div><div class="metric-val red">$28,067</div><div class="metric-sub">incl. all ops + debt service</div></div>
+  <div class="metric-box"><div class="metric-label">NET CASH FLOW</div><div class="metric-val green">$1,433</div><div class="metric-sub">after all costs</div></div>
+  <div class="metric-box"><div class="metric-label">TOTAL RETURN</div><div class="metric-val green">18.9%</div><div class="metric-sub">cash + equity + appreciation</div></div>
+</div>
+<div class="metrics-grid" style="margin-top:0;">
+  <div class="metric-box"><div class="metric-label">CASH-ON-CASH</div><div class="metric-val amber">1.9%</div><div class="metric-sub">pre-tax, year 1</div></div>
+  <div class="metric-box"><div class="metric-label">CAP RATE</div><div class="metric-val">8.0%</div><div class="metric-sub">NOI / purchase price</div></div>
+  <div class="metric-box"><div class="metric-label">DSCR</div><div class="metric-val amber">1.09x</div><div class="metric-sub">NOI / debt service</div></div>
+  <div class="metric-box"><div class="metric-label">PM SAVINGS</div><div class="metric-val green">$6,490</div><div class="metric-sub">vs. 22% managed</div></div>
+</div>
+<div class="section-title">Property overview</div>
+<div class="detail-grid">
+  <div class="detail-row"><span class="detail-label">Property Type</span><span class="detail-value">Villa</span></div>
+  <div class="detail-row"><span class="detail-label">Community</span><span class="detail-value">Ecos del Mar</span></div>
+  <div class="detail-row"><span class="detail-label">Bedrooms / Baths</span><span class="detail-value">3 BR / 2.5 BA</span></div>
+  <div class="detail-row"><span class="detail-label">Square Footage</span><span class="detail-value">1,421 SF</span></div>
+  <div class="detail-row"><span class="detail-label">Year Built</span><span class="detail-value">2025 (1 years)</span></div>
+  <div class="detail-row"><span class="detail-label">Condition</span><span class="detail-value">New Construction, Furnished</span></div>
+  <div class="detail-row"><span class="detail-label">Access</span><span class="detail-value">Gated Community</span></div>
+  <div class="detail-row"><span class="detail-label">Parking</span><span class="detail-value">Covered Carport</span></div>
+  <div class="detail-row"><span class="detail-label">Beach Access</span><span class="detail-value">Community — 10 min drive to Bavaro Beach</span></div>
+  <div class="detail-row"><span class="detail-label">Special Features</span><span class="detail-value">Tropical garden, Open-concept living, Modern kitchen</span></div>
+  <div class="detail-row"><span class="detail-label">HVAC</span><span class="detail-value">Split A/C Units</span></div>
+  <div class="detail-row"><span class="detail-label">Flooring</span><span class="detail-value">Porcelain Tile Throughout</span></div>
+</div>
+<div class="section-title">Community amenities — competitive advantage</div>
+<div class="amenity-grid">
+  <div class="amenity-box">
+    <div class="amenity-icon">🏊</div>
+    <div class="amenity-name">Community Pool</div>
+    <div class="amenity-detail">Resort-style pool with lounge area</div>
+  </div>
+  <div class="amenity-box">
+    <div class="amenity-icon">🌴</div>
+    <div class="amenity-name">Tropical Gardens</div>
+    <div class="amenity-detail">Landscaped common areas</div>
+  </div>
+  <div class="amenity-box">
+    <div class="amenity-icon">🔐</div>
+    <div class="amenity-name">24/7 Security</div>
+    <div class="amenity-detail">Gated entry with guard</div>
+  </div>
+  <div class="amenity-box">
+    <div class="amenity-icon">🏖️</div>
+    <div class="amenity-name">Beach Shuttle</div>
+    <div class="amenity-detail">Community shuttle to Bavaro Beach</div>
+  </div>
+  <div class="amenity-box">
+    <div class="amenity-icon">📶</div>
+    <div class="amenity-name">Fiber Internet</div>
+    <div class="amenity-detail">High-speed fiber available</div>
+  </div>
+</div>
+<div class="analysis-block"><p>The property features Community Pool, Tropical Gardens, 24/7 Security, Beach Shuttle, and Fiber Internet — amenities that appeal to international vacationers seeking a safe, connected Caribbean retreat.</p></div>
+<div class="section-title">Financing structure</div>
+<div class="metrics-grid">
+  <div class="metric-box"><div class="metric-label">PURCHASE PRICE</div><div class="metric-val">$209K</div><div class="metric-sub">below $250K market median</div></div>
+  <div class="metric-box"><div class="metric-label">DOWN PAYMENT</div><div class="metric-val">$63K</div><div class="metric-sub">30% — conservative LTV</div></div>
+  <div class="metric-box"><div class="metric-label">LOAN TERMS</div><div class="metric-val">8.5%</div><div class="metric-sub">20-year fixed</div></div>
+  <div class="metric-box"><div class="metric-label">MONTHLY P&amp;I</div><div class="metric-val">$1,267</div><div class="metric-sub">$15,205 annual</div></div>
+</div>
+<table>
+<thead><tr><th>Acquisition Cost</th><th>Amount</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Down Payment</td><td>$62,573</td><td>30% of purchase price</td></tr>
+<tr><td>Estimated Closing Costs</td><td>$10,429</td><td>~5% of purchase</td></tr>
+<tr><td>STR Permit Fee</td><td>$0</td><td>Annual town registration</td></tr>
+<tr><td>Initial Supplies & Setup</td><td>$3,000</td><td>Smart lock, supplies, photos</td></tr>
+<tr class="row-total"><td>Total Cash to Close</td><td>$76,002</td><td></td></tr>
+</tbody></table>
+<table style="margin-top:1rem;">
+<thead><tr><th>Amortization Detail</th><th>Value</th></tr></thead>
+<tbody>
+<tr><td>Year 1 Interest Paid</td><td>$12,368</td></tr>
+<tr><td>Year 1 Principal Paid</td><td>$1,104</td></tr>
+<tr><td>Total Interest Over Loan Life</td><td>$158,089</td></tr>
+<tr><td>Loan-to-Value (LTV)</td><td>70%</td></tr>
+</tbody></table>
+<div class="section-title">Scenario analysis</div>
+<table>
+<thead><tr><th>Scenario</th><th>Occupancy</th><th>Blended ADR</th><th>Gross Revenue</th><th>NOI</th><th>Net Cash Flow</th><th>CoC Return</th></tr></thead>
+<tbody>
+<tr class="scenario-upside"><td class="row-label">Upside</td><td>65.0%</td><td>$185</td><td>$38,000</td><td>$24,175</td><td>$8,970</td><td>11.8%</td></tr>
+<tr class=""><td class="row-label">Base</td><td>50.0%</td><td>$162</td><td>$29,500</td><td>$16,638</td><td>$1,433</td><td>1.9%</td></tr>
+<tr class="scenario-downside"><td class="row-label">Downside</td><td>35.0%</td><td>$140</td><td>$18,000</td><td>$6,220</td><td>-$8,985</td><td>-11.8%</td></tr>
+</tbody></table>
+<div class="analysis-block" style="margin-top:0.75rem;"><p><strong>Base case</strong> assumes moderate dynamic pricing and seasonal optimization across Airbnb + VRBO. <strong>Upside</strong> reflects Superhost/Premier status and aggressive peak-season pricing. <strong>Downside</strong> models minimal optimization and soft shoulder-season performance.</p></div>
+<div class="section-title">Monthly revenue projection — base case</div>
+<table>
+<thead><tr><th>Month</th><th>Est. ADR</th><th>Occupancy</th><th>Nights</th><th>Revenue</th><th>Season</th></tr></thead>
+<tbody>
+<tr style="background:rgba(42,122,75,0.04)"><td><strong>January</strong></td><td>$185</td><td>62%</td><td>19</td><td style="color:var(--green)"><strong>$3,515</strong></td><td style="color:var(--green)">Peak</td></tr>
+<tr style="background:rgba(42,122,75,0.04)"><td><strong>February</strong></td><td>$195</td><td>68%</td><td>19</td><td style="color:var(--green)"><strong>$3,705</strong></td><td style="color:var(--green)">Peak</td></tr>
+<tr style="background:rgba(42,122,75,0.04)"><td><strong>March</strong></td><td>$200</td><td>70%</td><td>22</td><td style="color:var(--green)"><strong>$4,400</strong></td><td style="color:var(--green)">Peak</td></tr>
+<tr><td>April</td><td>$175</td><td>55%</td><td>16</td><td>$2,800</td><td style="color:var(--amber)">Shoulder</td></tr>
+<tr><td>May</td><td>$140</td><td>38%</td><td>12</td><td>$1,680</td><td style="color:var(--accent)">Off</td></tr>
+<tr><td>June</td><td>$135</td><td>35%</td><td>10</td><td>$1,350</td><td style="color:var(--accent)">Off</td></tr>
+<tr><td>July</td><td>$160</td><td>50%</td><td>16</td><td>$2,560</td><td style="color:var(--amber)">Shoulder</td></tr>
+<tr><td>August</td><td>$145</td><td>40%</td><td>12</td><td>$1,740</td><td style="color:var(--accent)">Off</td></tr>
+<tr><td>September</td><td>$120</td><td>28%</td><td>8</td><td>$960</td><td style="color:var(--accent)">Off</td></tr>
+<tr><td>October</td><td>$125</td><td>30%</td><td>9</td><td>$1,125</td><td style="color:var(--accent)">Off</td></tr>
+<tr><td>November</td><td>$155</td><td>48%</td><td>14</td><td>$2,170</td><td style="color:var(--amber)">Shoulder</td></tr>
+<tr style="background:rgba(42,122,75,0.04)"><td><strong>December</strong></td><td>$210</td><td>72%</td><td>22</td><td style="color:var(--green)"><strong>$4,620</strong></td><td style="color:var(--green)">Peak</td></tr>
+<tr class="row-total"><td><strong>Annual Total</strong></td><td></td><td></td><td><strong>179</strong></td><td><strong>$30,625</strong></td><td></td></tr>
+</tbody></table>
+<div class="highlight-box">
+  <div class="hl-label">NOTE ON GROSS VS. NET REVENUE</div>
+  <div class="hl-text">The $30,625 figure represents gross booking revenue before platform fees (~$1,622) and cleaning/supplies costs (~$1,620). After these deductions, net rental revenue is approximately <strong>$29,500</strong> — the base case used throughout this report. June–August alone generate 53% of total annual revenue.</div>
+</div>
+<div class="section-title">Expense breakdown — annual</div>
+<table>
+<thead><tr><th>Expense</th><th>Annual</th><th>Monthly</th><th>% of Gross</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>HOA / Community fees</td><td>$1,800</td><td>$150</td><td>6.1%</td><td>Gated community, pool, security, grounds</td></tr>
+<tr><td>Property tax (IPI)</td><td>$0</td><td>$0</td><td>0.0%</td><td>Exempt under CONFOTUR tax incentive (15 yrs)</td></tr>
+<tr><td>Utilities (electric, water, gas)</td><td>$3,600</td><td>$300</td><td>12.2%</td><td>A/C is the largest cost — guests run it 24/7</td></tr>
+<tr><td>Internet / WiFi</td><td>$720</td><td>$60</td><td>2.4%</td><td>Fiber connection required for guest satisfaction</td></tr>
+<tr><td>Repairs &amp; maintenance</td><td>$1,200</td><td>$100</td><td>4.1%</td><td>Tropical climate accelerates wear</td></tr>
+<tr><td>Furnishing reserve</td><td>$600</td><td>$50</td><td>2.0%</td><td>Annual refresh set-aside</td></tr>
+<tr><td>Property management (optional)</td><td>$0</td><td>$0</td><td>0.0%</td><td>Self-managed; local PM available at 20-25%</td></tr>
+<tr><td>Insurance</td><td>$800</td><td>$67</td><td>2.7%</td><td>Property + liability; hurricane coverage recommended</td></tr>
+<tr><td>Accounting / tax prep</td><td>$400</td><td>$33</td><td>1.4%</td><td>DR tax filings + US FBAR/FATCA compliance</td></tr>
+<tr><td>Miscellaneous</td><td>$500</td><td>$42</td><td>1.7%</td><td>Contingency</td></tr>
+<tr><td>Platform booking fees</td><td>$1,622</td><td>$135</td><td>5.5%</td><td>Blended ~5.5% of gross (Airbnb 3% + VRBO 8%)</td></tr>
+<tr><td>Cleaning &amp; turnover</td><td>$1,620</td><td>$135</td><td>5.5%</td><td>~$45/clean x 36 turnovers/yr</td></tr>
+<tr class="row-total"><td>Total Operating Expenses</td><td>$12,862</td><td>$1,072</td><td>43.6%</td><td></td></tr>
+<tr><td>Debt service (P&amp;I)</td><td>$15,205</td><td>$1,267</td><td>51.5%</td><td>$146,004 @ 8.5% / 20-year fixed</td></tr>
+<tr class="row-total"><td><strong>Total All-In Cost</strong></td><td><strong>$28,067</strong></td><td><strong>$2,339</strong></td><td><strong>95.1%</strong></td><td></td></tr>
+</tbody></table>
+<div class="section-title">Total return on investment — year 1</div>
+<div class="return-stack">
+  <div class="return-item"><div class="return-label">CASH FLOW</div><div class="return-val green">$1,433</div><div class="return-sub">1.9% of equity</div></div>
+  <div class="return-item"><div class="return-label">PRINCIPAL PAYDOWN</div><div class="return-val">$1,104</div><div class="return-sub">1.5% of equity</div></div>
+  <div class="return-item"><div class="return-label">APPRECIATION (5%)</div><div class="return-val green">$10,429</div><div class="return-sub">13.7% of equity</div></div>
+  <div class="return-item"><div class="return-label">TAX BENEFITS</div><div class="return-val">$1,418</div><div class="return-sub">1.9% of equity</div></div>
+</div>
+<table>
+<thead><tr><th>Return Component</th><th>Annual Value</th><th>% of $76,002 Equity</th></tr></thead>
+<tbody>
+<tr><td>Pre-Tax Cash Flow</td><td>$1,433</td><td>1.9%</td></tr>
+<tr><td>Mortgage Principal Paydown</td><td>$1,104</td><td>1.5%</td></tr>
+<tr><td>Estimated Appreciation (5%/yr)</td><td>$10,429</td><td>13.7%</td></tr>
+<tr><td>Tax Benefits (depreciation shield)</td><td>$1,418</td><td>1.9%</td></tr>
+<tr class="row-total"><td><strong>Total Return on Equity</strong></td><td><strong>$14,384</strong></td><td><strong>18.9%</strong></td></tr>
+</tbody></table>
+<div class="analysis-block" style="margin-top:1rem;"><p>While Year 1 cash-on-cash is 1.9%, the total return profile is compelling at 18.9% when accounting for equity building via principal paydown, market appreciation, and depreciation tax shield ($177,290 building value / 27.5 years = $6,447/yr deduction). The 30% down payment significantly de-risks the investment by keeping debt service manageable and providing substantial equity cushion from day one.</p></div>
+<div class="section-title">Market analysis — Punta Cana, Dominican Republic</div>
+<div class="analysis-block"><h3>Deal verdict</h3><p>This 3BR new-construction villa in Punta Cana, DR is evaluated as an international STR investment at $208,577. CONFOTUR tax incentives eliminate property tax for 15 years.</p></div>
+<div class="analysis-block"><h3>Revenue assumptions</h3><p>Base case: $29,500 annual gross revenue. Punta Cana 3BR villas command a premium over the market average ADR of $118 due to larger capacity and private outdoor space.</p></div>
+<div class="analysis-block"><h3>Market dynamics</h3><p>Punta Cana handles 65%+ of DR foreign tourist arrivals. The market added 47% more Airbnb listings in 2025 — competition is intensifying, but revenue per listing still grew 11.2% YoY.</p></div>
+<table>
+<thead><tr><th>Market Metric</th>
+<th>Airbtics 2025</th>
+</tr></thead><tbody>
+<tr><td>Active Listings</td>
+<td>4,900</td>
+</tr>
+<tr><td>Average Daily Rate</td>
+<td>$118</td>
+</tr>
+<tr><td>Occupancy Rate</td>
+<td>48.0%</td>
+</tr>
+<tr><td>Annual Revenue (avg)</td>
+<td>$21,074</td>
+</tr>
+<tr><td>Revenue Growth YoY</td>
+<td>0.1121</td>
+</tr>
+<tr><td>RevPAR</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+<div class="section-title">Self-management strategy</div>
+<div class="analysis-block"><h3>Platform approach</h3><p>Dual-list on Airbnb and VRBO. Consider Booking.com for European travelers, who represent a significant share of Punta Cana visitors.</p></div>
+<div class="analysis-block"><h3>Operational requirements</h3><p>Local cleaning team ($45/turn), smart lock, WhatsApp-based guest communication, airport transfer coordination, professional photography.</p></div>
+<div class="analysis-block"><h3>Revenue optimization tactics</h3><p>Dynamic pricing, 3-night minimums in peak season, bilingual listings (English/Spanish), Superhost targeting, curated local experience guides.</p></div>
+<div class="section-title">Risk assessment</div>
+<div class="risk-grid">
+<div class="risk-cell">
+    <div class="risk-header"><div class="risk-dot red"></div><div class="risk-name">Hurricane / tropical storm exposure</div></div>
+    <div class="risk-note">Peak hurricane season Jun-Nov overlaps with off-season. Verify insurance covers wind/flood damage.</div>
+  </div>
+<div class="risk-cell">
+    <div class="risk-header"><div class="risk-dot red"></div><div class="risk-name">Seasonality / cash flow gaps</div></div>
+    <div class="risk-note">Sep-Oct occupancy can drop below 30%. Build a 4-month operating reserve.</div>
+  </div>
+<div class="risk-cell">
+    <div class="risk-header"><div class="risk-dot amber"></div><div class="risk-name">Market saturation</div></div>
+    <div class="risk-note">Airbnb supply grew 47% in 2025. Differentiation through quality and amenities is critical.</div>
+  </div>
+<div class="risk-cell">
+    <div class="risk-header"><div class="risk-dot amber"></div><div class="risk-name">Currency / repatriation risk</div></div>
+    <div class="risk-note">Revenue in USD via platforms, but local expenses in DOP. Monitor exchange rate fluctuations.</div>
+  </div>
+<div class="risk-cell">
+    <div class="risk-header"><div class="risk-dot amber"></div><div class="risk-name">CONFOTUR expiration</div></div>
+    <div class="risk-note">Tax exemption expires after 15 years. Model post-incentive property tax into long-term projections.</div>
+  </div>
+<div class="risk-cell">
+    <div class="risk-header"><div class="risk-dot green"></div><div class="risk-name">Foreign ownership complexity</div></div>
+    <div class="risk-note">DR allows 100% foreign ownership. Title insurance recommended; use a local attorney.</div>
+  </div>
+<div class="risk-cell">
+    <div class="risk-header"><div class="risk-dot green"></div><div class="risk-name">Utility reliability</div></div>
+    <div class="risk-note">Power outages common. Verify community has backup generator or budget for one.</div>
+  </div>
+</div>
+<div class="section-title">Tax &amp; legal flags</div>
+<div class="analysis-block"><p>
+<strong>Occupancy tax:</strong> The DR charges an 18% ITBIS (VAT) on rental income. Platforms may or may not collect — verify with a local accountant.<br><br>
+<strong>Property tax:</strong> IPI (property tax) is 1% on value above ~RD$9.9M (~$170K). CONFOTUR-certified properties are exempt for 15 years.<br><br>
+<strong>Income tax:</strong> DR taxes rental income at 27%. US owners must also report on Schedule E and may claim Foreign Tax Credits. File FBAR/FATCA if aggregate foreign accounts exceed $10K.<br><br>
+<strong>Depreciation:</strong> Building (~85% of $208,577 = $177,290) / 27.5 yrs = ~$6,447/yr for US tax purposes (40-year schedule may apply to foreign property — consult CPA).<br><br>
+<strong>14-day rule:</strong> US 14-day rule still applies to foreign properties. Personal use &gt;14 days or &gt;10% of rental days may limit deductions.<br><br>
+<strong>Mortgage interest:</strong> Mortgage interest on foreign property is deductible against rental income on Schedule E.
+</p></div>
+<div class="section-title">Regulatory environment</div>
+<div class="detail-grid">
+  <div class="detail-row"><span class="detail-label">Permit Required</span><span class="detail-value">No</span></div>
+  <div class="detail-row"><span class="detail-label">Permit Cost</span><span class="detail-value">$0/year</span></div>
+  <div class="detail-row"><span class="detail-label">Processing Time</span><span class="detail-value">N/A</span></div>
+  <div class="detail-row"><span class="detail-label">Night Limit</span><span class="detail-value">None — no government cap on rental nights</span></div>
+  <div class="detail-row"><span class="detail-label">Primary Residence Required</span><span class="detail-value">No</span></div>
+  <div class="detail-row"><span class="detail-label">Max Guests (this unit)</span><span class="detail-value">8</span></div>
+  <div class="detail-row"><span class="detail-label">Local Contact</span><span class="detail-value">Required — responds recommended</span></div>
+  <div class="detail-row"><span class="detail-label">Regulation Level</span><span class="detail-value">Minimal — DR has no STR-specific licensing at national level</span></div>
+  <div class="detail-row"><span class="detail-label">Tax Collection</span><span class="detail-value">Verify if platforms auto-collect ITBIS; if not, self-remit quarterly</span></div>
+</div>
+<table style="margin-top:1rem;">
+<thead><tr><th>Requirement</th><th>Action Needed</th></tr></thead>
+<tbody>
+<tr><td>CONFOTUR Certification</td><td>Verify developer has CONFOTUR approval for tax exemptions</td></tr>
+<tr><td>Title Insurance</td><td>Obtain from a reputable DR title company</td></tr>
+<tr><td>Legal Review</td><td>Engage a bilingual DR real estate attorney</td></tr>
+<tr><td>HOA Rules Review</td><td>Confirm STR activity is permitted in community bylaws</td></tr>
+<tr><td>Insurance</td><td>Property + liability + hurricane/flood coverage</td></tr>
+<tr><td>US Tax Compliance</td><td>Set up FBAR/FATCA reporting with US CPA</td></tr>
+</tbody></table>
+<div class="section-title">5-year pro forma projection</div>
+<table>
+<thead><tr><th>Metric</th>
+<th>Year 1</th>
+<th>Year 2</th>
+<th>Year 3</th>
+<th>Year 4</th>
+<th>Year 5</th>
+</tr></thead><tbody>
+<tr><td>Gross Revenue</td>
+<td>$29,500</td>
+<td>$30,680</td>
+<td>$31,907</td>
+<td>$33,183</td>
+<td>$34,511</td>
+</tr>
+<tr><td>Platform Fees</td>
+<td>($1,622)</td>
+<td>($1,687)</td>
+<td>($1,755)</td>
+<td>($1,825)</td>
+<td>($1,898)</td>
+</tr>
+<tr><td>Cleaning</td>
+<td>($1,620)</td>
+<td>($1,669)</td>
+<td>($1,719)</td>
+<td>($1,770)</td>
+<td>($1,823)</td>
+</tr>
+<tr class="row-total"><td>Net Rental Revenue</td>
+<td>$26,258</td>
+<td>$27,324</td>
+<td>$28,433</td>
+<td>$29,588</td>
+<td>$30,790</td>
+</tr>
+<tr><td>Operating Expenses</td>
+<td>($9,620)</td>
+<td>($9,909)</td>
+<td>($10,206)</td>
+<td>($10,512)</td>
+<td>($10,827)</td>
+</tr>
+<tr class="row-total"><td>NOI</td>
+<td>$16,638</td>
+<td>$17,415</td>
+<td>$18,227</td>
+<td>$19,076</td>
+<td>$19,963</td>
+</tr>
+<tr><td>Debt Service</td>
+<td>($15,205)</td>
+<td>($15,205)</td>
+<td>($15,205)</td>
+<td>($15,205)</td>
+<td>($15,205)</td>
+</tr>
+<tr class="row-total"><td>Pre-Tax Cash Flow</td>
+<td>$1,433</td>
+<td>$2,210</td>
+<td>$3,022</td>
+<td>$3,871</td>
+<td>$4,758</td>
+</tr>
+<tr><td>Cumulative Cash Flow</td>
+<td>$1,433</td>
+<td>$3,644</td>
+<td>$6,666</td>
+<td>$10,537</td>
+<td>$15,296</td>
+</tr>
+<tr><td>Property Value</td>
+<td>$219,006</td>
+<td>$229,956</td>
+<td>$241,454</td>
+<td>$253,527</td>
+<td>$266,203</td>
+</tr>
+<tr><td>Loan Balance</td>
+<td>$144,900</td>
+<td>$143,699</td>
+<td>$142,391</td>
+<td>$140,968</td>
+<td>$139,420</td>
+</tr>
+<tr class="row-total"><td>Total Equity</td>
+<td>$74,106</td>
+<td>$86,257</td>
+<td>$99,063</td>
+<td>$112,559</td>
+<td>$126,783</td>
+</tr>
+<tr><td>Cash-on-Cash Return</td>
+<td>1.9%</td>
+<td>2.9%</td>
+<td>4.0%</td>
+<td>5.1%</td>
+<td>6.3%</td>
+</tr>
+</tbody></table>
+<div class="section-title">Recommended next steps</div>
+<ul class="steps-list">
+<li><span class="step-num">01</span><span class="step-text">Verify CONFOTUR certification status with the developer for tax exemption eligibility.</span></li>
+<li><span class="step-num">02</span><span class="step-text">Engage a bilingual Dominican real estate attorney for title search and closing.</span></li>
+<li><span class="step-num">03</span><span class="step-text">Obtain title insurance and verify clean chain of ownership.</span></li>
+<li><span class="step-num">04</span><span class="step-text">Review HOA/community bylaws to confirm short-term rentals are permitted.</span></li>
+<li><span class="step-num">05</span><span class="step-text">Get hurricane and flood insurance quotes — verify coverage terms carefully.</span></li>
+<li><span class="step-num">06</span><span class="step-text">Set up dual Airbnb + VRBO listings with professional photography and bilingual descriptions.</span></li>
+<li><span class="step-num">07</span><span class="step-text">Establish a local operations team: cleaner, handyman, airport transfer partner.</span></li>
+<li><span class="step-num">08</span><span class="step-text">Build a $8,000 liquid reserve for off-season gaps and unexpected repairs.</span></li>
+<li><span class="step-num">09</span><span class="step-text">Engage a CPA experienced in US-foreign property for FBAR/FATCA and Schedule E.</span></li>
+<li><span class="step-num">10</span><span class="step-text">Open a Dominican bank account for local expense payments in DOP.</span></li>
+</ul>
+<div class="report-footer">
+  <span>CONFIDENTIAL — Caribbean STR</span>
+  <span>caribbeanstr.com</span>
+</div>
+<div class="disclaimer">This is a SAMPLE report for demonstration purposes. Actual reports are customized based on your specific property details and market data. International tax and regulatory guidance is general — consult qualified local professionals.</div>
+</body></html>
