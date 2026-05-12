@@ -1,562 +1,495 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ brand_name }} — Professional STR Underwriting</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #1a1a18;
-    --paper: #ffffff;
-    --accent: #c84b2f;
-    --muted: #7a7870;
-    --light: #f5f2eb;
-    --border: rgba(26,26,24,0.15);
-    --green: #2a7a4b;
-    --amber: #b8942a;
-    --serif: 'DM Serif Display', Georgia, serif;
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: var(--sans); font-weight: 300; font-size: 14px;
-    line-height: 1.65; color: var(--ink); background: var(--light);
-  }
+{% extends "base.html" %}
 
-  /* ── HERO ─────────────────────────────────────────────────── */
+{% block head_extra %}
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* HERO */
   .hero {
-    background: var(--ink); color: white; padding: 3rem 2rem;
+    background: var(--primary-dark);
+    color: white;
+    padding: 4rem 2rem 5rem;
     text-align: center;
   }
-  .hero-brand {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
-    color: rgba(255,255,255,0.5); margin-bottom: 1rem;
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.45); text-transform: uppercase;
+    margin-bottom: 1.25rem;
   }
   .hero h1 {
-    font-family: var(--serif); font-size: 38px; line-height: 1.15;
-    margin-bottom: 0.75rem; font-weight: 400;
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.15; margin-bottom: 1rem; font-weight: 400;
   }
-  .hero p {
-    font-size: 15px; color: rgba(255,255,255,0.65); max-width: 540px;
-    margin: 0 auto 1.5rem;
+  .hero h1 em { color: #e8a87c; font-style: normal; }
+  .hero .hero-lead {
+    font-size: 15px; color: rgba(255,255,255,0.62);
+    max-width: 520px; margin: 0 auto 1.75rem; line-height: 1.7;
   }
-  .hero-features {
-    display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.45);
+  .hero-pills {
+    display: flex; justify-content: center;
+    flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;
   }
-  .hero-features span::before { content: "✓ "; color: var(--accent); }
-  .sample-btn {
-    display: inline-block; margin-top: 1.5rem;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
-    color: white; border: 1px solid rgba(255,255,255,0.3);
-    padding: 0.65rem 1.5rem; border-radius: 3px;
-    text-decoration: none; transition: all 0.2s;
+  .hero-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.7);
+    font-size: 11px; font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em; padding: 0.3rem 0.85rem; border-radius: 50px;
   }
-  .sample-btn:hover {
-    background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6);
+  .hero-pill::before { content: "✓ "; color: var(--accent-orange); }
+  .hero-samples { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+  .hero-samples a {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 1px; transition: color 0.2s;
+  }
+  .hero-samples a:hover { color: white; }
+
+  /* FORM LIFT */
+  .form-lift { margin-top: -2.5rem; padding-bottom: 4rem; }
+  .deal-card {
+    background: white; border-radius: 6px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.10); overflow: hidden;
   }
 
-  /* ── FORM CONTAINER ───────────────────────────────────────── */
-  .form-container {
-    max-width: 720px; margin: -1.5rem auto 3rem; padding: 0 1.5rem;
+  /* SECTIONS */
+  .fsec { padding: 1.75rem 2rem; border-bottom: 1px solid rgba(26,26,24,0.10); }
+  .fsec:last-child { border-bottom: none; }
+  .fsec-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; color: #7a7870; text-transform: uppercase;
+    padding-bottom: 0.75rem; margin-bottom: 1.1rem;
+    border-bottom: 1px solid rgba(26,26,24,0.08);
   }
-  .form-card {
-    background: white; border-radius: 4px;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-    overflow: hidden;
-  }
+  .fg { display: grid; gap: 1rem; }
+  .fg-2 { grid-template-columns: 1fr 1fr; }
+  .fg-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .fg-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
 
-  /* ── FORM SECTIONS ────────────────────────────────────────── */
-  .form-section {
-    padding: 1.75rem 2rem; border-bottom: 1px solid var(--border);
+  /* FIELDS */
+  .f label {
+    display: block; font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.08em; color: #7a7870; margin-bottom: 5px;
   }
-  .form-section:last-child { border-bottom: none; }
-  .section-label {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
-    color: var(--muted); text-transform: uppercase; margin-bottom: 1rem;
-    padding-bottom: 0.5rem; border-bottom: 0.5px solid var(--border);
+  .f input, .f select, .f textarea {
+    width: 100%; padding: 0.58rem 0.75rem;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    border: 1px solid rgba(26,26,24,0.18); border-radius: 3px;
+    background: white; color: #1a1a18; transition: border-color 0.2s;
+    -webkit-appearance: none; appearance: none;
   }
+  .f select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7870' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center; padding-right: 2rem;
+  }
+  .f input:focus, .f select:focus, .f textarea:focus {
+    outline: none; border-color: var(--accent-orange);
+    box-shadow: 0 0 0 3px rgba(200,75,47,0.08);
+  }
+  .f textarea { resize: vertical; min-height: 70px; }
 
-  /* ── FORM FIELDS ──────────────────────────────────────────── */
-  .field-grid { display: grid; gap: 1rem; }
-  .cols-2 { grid-template-columns: 1fr 1fr; }
-  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  /* AMENITIES */
+  .amenity-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 0.5rem; }
+  .amenity-check {
+    display: flex; align-items: center; gap: 0.5rem; font-size: 13px;
+    padding: 0.45rem 0.65rem; border: 1px solid rgba(26,26,24,0.14);
+    border-radius: 3px; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s; user-select: none;
+  }
+  .amenity-check:hover { border-color: var(--accent-orange); background: #fff8f6; }
+  .amenity-check input[type="checkbox"] { width: 14px; height: 14px; flex-shrink: 0; accent-color: var(--accent-orange); }
 
-  .field label {
-    display: block; font-family: var(--mono); font-size: 10px;
-    letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px;
+  /* MARKET TILES */
+  .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .market-tile { position: relative; cursor: pointer; }
+  .market-tile input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .market-tile-inner {
+    border: 1.5px solid rgba(26,26,24,0.15); border-radius: 4px;
+    padding: 0.8rem 0.6rem; text-align: center; transition: border-color 0.2s, background 0.2s;
   }
-  .field input, .field select, .field textarea {
-    width: 100%; padding: 0.6rem 0.75rem; font-family: var(--sans);
-    font-size: 13px; border: 1px solid var(--border); border-radius: 3px;
-    background: white; color: var(--ink); transition: border-color 0.2s;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    outline: none; border-color: var(--accent);
-  }
-  .field textarea { resize: vertical; min-height: 60px; }
-  .field-hint {
-    font-size: 11px; color: var(--muted); margin-top: 3px;
-  }
-  .field input::placeholder { color: #bbb; }
+  .market-tile input:checked + .market-tile-inner { border-color: var(--accent-orange); background: #fff8f6; }
+  .market-tile:hover .market-tile-inner { border-color: var(--accent-orange); }
+  .market-tile-icon { font-size: 22px; margin-bottom: 4px; }
+  .market-tile-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.06em; color: #7a7870; text-transform: uppercase; line-height: 1.3; }
+  .market-tile-sub { font-size: 11px; color: #a09a90; margin-top: 2px; }
 
-  /* ── AMENITY CHECKBOXES ───────────────────────────────────── */
-  .amenity-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 0.5rem;
-  }
-  .amenity-item {
-    display: flex; align-items: center; gap: 8px; padding: 0.5rem 0.75rem;
-    border: 1px solid var(--border); border-radius: 3px; cursor: pointer;
-    transition: all 0.2s; font-size: 13px;
-  }
-  .amenity-item:hover { border-color: var(--accent); }
-  .amenity-item input { display: none; }
-  .amenity-item input:checked + .amenity-item-inner {
-    color: var(--accent); font-weight: 500;
-  }
-  .amenity-item:has(input:checked) {
-    border-color: var(--accent); background: rgba(200,75,47,0.04);
-  }
-  .amenity-icon { font-size: 16px; flex-shrink: 0; }
+  /* INCLUDES */
+  .includes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1.5rem; }
+  .includes-item { font-size: 12px; color: #4a4a48; display: flex; align-items: center; gap: 0.5rem; }
+  .includes-item::before { content: ""; display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-orange); flex-shrink: 0; }
 
-  /* ── MARKET TYPE CARDS ────────────────────────────────────── */
-  .market-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;
+  /* SUBMIT */
+  .submit-strip {
+    padding: 1.5rem 2rem; background: #f5f2eb;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   }
-  .market-card {
-    border: 1px solid var(--border); border-radius: 3px;
-    padding: 0.75rem; cursor: pointer; transition: all 0.2s;
-    text-align: center;
+  .price-amount { font-family: 'DM Serif Display', serif; font-size: 30px; color: #1a1a18; }
+  .price-label { font-family: 'DM Mono', monospace; font-size: 10px; color: #7a7870; letter-spacing: 0.08em; margin-left: 6px; }
+  .price-note { font-size: 11px; color: #a09a90; margin-top: 3px; }
+  .btn-submit {
+    background: var(--accent-orange); color: white; border: none;
+    font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.9rem 2.25rem; border-radius: 3px;
+    cursor: pointer; transition: background 0.2s; white-space: nowrap;
   }
-  .market-card:hover { border-color: var(--accent); }
-  .market-card input { display: none; }
-  .market-card:has(input:checked) {
-    border-color: var(--accent); background: rgba(200,75,47,0.04);
-    box-shadow: 0 0 0 1px var(--accent);
-  }
-  .market-card-icon { font-size: 22px; margin-bottom: 4px; }
-  .market-card-name { font-weight: 500; font-size: 12px; }
-  .market-card-desc {
-    font-size: 10px; color: var(--muted); margin-top: 2px;
-  }
+  .btn-submit:hover { background: #a93d27; }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-  /* ── SUBMIT BUTTON ────────────────────────────────────────── */
-  .submit-section {
-    padding: 1.5rem 2rem; background: var(--light);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .submit-btn {
-    background: var(--accent); color: white; border: none;
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
-    padding: 0.85rem 2rem; border-radius: 3px; cursor: pointer;
-    transition: background 0.2s;
-  }
-  .submit-btn:hover { background: #a93d27; }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .submit-note {
-    font-size: 11px; color: var(--muted); max-width: 300px; line-height: 1.5;
-  }
-
-  /* ── PRICING BADGE ────────────────────────────────────────── */
-  .price-badge {
-    display: inline-flex; align-items: baseline; gap: 6px;
-    font-family: var(--serif); font-size: 28px; color: var(--ink);
-  }
-  .price-badge .price-label {
-    font-family: var(--mono); font-size: 10px; color: var(--muted);
-    letter-spacing: 0.08em;
-  }
-
-  /* ── WHAT YOU GET ─────────────────────────────────────────── */
-  .features-bar {
-    padding: 1.25rem 2rem; border-bottom: 1px solid var(--border);
-    background: rgba(42,122,75,0.03);
-  }
-  .features-list {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem;
-    font-size: 12px; color: var(--muted);
-  }
-  .features-list span::before {
-    content: "✓ "; color: var(--green); font-weight: 700;
-  }
-
-  /* ── FOOTER ───────────────────────────────────────────────── */
-  .page-footer {
-    text-align: center; padding: 2rem;
-    font-family: var(--mono); font-size: 10px; color: var(--muted);
-    letter-spacing: 0.06em;
-  }
-
-  /* ── RESPONSIVE ───────────────────────────────────────────── */
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 28px; }
-    .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; }
-    .market-grid { grid-template-columns: 1fr 1fr; }
-    .submit-section { flex-direction: column; gap: 1rem; text-align: center; }
-    .features-list { grid-template-columns: 1fr; }
+  @media (max-width: 640px) {
+    .fsec { padding: 1.25rem 1.25rem; }
+    .fg-2, .fg-3, .fg-4 { grid-template-columns: 1fr; }
+    .market-grid { grid-template-columns: repeat(2, 1fr); }
+    .includes-grid { grid-template-columns: 1fr; }
+    .submit-strip { flex-direction: column; text-align: center; }
+    .btn-submit { width: 100%; }
   }
 </style>
-</head>
-<body>
+{% endblock %}
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-brand">{{ brand_name }}</div>
-  <h1>Professional STR<br>Underwriting Report</h1>
-  <p>Get a comprehensive, investor-grade deal analysis for any short-term rental property. Delivered instantly after checkout.</p>
-  <div class="hero-features">
-    <span>3 Revenue Scenarios</span>
-    <span>5-Year Pro Forma</span>
-    <span>Risk Assessment</span>
-    <span>Auto Verdict</span>
+{% block content %}
+
+<section class="hero" id="top">
+  <div class="hero-eyebrow">{{ brand_name }}</div>
+  <h1>Professional STR<br><em>Underwriting Report</em></h1>
+  <p class="hero-lead">Get a comprehensive, investor-grade deal analysis for any short-term rental property. Delivered instantly after checkout.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">3 Revenue Scenarios</span>
+    <span class="hero-pill">5-Year Pro Forma</span>
+    <span class="hero-pill">Risk Assessment</span>
+    <span class="hero-pill">Auto Verdict</span>
   </div>
-  <div style="margin-top:1.5rem; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-    <a href="/sample-report" target="_blank" class="sample-btn">🏖️ US Coastal Sample</a>
-    <a href="/sample-report-caribbean" target="_blank" class="sample-btn">🌴 Caribbean Sample</a>
+  <div class="hero-samples">
+    <a href="/sample-report">🏖️ US Coastal Sample</a>
+    <a href="/sample-report-caribbean">🌴 Caribbean Sample</a>
   </div>
-</div>
+</section>
 
-<!-- FORM -->
-<div class="form-container">
-  <form class="form-card" id="dealForm" action="/create-checkout-session" method="POST">
+<div class="container form-lift" id="dealForm">
+  <div class="row justify-content-center">
+    <div class="col-lg-9 col-xl-8">
+      <form class="deal-card" action="/analyze" method="POST" id="strForm">
 
-    <!-- YOUR INFO -->
-    <div class="form-section">
-      <div class="section-label">Your Information</div>
-      <div class="field-grid cols-2">
-        <div class="field">
-          <label>YOUR NAME</label>
-          <input type="text" name="customer_name" placeholder="Jane Smith" required>
+        <!-- YOUR INFORMATION -->
+        <div class="fsec">
+          <div class="fsec-label">Your Information</div>
+          <div class="fg fg-2">
+            <div class="f">
+              <label>YOUR NAME</label>
+              <input type="text" name="client_name" placeholder="Jane Smith" required>
+            </div>
+            <div class="f">
+              <label>EMAIL (report delivered here)</label>
+              <input type="email" name="email" placeholder="jane@example.com" required>
+            </div>
+          </div>
         </div>
-        <div class="field">
-          <label>EMAIL (report delivered here)</label>
-          <input type="email" name="email" placeholder="jane@example.com" required>
+
+        <!-- PROPERTY DETAILS -->
+        <div class="fsec">
+          <div class="fsec-label">Property Details</div>
+          <div class="fg">
+
+            <div class="f">
+              <label>STREET ADDRESS</label>
+              <input type="text" name="address" placeholder="742 Oceanfront Drive, Unit 301" required>
+            </div>
+
+            <div class="fg fg-2">
+              <div class="f">
+                <label>COUNTRY / TERRITORY</label>
+                <select name="country" required>
+                  <option value="" disabled selected></option>
+                  <option>United States</option>
+                  <option>U.S. Virgin Islands</option>
+                  <option>Puerto Rico</option>
+                  <option>Dominican Republic</option>
+                  <option>Bahamas</option>
+                  <option>Turks &amp; Caicos</option>
+                  <option>Jamaica</option>
+                  <option>Cayman Islands</option>
+                  <option>Barbados</option>
+                  <option>Mexico</option>
+                  <option>Belize</option>
+                  <option>Costa Rica</option>
+                  <option>Panama</option>
+                  <option>Colombia</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="f">
+                <label>CITY</label>
+                <input type="text" name="city" placeholder="Kure Beach">
+              </div>
+            </div>
+
+            <div class="fg fg-3">
+              <div class="f">
+                <label>STATE / PROVINCE / ISLAND</label>
+                <input type="text" name="state" placeholder="NC">
+              </div>
+              <div class="f">
+                <label>ZIP / POSTAL CODE</label>
+                <input type="text" name="zip" placeholder="28449">
+              </div>
+              <div class="f">
+                <label>COMMUNITY / HOA</label>
+                <input type="text" name="community" placeholder="Ocean Dunes Resort">
+              </div>
+            </div>
+
+            <div class="fg fg-3">
+              <div class="f">
+                <label>PROPERTY TYPE</label>
+                <select name="property_type">
+                  <option value="" disabled selected></option>
+                  <option>Condominium</option>
+                  <option>Townhouse</option>
+                  <option>Single Family Home</option>
+                  <option>Duplex / Multi-Unit</option>
+                  <option>Cabin / Cottage</option>
+                  <option>Villa</option>
+                </select>
+              </div>
+              <div class="f">
+                <label>BEDROOMS</label>
+                <input type="number" name="bedrooms" min="1" max="20" placeholder="3">
+              </div>
+              <div class="f">
+                <label>BATHROOMS</label>
+                <input type="number" name="bathrooms" step="0.5" min="1" placeholder="2">
+              </div>
+            </div>
+
+            <div class="fg fg-4">
+              <div class="f">
+                <label>SQ FT</label>
+                <input type="number" name="sqft" placeholder="1450">
+              </div>
+              <div class="f">
+                <label>YEAR BUILT</label>
+                <input type="number" name="year_built" placeholder="2018">
+              </div>
+              <div class="f">
+                <label>CONDITION</label>
+                <select name="condition">
+                  <option value="" disabled selected></option>
+                  <option>Furnished, Turn-Key</option>
+                  <option>Furnished, Needs Updates</option>
+                  <option>Unfurnished</option>
+                  <option>Renovation Required</option>
+                  <option>New Construction, Furnished</option>
+                </select>
+              </div>
+              <div class="f">
+                <label>BUILDING ACCESS</label>
+                <select name="building_access">
+                  <option value="" disabled selected></option>
+                  <option>Standard</option>
+                  <option>Elevator Building</option>
+                  <option>Walk-Up</option>
+                  <option>Gated Community</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="fg fg-3">
+              <div class="f">
+                <label>PARKING</label>
+                <select name="parking">
+                  <option value="" disabled selected></option>
+                  <option>Assigned Covered</option>
+                  <option>Assigned Uncovered</option>
+                  <option>Street Parking</option>
+                  <option>Garage</option>
+                  <option>Driveway</option>
+                  <option>Covered Carport</option>
+                  <option>None</option>
+                </select>
+              </div>
+              <div class="f">
+                <label>BEACH / WATER ACCESS</label>
+                <select name="beach_access">
+                  <option value="" disabled selected></option>
+                  <option>N/A</option>
+                  <option>Deeded — Private</option>
+                  <option>Public Beach Nearby</option>
+                  <option>Oceanfront / Direct</option>
+                  <option>Lakefront</option>
+                  <option>River Access</option>
+                  <option>Community — 10 min drive</option>
+                </select>
+              </div>
+              <div class="f">
+                <label>SPECIAL FEATURES</label>
+                <input type="text" name="special_features" placeholder="Ocean-view balcony, wet bar, W/D">
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
+
+        <!-- COMMUNITY AMENITIES -->
+        <div class="fsec">
+          <div class="fsec-label">Community Amenities</div>
+          <div class="amenity-grid">
+            <label class="amenity-check"><input type="checkbox" name="amenity_outdoor_pool" value="Outdoor Pool"> 🏊 Outdoor Pool</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_indoor_pool" value="Indoor Pool"> 🏊‍♂️ Indoor Pool</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_hot_tub" value="Hot Tub / Spa"> 🛁 Hot Tub / Spa</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_fitness" value="Fitness Center"> 💪 Fitness Center</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_tennis" value="Tennis / Pickleball"> 🎾 Tennis / Pickleball</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_basketball" value="Basketball Court"> 🏀 Basketball Court</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_beach_access" value="Beach Access"> 🏖️ Beach Access</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_playground" value="Playground"> 🛝 Playground</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_boat_dock" value="Boat Dock"> 🚤 Boat Dock</label>
+            <label class="amenity-check"><input type="checkbox" name="amenity_grill" value="Grill / Fire Pit"> 🔥 Grill / Fire Pit</label>
+          </div>
+          <div class="f mt-3">
+            <label>OTHER AMENITIES (comma-separated)</label>
+            <input type="text" name="other_amenities" placeholder="Beach shuttle, fiber internet, 24/7 security…">
+          </div>
+        </div>
+
+        <!-- FINANCING -->
+        <div class="fsec">
+          <div class="fsec-label">Financing Structure</div>
+          <div class="fg fg-2">
+            <div class="f">
+              <label>PURCHASE PRICE ($)</label>
+              <input type="number" name="price" placeholder="425000" required>
+            </div>
+            <div class="f">
+              <label>DOWN PAYMENT (%)</label>
+              <input type="number" step="0.1" name="down_payment_pct" placeholder="25">
+            </div>
+            <div class="f">
+              <label>INTEREST RATE (%)</label>
+              <input type="number" step="0.01" name="interest_rate" placeholder="7.0">
+            </div>
+            <div class="f">
+              <label>LOAN TERM (years)</label>
+              <select name="loan_term">
+                <option value="30" selected>30 years</option>
+                <option value="20">20 years</option>
+                <option value="15">15 years</option>
+              </select>
+            </div>
+            <div class="f">
+              <label>ANNUAL HOA ($)</label>
+              <input type="number" name="hoa" placeholder="0" value="0">
+            </div>
+            <div class="f">
+              <label>HOA INCLUDES INSURANCE?</label>
+              <select name="hoa_includes_insurance">
+                <option value="No">No</option>
+                <option value="Yes">Yes — flood &amp; wind included</option>
+              </select>
+            </div>
+          </div>
+          <div class="f mt-3">
+            <label>CUSTOM GROSS REVENUE (optional)</label>
+            <input type="number" name="annual_revenue" placeholder="Override the auto-estimated annual revenue">
+          </div>
+        </div>
+
+        <!-- MARKET TYPE -->
+        <div class="fsec">
+          <div class="fsec-label">Market Type</div>
+          <p style="font-size:12px; color:#7a7870; margin-bottom:1rem;">Select the market type that best describes this property's location. This drives revenue projections, seasonal curves, and ADR defaults.</p>
+          <div class="market-grid">
+            <label class="market-tile">
+              <input type="radio" name="market_type" value="coastal_premium">
+              <div class="market-tile-inner">
+                <div class="market-tile-icon">🏖️</div>
+                <div class="market-tile-label">Coastal Premium</div>
+                <div class="market-tile-sub">Oceanfront, resort, top beach</div>
+              </div>
+            </label>
+            <label class="market-tile">
+              <input type="radio" name="market_type" value="coastal_standard">
+              <div class="market-tile-inner">
+                <div class="market-tile-icon">🌊</div>
+                <div class="market-tile-label">Coastal Standard</div>
+                <div class="market-tile-sub">Near beach, non-resort</div>
+              </div>
+            </label>
+            <label class="market-tile">
+              <input type="radio" name="market_type" value="mountain">
+              <div class="market-tile-inner">
+                <div class="market-tile-icon">⛰️</div>
+                <div class="market-tile-label">Mountain</div>
+                <div class="market-tile-sub">Ski, Smokies, mountain resort</div>
+              </div>
+            </label>
+            <label class="market-tile">
+              <input type="radio" name="market_type" value="urban">
+              <div class="market-tile-inner">
+                <div class="market-tile-icon">🏙️</div>
+                <div class="market-tile-label">Urban</div>
+                <div class="market-tile-sub">City center, downtown, metro</div>
+              </div>
+            </label>
+            <label class="market-tile">
+              <input type="radio" name="market_type" value="lake">
+              <div class="market-tile-inner">
+                <div class="market-tile-icon">🛶</div>
+                <div class="market-tile-label">Lake</div>
+                <div class="market-tile-sub">Lakefront, lake community</div>
+              </div>
+            </label>
+            <label class="market-tile">
+              <input type="radio" name="market_type" value="rural">
+              <div class="market-tile-inner">
+                <div class="market-tile-icon">🌾</div>
+                <div class="market-tile-label">Rural / Other</div>
+                <div class="market-tile-sub">Countryside, small town</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- WHAT'S INCLUDED -->
+        <div class="fsec" style="background:#fafaf8;">
+          <div class="fsec-label">Your report includes</div>
+          <div class="includes-grid">
+            <div class="includes-item">Buy / Watch / Pass Verdict</div>
+            <div class="includes-item">Monthly Revenue Projections</div>
+            <div class="includes-item">3-Scenario Cash Flow Analysis</div>
+            <div class="includes-item">Full Expense Breakdown</div>
+            <div class="includes-item">Cash-on-Cash &amp; Cap Rate</div>
+            <div class="includes-item">5-Year Pro Forma</div>
+            <div class="includes-item">Total Return on Equity</div>
+            <div class="includes-item">Risk Assessment Grid</div>
+            <div class="includes-item">Tax &amp; Depreciation Analysis</div>
+            <div class="includes-item">Regulatory Compliance Checklist</div>
+            <div class="includes-item">Self-Management Strategy</div>
+            <div class="includes-item">Recommended Next Steps</div>
+          </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div class="submit-strip">
+          <div>
+            <div>
+              <span class="price-amount">$49</span>
+              <span class="price-label">PER REPORT</span>
+            </div>
+            <div class="price-note">Instant delivery to your email after checkout. PDF + interactive HTML.</div>
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">GET MY REPORT →</button>
+        </div>
+
+      </form>
     </div>
-
-    <!-- PROPERTY DETAILS -->
-    <div class="form-section">
-      <div class="section-label">Property Details</div>
-      <div class="field-grid">
-        <div class="field">
-          <label>STREET ADDRESS</label>
-          <input type="text" name="address" placeholder="123 Ocean Blvd #4" required>
-        </div>
-      </div>
-      <div class="field-grid cols-4" style="margin-top:1rem;">
-        <div class="field">
-          <label>COUNTRY / TERRITORY</label>
-          <select name="country" required id="country-select">
-            <option value="US">United States</option>
-            <option value="USVI">U.S. Virgin Islands</option>
-            <option value="PR">Puerto Rico</option>
-            <option value="DO">Dominican Republic</option>
-            <option value="BS">Bahamas</option>
-            <option value="TC">Turks & Caicos</option>
-            <option value="JM">Jamaica</option>
-            <option value="KY">Cayman Islands</option>
-            <option value="BB">Barbados</option>
-            <option value="MX">Mexico</option>
-            <option value="BZ">Belize</option>
-            <option value="CR">Costa Rica</option>
-            <option value="PA">Panama</option>
-            <option value="CO">Colombia</option>
-            <option value="OTHER">Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>CITY</label>
-          <input type="text" name="city" placeholder="Kure Beach" required>
-        </div>
-        <div class="field">
-          <label>STATE / PROVINCE / ISLAND</label>
-          <input type="text" name="state" placeholder="NC" required>
-        </div>
-        <div class="field">
-          <label>ZIP / POSTAL CODE</label>
-          <input type="text" name="zip" placeholder="28449">
-        </div>
-      </div>
-      <div class="field-grid cols-4" style="margin-top:1rem;">
-        <div class="field">
-          <label>COMMUNITY / HOA</label>
-          <input type="text" name="community" placeholder="Ocean Dunes">
-        </div>
-      </div>
-      <div class="field-grid cols-4" style="margin-top:1rem;">
-        <div class="field">
-          <label>PROPERTY TYPE</label>
-          <select name="property_type" required>
-            <option value="Condominium">Condominium</option>
-            <option value="Townhouse">Townhouse</option>
-            <option value="Single Family Home">Single Family Home</option>
-            <option value="Duplex / Multi-Unit">Duplex / Multi-Unit</option>
-            <option value="Cabin / Cottage">Cabin / Cottage</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>BEDROOMS</label>
-          <input type="number" name="bedrooms" value="2" min="1" max="10" required>
-        </div>
-        <div class="field">
-          <label>BATHROOMS</label>
-          <input type="number" name="bathrooms" value="2" min="1" max="10" required>
-        </div>
-        <div class="field">
-          <label>SQ FT</label>
-          <input type="number" name="sqft" value="1000" min="200" required>
-        </div>
-      </div>
-      <div class="field-grid cols-3" style="margin-top:1rem;">
-        <div class="field">
-          <label>YEAR BUILT</label>
-          <input type="number" name="year_built" value="2005" min="1800" max="2026">
-        </div>
-        <div class="field">
-          <label>CONDITION</label>
-          <select name="condition">
-            <option value="Furnished, Turn-Key">Furnished, Turn-Key</option>
-            <option value="Furnished, Needs Updates">Furnished, Needs Updates</option>
-            <option value="Unfurnished">Unfurnished</option>
-            <option value="Renovation Required">Renovation Required</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>PARKING</label>
-          <select name="parking">
-            <option value="Assigned Covered">Assigned Covered</option>
-            <option value="Assigned Uncovered">Assigned Uncovered</option>
-            <option value="Street Parking">Street Parking</option>
-            <option value="Garage">Garage</option>
-            <option value="Driveway">Driveway</option>
-            <option value="None">None</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-grid cols-3" style="margin-top:1rem;">
-        <div class="field">
-          <label>BEACH / WATER ACCESS</label>
-          <select name="beach_access">
-            <option value="N/A">N/A</option>
-            <option value="Deeded — Private Walkways">Deeded — Private</option>
-            <option value="Public Beach Nearby">Public Beach Nearby</option>
-            <option value="Oceanfront / Direct">Oceanfront / Direct</option>
-            <option value="Lakefront">Lakefront</option>
-            <option value="River Access">River Access</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>BUILDING ACCESS</label>
-          <select name="access">
-            <option value="Standard">Standard</option>
-            <option value="Elevator Building">Elevator Building</option>
-            <option value="Walk-Up">Walk-Up</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>SPECIAL FEATURES</label>
-          <input type="text" name="special_features" placeholder="Wet bar, fireplace, etc.">
-        </div>
-      </div>
-    </div>
-
-    <!-- AMENITIES -->
-    <div class="form-section">
-      <div class="section-label">Community Amenities</div>
-      <div class="amenity-grid">
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="outdoor_pool">
-          <span class="amenity-item-inner"><span class="amenity-icon">🏊</span> Outdoor Pool</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="indoor_pool">
-          <span class="amenity-item-inner"><span class="amenity-icon">🏊‍♂️</span> Indoor Pool</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="hot_tub">
-          <span class="amenity-item-inner"><span class="amenity-icon">🛁</span> Hot Tub / Spa</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="gym">
-          <span class="amenity-item-inner"><span class="amenity-icon">💪</span> Fitness Center</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="tennis">
-          <span class="amenity-item-inner"><span class="amenity-icon">🎾</span> Tennis / Pickleball</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="basketball">
-          <span class="amenity-item-inner"><span class="amenity-icon">🏀</span> Basketball Court</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="beach_access">
-          <span class="amenity-item-inner"><span class="amenity-icon">🏖️</span> Beach Access</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="playground">
-          <span class="amenity-item-inner"><span class="amenity-icon">🛝</span> Playground</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="boat_dock">
-          <span class="amenity-item-inner"><span class="amenity-icon">🚤</span> Boat Dock</span>
-        </label>
-        <label class="amenity-item">
-          <input type="checkbox" name="amenities" value="grill_area">
-          <span class="amenity-item-inner"><span class="amenity-icon">🔥</span> Grill / Fire Pit</span>
-        </label>
-      </div>
-      <div class="field" style="margin-top:0.75rem;">
-        <label>OTHER AMENITIES (comma-separated)</label>
-        <input type="text" name="custom_amenities" placeholder="Shuffleboard, Clubhouse, Sauna">
-      </div>
-    </div>
-
-    <!-- FINANCING -->
-    <div class="form-section">
-      <div class="section-label">Financing Structure</div>
-      <div class="field-grid cols-4">
-        <div class="field">
-          <label>PURCHASE PRICE ($)</label>
-          <input type="number" name="purchase_price" placeholder="300000" required>
-        </div>
-        <div class="field">
-          <label>DOWN PAYMENT (%)</label>
-          <input type="number" name="down_payment_pct" value="25" min="0" max="100" step="1" required>
-        </div>
-        <div class="field">
-          <label>INTEREST RATE (%)</label>
-          <input type="number" name="interest_rate" value="7.0" min="0" max="20" step="0.125" required>
-        </div>
-        <div class="field">
-          <label>LOAN TERM (years)</label>
-          <select name="loan_term">
-            <option value="30" selected>30 years</option>
-            <option value="20">20 years</option>
-            <option value="15">15 years</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-grid cols-3" style="margin-top:1rem;">
-        <div class="field">
-          <label>ANNUAL HOA ($)</label>
-          <input type="number" name="hoa_annual" value="0" min="0">
-          <div class="field-hint">Enter 0 if no HOA</div>
-        </div>
-        <div class="field">
-          <label>HOA INCLUDES INSURANCE?</label>
-          <select name="hoa_includes_insurance">
-            <option value="no">No</option>
-            <option value="yes">Yes — flood &amp; wind included</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>CUSTOM GROSS REVENUE (optional)</label>
-          <input type="text" name="custom_gross_revenue" placeholder="Leave blank for auto-estimate">
-          <div class="field-hint">Override the auto-estimated annual revenue</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MARKET TYPE -->
-    <div class="form-section">
-      <div class="section-label">Market Type</div>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Select the market type that best describes this property's location. This drives revenue projections, seasonal curves, and ADR defaults.</p>
-      <div class="market-grid">
-        <label class="market-card">
-          <input type="radio" name="market_type" value="coastal_premium" checked>
-          <div class="market-card-icon">🏖️</div>
-          <div class="market-card-name">Coastal Premium</div>
-          <div class="market-card-desc">Oceanfront, resort, top beach</div>
-        </label>
-        <label class="market-card">
-          <input type="radio" name="market_type" value="coastal_standard">
-          <div class="market-card-icon">🌊</div>
-          <div class="market-card-name">Coastal Standard</div>
-          <div class="market-card-desc">Near beach, non-resort</div>
-        </label>
-        <label class="market-card">
-          <input type="radio" name="market_type" value="mountain">
-          <div class="market-card-icon">⛰️</div>
-          <div class="market-card-name">Mountain</div>
-          <div class="market-card-desc">Ski, Smokies, mountain resort</div>
-        </label>
-        <label class="market-card">
-          <input type="radio" name="market_type" value="urban">
-          <div class="market-card-icon">🏙️</div>
-          <div class="market-card-name">Urban</div>
-          <div class="market-card-desc">City center, downtown, metro</div>
-        </label>
-        <label class="market-card">
-          <input type="radio" name="market_type" value="lake">
-          <div class="market-card-icon">🛶</div>
-          <div class="market-card-name">Lake</div>
-          <div class="market-card-desc">Lakefront, lake community</div>
-        </label>
-        <label class="market-card">
-          <input type="radio" name="market_type" value="rural">
-          <div class="market-card-icon">🌾</div>
-          <div class="market-card-name">Rural / Other</div>
-          <div class="market-card-desc">Countryside, small town</div>
-        </label>
-      </div>
-    </div>
-
-    <!-- WHAT YOU GET -->
-    <div class="features-bar">
-      <div class="section-label" style="border:none;padding:0;margin-bottom:0.75rem;">Your report includes</div>
-      <div class="features-list">
-        <span>Buy / Watch / Pass Verdict</span>
-        <span>Monthly Revenue Projections</span>
-        <span>3-Scenario Cash Flow Analysis</span>
-        <span>Full Expense Breakdown</span>
-        <span>Cash-on-Cash &amp; Cap Rate</span>
-        <span>5-Year Pro Forma</span>
-        <span>Total Return on Equity</span>
-        <span>Risk Assessment Grid</span>
-        <span>Tax &amp; Depreciation Analysis</span>
-        <span>Regulatory Compliance Checklist</span>
-        <span>Self-Management Strategy</span>
-        <span>Recommended Next Steps</span>
-      </div>
-    </div>
-
-    <!-- SUBMIT -->
-    <div class="submit-section">
-      <div>
-        <div class="price-badge">
-          $49 <span class="price-label">PER REPORT</span>
-        </div>
-        <div class="submit-note" style="margin-top:0.5rem;">
-          Instant delivery to your email after checkout. PDF + interactive HTML.
-        </div>
-      </div>
-      <button type="submit" class="submit-btn" id="submitBtn">
-        GET MY REPORT →
-      </button>
-    </div>
-
-  </form>
-</div>
-
-<!-- FOOTER -->
-<div class="page-footer">
-  {{ brand_name }} · Professional STR Underwriting · &copy; 2026
-  <br>Reports are for informational purposes only and do not constitute investment advice.
+  </div>
 </div>
 
 <script>
-  // Form validation + loading state
-  document.getElementById('dealForm').addEventListener('submit', function(e) {
-    const btn = document.getElementById('submitBtn');
+  document.getElementById('strForm').addEventListener('submit', function () {
+    var btn = document.getElementById('submitBtn');
     btn.disabled = true;
-    btn.textContent = 'PROCESSING...';
+    btn.textContent = 'PROCESSING…';
   });
 </script>
-</body>
-</html>
+
+{% endblock %}

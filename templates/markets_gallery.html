@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="fw-bold mb-2">Caribbean Market Intelligence</h2>
+    <p class="text-muted mb-5">Select a market to view regulations, benchmarks, and investment data.</p>
+    
+<div class="row g-4">
+    {% for slug, market in markets.items() %}
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm overflow-hidden">
+            <div style="height: 220px; background: url('{{ market.hero_image }}') center/cover no-repeat;"></div>
+            
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="fs-4 me-2">{{ market.flag }}</span>
+                    <h5 class="fw-bold mb-0">{{ market.name }}</h5>
+                </div>
+                <p class="small text-muted mb-3">{{ market.tagline }}</p>
+                <a href="/markets/{{ slug }}" class="btn btn-sm btn-outline-primary w-100 fw-bold">Market Deep Dive →</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

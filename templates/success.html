@@ -1,95 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Report Ready — {{ brand_name }}</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #1a1a18; --accent: #c84b2f; --muted: #7a7870;
-    --light: #f5f2eb; --border: rgba(26,26,24,0.15); --green: #2a7a4b;
-    --serif: 'DM Serif Display', Georgia, serif;
-    --mono: 'DM Mono', monospace;
-    --sans: 'DM Sans', sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: var(--sans); font-weight: 300; font-size: 14px;
-    line-height: 1.65; color: var(--ink); background: var(--light);
-    min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  }
-  .success-card {
-    background: white; max-width: 560px; width: 100%; margin: 2rem;
-    border-radius: 4px; box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-    overflow: hidden; text-align: center;
-  }
-  .success-header {
-    background: var(--ink); color: white; padding: 2rem;
-  }
-  .success-icon { font-size: 48px; margin-bottom: 0.75rem; }
-  .success-header h1 {
-    font-family: var(--serif); font-size: 26px; font-weight: 400; margin-bottom: 0.5rem;
-  }
-  .success-header p {
-    font-size: 13px; color: rgba(255,255,255,0.6);
-  }
-  .success-body { padding: 2rem; }
-  .success-body p { color: var(--muted); margin-bottom: 1rem; font-size: 13px; }
-  .order-id {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
-    color: var(--muted); background: var(--light); display: inline-block;
-    padding: 4px 12px; border-radius: 3px; margin-bottom: 1.5rem;
-  }
-  .download-btn {
-    display: inline-block; background: var(--accent); color: white;
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
-    padding: 0.85rem 2.5rem; border-radius: 3px; text-decoration: none;
-    transition: background 0.2s; margin-bottom: 1rem;
-  }
-  .download-btn:hover { background: #a93d27; }
-  .download-secondary {
-    display: inline-block; color: var(--muted); font-size: 12px;
-    text-decoration: underline; margin-left: 1rem;
-  }
-  .success-footer {
-    padding: 1.25rem 2rem; border-top: 1px solid var(--border);
-    font-size: 11px; color: var(--muted);
-  }
-  .check-list { text-align: left; margin: 1.5rem 0; }
-  .check-list div {
-    padding: 0.4rem 0; font-size: 12px; color: var(--muted);
-  }
-  .check-list div::before { content: "✓ "; color: var(--green); font-weight: 700; }
-</style>
-</head>
-<body>
-<div class="success-card">
-  <div class="success-header">
-    <div class="success-icon">✓</div>
-    <h1>Your Report is Ready</h1>
-    <p>{{ address }}</p>
-  </div>
-  <div class="success-body">
-    <div class="order-id">ORDER {{ order_id }}</div>
-    <p>Your STR Underwriting Report has been generated and sent to your email. You can also download it directly below.</p>
-    <div>
-      <a href="/download/{{ order_id }}" class="download-btn">DOWNLOAD REPORT</a>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5 mt-md-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                
+                <div class="bg-success py-5 text-center text-white">
+                    <div class="mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-check-circle-fill shadow-sm rounded-circle" viewBox="0 0 16 16">
+                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                        </svg>
+                    </div>
+                    <h2 class="fw-bold mb-0">Payment Successful!</h2>
+                </div>
+
+                <div class="card-body p-4 p-md-5 text-center">
+                    <div id="status-container">
+                        <div class="p-4 bg-light rounded-4 border border-dashed text-center">
+                            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <h5 class="fw-bold text-dark">Building Your Pro Forma...</h5>
+                            <p class="small text-muted mb-0">
+                                We are currently calculating your 5-year projections. <br>
+                                <strong>This usually takes 5-10 seconds.</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <a href="/" class="text-decoration-none small fw-bold text-primary">
+                            <i class="bi bi-arrow-left me-1"></i> Analyze Another Property
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-muted small mt-4">
+                Need help? Contact our data team at <span class="text-dark fw-medium">support@caribbeanstr.com</span>
+            </p>
+        </div>
     </div>
-    <div class="check-list">
-      <div>Buy / Watch / Pass verdict with rationale</div>
-      <div>3-scenario analysis (conservative, base, optimistic)</div>
-      <div>Monthly revenue projections with seasonal curves</div>
-      <div>Full expense breakdown and financing structure</div>
-      <div>Cash-on-cash, cap rate, DSCR, and total return</div>
-      <div>5-year pro forma with appreciation and equity growth</div>
-      <div>Risk assessment grid and regulatory checklist</div>
-    </div>
-    <p style="font-size:11px;">A copy has also been emailed to you. Check your spam folder if you don't see it within a few minutes.</p>
-  </div>
-  <div class="success-footer">
-    {{ brand_name }} · Professional STR Underwriting
-  </div>
 </div>
-</body>
-</html>
+
+<script>
+    const orderId = "{{ order_id }}";
+    const statusContainer = document.getElementById('status-container');
+
+    async function checkStatus() {
+        try {
+            const response = await fetch(`/check_status/${orderId}`);
+            const data = await response.json();
+
+            if (data.status === 'ready') {
+                // Change the UI to show the Download Button
+                statusContainer.innerHTML = `
+                    <div class="p-4 bg-primary bg-opacity-10 rounded-4 border border-primary border-opacity-25">
+                        <h4 class="fw-bold text-dark mb-3">Your Report is Ready!</h4>
+                        <a href="/download/${orderId}" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
+                            <i class="bi bi-file-earmark-pdf me-2"></i> Download Pro Forma
+                        </a>
+                        <p class="small text-muted mt-3 mb-0">
+                            Your analysis is complete and ready for review.
+                        </p>
+                    </div>
+                `;
+                // Stop checking once it's ready
+                clearInterval(statusInterval);
+            }
+        } catch (error) {
+            console.error("Status check failed:", error);
+        }
+    }
+
+    // Check the server every 2 seconds
+    const statusInterval = setInterval(checkStatus, 2000);
+    
+    // Also run once immediately on load
+    checkStatus();
+</script>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+# Local environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local data / reports
+reports/*.html
+pending_deals/*.json
+
+# OS specific files
+.DS_Store
+Thumbs.db
+backups/
+*.html
+!templates/*.html
+!samples/*.html

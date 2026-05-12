@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid p-0 mb-5" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ market.hero_image }}') center/cover; height: 450px;">
+    <div class="container h-100 d-flex flex-column justify-content-center text-white">
+        <div class="badge bg-warning text-dark mb-3 w-auto d-inline-block px-3 py-2 fw-bold rounded-pill">MARKET INTELLIGENCE</div>
+        <h1 class="display-2 fw-bold mb-2">{{ market.flag }} {{ market.name }}</h1>
+        <p class="lead fs-3 opacity-90">{{ market.tagline }}</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row g-4 mb-5">
+        {% set labels = [('Projected Revenue', 'revenue'), ('Avg Occupancy', 'occupancy'), ('Cap Rate', 'cap_rate'), ('Avg Daily Rate', 'adr')] %}
+        {% for label, key in labels %}
+        <div class="col-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100 p-4 bg-white rounded-4 text-center">
+                <div class="text-muted small text-uppercase fw-bold mb-1">{{ label }}</div>
+                <div class="h2 fw-bold text-primary mb-0">{{ market.stats[key] }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <section class="mb-5">
+                <h2 class="h3 fw-bold mb-4 d-flex align-items-center">
+                    <span class="me-3 p-2 bg-primary text-white rounded-3 shadow-sm">📍</span>
+                    Market Overview
+                </h2>
+                <p class="fs-5 text-secondary" style="line-height: 1.8;">{{ market.long_overview }}</p>
+            </section>
+
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <div class="h-100 p-4 bg-light rounded-4 border-start border-4 border-primary">
+                        <h4 class="fw-bold mb-3">⚖️ Regulations</h4>
+                        <p class="text-secondary small mb-0">{{ market.regulations }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="h-100 p-4 bg-light rounded-4 border-start border-4 border-warning">
+                        <h4 class="fw-bold mb-3">📅 Seasonality</h4>
+                        <p class="text-secondary small mb-0">{{ market.seasonal_trends }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 bg-dark text-white p-4 shadow-lg rounded-4 sticky-top" style="top: 100px;">
+                <h3 class="h4 mb-3 text-warning">The Bottom Line</h3>
+                <p class="opacity-75 mb-4" style="font-size: 0.95rem;">{{ market.investment_case }}</p>
+                
+                <div class="bg-secondary bg-opacity-25 p-3 rounded-3 mb-4">
+                    <div class="small fw-bold text-uppercase mb-2 text-warning">Ready to Underwrite?</div>
+                    <p class="small opacity-75 mb-0">Run a custom 5-year pro forma for a specific property in this market.</p>
+                </div>
+
+                <a href="/#dealForm" class="btn btn-warning w-100 fw-bold py-3 shadow">Analyze a Deal →</a>
+                
+                <div class="text-center mt-3">
+                    <a href="/markets" class="text-white text-decoration-none small opacity-50">← Back to all markets</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

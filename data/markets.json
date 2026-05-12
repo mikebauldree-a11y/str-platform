@@ -1,0 +1,62 @@
+{
+  "aruba": {
+    "slug": "aruba",
+    "name": "Aruba",
+    "flag": "🇦🇼",
+    "hero_image": "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=1200",
+    "tagline": "The 'One Happy Island' – A Year-Round STR Powerhouse.",
+    "stats": {"revenue": "$57,200", "occupancy": "79%", "cap_rate": "8.2%", "adr": "$196"},
+    "long_overview": "Aruba stands alone in the Caribbean for its geographical advantage: it sits below the hurricane belt. This ensures that your property remains operational and insurable year-round. The market is driven by high repeat-visitor loyalty, primarily from the US Northeast, creating a predictable and stable rental environment.",
+    "regulations": "Foreigners enjoy the same property rights as citizens. There are no restrictions on foreign ownership of land. Short-term rentals are well-regulated but encouraged, provided you pay the 9.5% tourist tax and environmental levy.",
+    "seasonal_trends": "Unlike other islands, Aruba has a 'flat' seasonality. While winter is peak, summer occupancy remains high due to South American travelers and families avoiding hurricane risks elsewhere.",
+    "investment_case": "Aruba is the 'low-volatility' play. It is perfect for investors prioritizing cash-flow consistency and low weather-related risk over speculative capital appreciation."
+  },
+  "dominican-republic": {
+    "slug": "dominican-republic",
+    "name": "Dominican Republic",
+    "flag": "🇩🇴",
+    "hero_image": "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200",
+    "tagline": "The Powerhouse of Caribbean Tourism.",
+    "stats": {"revenue": "$48,500", "occupancy": "68%", "cap_rate": "8.5%", "adr": "$185"},
+    "long_overview": "The DR is the most visited destination in the Caribbean. With a massive pipeline of new infrastructure in Punta Cana and Miches, the entry price for luxury condos remains the lowest in the region, offering a high 'yield-on-cost' for early investors.",
+    "regulations": "The CONFOTUR law is the primary driver here, offering 15 years of 0% property tax and 0% income tax for buyers in certified tourism projects.",
+    "seasonal_trends": "Strong winter peak from Dec–March. Growing 'Digital Nomad' trend in Samaná is starting to fill the shoulder seasons (May–June).",
+    "investment_case": "The DR is a high-yield, growth play. It is best for investors looking for aggressive tax incentives and the lowest price-per-square-foot in the tropics."
+  },
+  "the-bahamas": {
+    "slug": "the-bahamas",
+    "name": "The Bahamas",
+    "flag": "🇧🇸",
+    "hero_image": "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1200",
+    "tagline": "Ultra-Luxury Proximity to the US Mainland.",
+    "stats": {"revenue": "$82,000", "occupancy": "61%", "cap_rate": "7.4%", "adr": "$410"},
+    "long_overview": "With 700+ islands, the Bahamas offers everything from high-density Nassau condos to ultra-exclusive Exuma villas. Proximity to Florida (a 30-minute flight) makes it the premier choice for the weekend luxury rental market.",
+    "regulations": "The International Persons Landholding Act governs purchases. While straightforward, buyers should account for a VAT of 10% on property transfers.",
+    "seasonal_trends": "Extreme peaks during US holidays and Spring Break. Many 'Out Island' rentals command $2,000+ per night during the festive season.",
+    "investment_case": "The Bahamas is an 'Appreciation & Lifestyle' play. It offers high barrier-to-entry luxury that holds value exceptionally well during global downturns."
+  },
+  "turks-and-caicos": {
+    "slug": "turks-and-caicos",
+    "name": "Turks & Caicos",
+    "flag": "🇹🇨",
+    "hero_image": "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1200",
+    "tagline": "The Platinum Standard of Caribbean ADR.",
+    "stats": {"revenue": "$115,000", "occupancy": "58%", "cap_rate": "6.9%", "adr": "$950"},
+    "long_overview": "TCI is a high-ADR (Average Daily Rate) market. Grace Bay is consistently voted the world's best beach, allowing owners to command premium pricing that outweighs the lower occupancy rates compared to Aruba.",
+    "regulations": "No annual property taxes and no capital gains taxes. TCI is a true tax-neutral jurisdiction for real estate holding.",
+    "seasonal_trends": "Highly seasonal. Revenue is heavily concentrated in the 'Dry Season.' Owners often use the hurricane-prone months for property maintenance.",
+    "investment_case": "TCI is for the high-net-worth investor. It provides a sophisticated legal framework and the highest daily rental rates in the Western Hemisphere."
+  },
+  "nc-coastal": {
+    "slug": "nc-coastal",
+    "name": "NC Coastal",
+    "flag": "🇺🇸",
+    "hero_image": "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200",
+    "tagline": "High-Volume Drive-to Domestic Luxury.",
+    "stats": {"revenue": "$95,000", "occupancy": "52%", "cap_rate": "7.8%", "adr": "$650"},
+    "long_overview": "From the Outer Banks to Wrightsville Beach, the NC Coast is a premier 'drive-to' market. Large multi-generational beach houses (8+ bedrooms) are the dominant earners, catering to massive family reunions.",
+    "regulations": "Regulatory risk is higher here due to local town ordinances (SROs). Investors must carefully vet beach nourishment taxes and local occupancy tax requirements.",
+    "seasonal_trends": "Extremely compressed season. 70% of annual revenue is typically earned between Memorial Day and Labor Day. Large 'Event Homes' are now extending this into the wedding season (Oct/Nov).",
+    "investment_case": "NC Coastal is a 'Cash Machine' play. While the season is short, the weekly rental rates for large homes are massive, and domestic travel is incredibly resilient."
+  }
+}
