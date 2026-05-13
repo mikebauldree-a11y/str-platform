@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% block page_title %}{{ market.name }} STR Market Analysis — Caribbean STR{% endblock %}
+{% block meta_description %}{{ market.tagline }} Investment data, regulations, seasonality, and STR benchmarks for {{ market.name }}. Revenue: {{ market.stats.revenue }}, Occupancy: {{ market.stats.occupancy }}, Cap Rate: {{ market.stats.cap_rate }}.{% endblock %}
 {% block content %}
 
 <div class="container-fluid p-0 mb-5" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ market.hero_image }}') center/cover; height: 450px;">

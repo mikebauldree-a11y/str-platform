@@ -140,5 +140,31 @@ def market_detail(slug):
     )
 
 
+# ── SEO routes ────────────────────────────────────────────────────────────────
+
+@app.route("/sitemap.xml")
+def sitemap():
+    urls = [
+        ("https://caribbeanstr.com/", "weekly", "1.0"),
+        ("https://caribbeanstr.com/markets", "weekly", "0.9"),
+        ("https://caribbeanstr.com/sample-report", "monthly", "0.8"),
+        ("https://caribbeanstr.com/sample-report-caribbean", "monthly", "0.8"),
+    ]
+    for slug in MARKETS:
+        urls.append((f"https://caribbeanstr.com/markets/{slug}", "monthly", "0.7"))
+
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for loc, freq, priority in urls:
+        xml += f'  <url><loc>{loc}</loc><changefreq>{freq}</changefreq><priority>{priority}</priority></url>\n'
+    xml += '</urlset>'
+    return xml, 200, {'Content-Type': 'application/xml'}
+
+@app.route("/robots.txt")
+def robots():
+    txt = "User-agent: *\nAllow: /\nSitemap: https://caribbeanstr.com/sitemap.xml\n"
+    return txt, 200, {'Content-Type': 'text/plain'}
+
+
 if __name__ == "__main__":
     app.run(debug=True)
