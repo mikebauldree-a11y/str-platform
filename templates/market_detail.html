@@ -48,20 +48,132 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ── Live Market Analytics Widget ─────────────────────────────── -->
+            <section id="market-analytics" class="mb-5">
+                <h2 class="h3 fw-bold mb-1 d-flex align-items-center">
+                    <span class="me-3 p-2 bg-success text-white rounded-3 shadow-sm">📊</span>
+                    Live Market Analytics
+                </h2>
+                <p class="text-muted mb-4" style="font-size:0.9rem;">AI-generated benchmarks for this market. Adjust bedrooms and property type to match your deal.</p>
+
+                <style>
+                    /* Config bar */
+                    .ma-config {
+                        display: flex;
+                        gap: 10px;
+                        flex-wrap: wrap;
+                        align-items: flex-end;
+                        background: #1a1a18;
+                        border-radius: 12px;
+                        padding: 1rem 1.2rem;
+                        margin-bottom: 1rem;
+                    }
+                    .ma-field { display: flex; flex-direction: column; gap: 4px; }
+                    .ma-field label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; }
+                    .ma-field select {
+                        background: #0f172a; border: 1px solid #334155; border-radius: 6px;
+                        padding: 7px 11px; color: #e2e8f0; font-size: 0.85rem; font-family: inherit;
+                    }
+                    .ma-btn {
+                        background: linear-gradient(135deg, #15803d, #4ade80);
+                        border: none; border-radius: 8px; padding: 8px 20px;
+                        color: #020817; font-weight: 700; font-size: 0.85rem;
+                        cursor: pointer; white-space: nowrap; transition: opacity 0.2s;
+                    }
+                    .ma-btn:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+
+                    /* Spinner */
+                    .ma-spinner { display: none; align-items: center; gap: 8px; color: #64748b; font-size: 0.85rem; padding: 0.8rem 0; }
+                    .ma-spin {
+                        width: 14px; height: 14px;
+                        border: 2px solid #334155; border-top-color: #4ade80;
+                        border-radius: 50%; animation: maspin 0.8s linear infinite;
+                    }
+                    @keyframes maspin { to { transform: rotate(360deg); } }
+
+                    /* Results */
+                    #ma-results { display: none; animation: mafade 0.4s ease; }
+                    @keyframes mafade { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+                    /* Verdict row */
+                    .ma-verdict-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+                    .ma-verdict { border-radius: 8px; padding: 8px 14px; text-align: center; }
+                    .ma-verdict .vl { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; }
+                    .ma-verdict .vv { font-size: 1.1rem; font-weight: 800; }
+                    .vBUY   { background:#052e16; border:2px solid #16a34a; } .vBUY   .vv { color:#4ade80; }
+                    .vWATCH { background:#1c1003; border:2px solid #d97706; } .vWATCH .vv { color:#fbbf24; }
+                    .vPASS  { background:#1a0505; border:2px solid #dc2626; } .vPASS  .vv { color:#f87171; }
+                    .ma-rationale {
+                        flex: 1; background: #0f172a; border: 1px solid #1e293b;
+                        border-left: 3px solid #4ade80; border-radius: 7px;
+                        padding: 8px 12px; font-size: 0.8rem; color: #86efac;
+                    }
+
+                    /* Metric cards */
+                    .ma-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 10px; }
+                    .ma-card { background: #0f172a; border: 1px solid #1e293b; border-top: 3px solid #4ade80; border-radius: 9px; padding: 12px 14px; }
+                    .ma-card .mac-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 5px; }
+                    .ma-card .mac-value { font-size: 1.3rem; font-weight: 700; color: #f1f5f9; }
+                    .ma-card .mac-sub   { font-size: 0.65rem; color: #64748b; margin-top: 2px; }
+
+                    /* Seasonal chart */
+                    .ma-seasonal { background: #0f172a; border: 1px solid #1e293b; border-radius: 9px; padding: 14px 16px; margin-bottom: 10px; }
+                    .ma-seasonal .sec-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 10px; }
+                    .ma-bars { display: flex; gap: 3px; align-items: flex-end; height: 70px; }
+                    .ma-bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; }
+                    .ma-bar-inner { width:100%; background:#020817; border-radius:3px; display:flex; align-items:flex-end; overflow:hidden; border:1px solid #1e293b; height:54px; }
+                    .ma-bar-fill { width:100%; border-radius:2px 2px 0 0; transition: height 0.5s ease; }
+                    .ma-bar-fill.peak   { background: linear-gradient(180deg,#4ade80,#16a34a); }
+                    .ma-bar-fill.normal { background: linear-gradient(180deg,#166534,#14532d); }
+                    .ma-bar-mo  { font-size:0.5rem; color:#475569; }
+
+                    /* Summary */
+                    .ma-summary { background: #0f172a; border: 1px solid #1e293b; border-radius: 9px; padding: 14px 16px; margin-bottom: 10px; }
+                    .ma-summary .sec-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 6px; }
+                    .ma-summary p { font-size: 0.85rem; color: #86efac; line-height: 1.7; margin: 0; }
+
+                    .ma-error { color: #f87171; font-size: 0.8rem; margin-top: 4px; }
+                    .ma-disclaimer { font-size: 0.7rem; color: #94a3b8; margin-top: 8px; }
+                </style>
+
+                <div class="ma-config">
+                    <div class="ma-field">
+                        <label>Bedrooms</label>
+                        <select id="ma-bedrooms">
+                            <option>1</option><option selected>2</option><option>3</option>
+                            <option>4</option><option>5</option><option>6+</option>
+                        </select>
+                    </div>
+                    <div class="ma-field">
+                        <label>Property Type</label>
+                        <select id="ma-proptype">
+                            <option>Villa</option><option>Condo</option><option>House</option>
+                            <option>Cottage</option><option>Beachfront Cottage</option><option>Penthouse</option>
+                        </select>
+                    </div>
+                    <button class="ma-btn" id="ma-btn" onclick="maRunAnalysis()">→ Get Market Data</button>
+                </div>
+                <div id="ma-error" class="ma-error" style="display:none;"></div>
+                <div id="ma-spinner" class="ma-spinner"><div class="ma-spin"></div> Analyzing market data…</div>
+                <div id="ma-results"></div>
+                <p class="ma-disclaimer">⚠ AI-generated estimates for research purposes only. Not financial advice.</p>
+            </section>
+            <!-- ── End Analytics Widget ──────────────────────────────────────── -->
+
         </div>
 
         <div class="col-lg-4">
             <div class="card border-0 bg-dark text-white p-4 shadow-lg rounded-4 sticky-top" style="top: 100px;">
                 <h3 class="h4 mb-3 text-warning">The Bottom Line</h3>
                 <p class="opacity-75 mb-4" style="font-size: 0.95rem;">{{ market.investment_case }}</p>
-                
+
                 <div class="bg-secondary bg-opacity-25 p-3 rounded-3 mb-4">
                     <div class="small fw-bold text-uppercase mb-2 text-warning">Ready to Underwrite?</div>
                     <p class="small opacity-75 mb-0">Run a custom 5-year pro forma for a specific property in this market.</p>
                 </div>
-
                 <a href="/#dealForm" class="btn btn-warning w-100 fw-bold py-3 shadow">Analyze a Deal →</a>
-                
+
                 <div class="text-center mt-3">
                     <a href="/markets" class="text-white text-decoration-none small opacity-50">← Back to all markets</a>
                 </div>
@@ -69,5 +181,144 @@
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    const MARKET_NAME  = {{ market.name | tojson }};
+    const IS_CARIBBEAN = {{ ('false' if market.get('region', 'caribbean') == 'coastal' else 'true') }};
+    const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+    window.maRunAnalysis = async function () {
+        const bedrooms = document.getElementById("ma-bedrooms").value;
+        const propType = document.getElementById("ma-proptype").value;
+
+        document.getElementById("ma-error").style.display   = "none";
+        document.getElementById("ma-spinner").style.display = "flex";
+        document.getElementById("ma-results").style.display = "none";
+        document.getElementById("ma-btn").disabled          = true;
+
+        const prompt = `You are a professional STR underwriter specializing in Caribbean and US coastal vacation rentals.
+
+Generate realistic, investor-grade STR market data for: ${MARKET_NAME}, ${bedrooms} bedroom ${propType}.
+${IS_CARIBBEAN
+    ? "This is a Caribbean/international market — factor in tourism seasonality, USD pricing, foreign ownership rules, and local tax incentives where applicable."
+    : "This is a US coastal market — factor in domestic tourism patterns, state regulations, and HOA/rental restrictions."}
+
+Respond ONLY with valid JSON, no markdown, no backticks:
+{
+  "adr": 285,
+  "occupancy": 71,
+  "monthly_revenue": 6100,
+  "annual_revenue": 73200,
+  "revpan": 202,
+  "roi_score": 78,
+  "verdict": "BUY",
+  "peak_season": "December–April",
+  "low_season": "September–October",
+  "cap_rate_est": 7.2,
+  "cash_on_cash_est": 9.1,
+  "seasonal_occupancy": [78,80,72,65,60,55,52,50,42,48,68,82],
+  "summary": "2 sentences of investor-grade insight with specific data points.",
+  "buy_rationale": "One sentence explaining the verdict."
+}`;
+
+        try {
+            const resp = await fetch("https://api.anthropic.com/v1/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    model: "claude-sonnet-4-20250514",
+                    max_tokens: 800,
+                    messages: [{ role: "user", content: prompt }]
+                })
+            });
+            const json = await resp.json();
+            const raw  = (json.content || []).find(b => b.type === "text")?.text || "";
+            const d    = JSON.parse(raw.replace(/```json|```/g, "").trim());
+            maRender(d);
+        } catch (e) {
+            document.getElementById("ma-error").textContent    = "Analysis failed. Please try again.";
+            document.getElementById("ma-error").style.display  = "block";
+        } finally {
+            document.getElementById("ma-spinner").style.display = "none";
+            document.getElementById("ma-btn").disabled          = false;
+        }
+    };
+
+    function maRender(d) {
+        const maxOcc  = Math.max(...d.seasonal_occupancy);
+        const peakIdx = d.seasonal_occupancy.indexOf(maxOcc);
+        const roiColor = d.roi_score >= 75 ? "#4ade80" : d.roi_score >= 55 ? "#fbbf24" : "#f87171";
+
+        const barsHtml = MONTHS.map((m, i) => {
+            const pct = Math.round((d.seasonal_occupancy[i] / maxOcc) * 100);
+            return `<div class="ma-bar-col">
+                <div class="ma-bar-inner">
+                    <div class="ma-bar-fill ${i === peakIdx ? 'peak' : 'normal'}" style="height:${pct}%"></div>
+                </div>
+                <span class="ma-bar-mo">${m}</span>
+            </div>`;
+        }).join("");
+
+        document.getElementById("ma-results").innerHTML = `
+            <div class="ma-verdict-row">
+                <div class="ma-verdict v${d.verdict}">
+                    <div class="vl">Verdict</div>
+                    <div class="vv">${d.verdict === "BUY" ? "✅" : d.verdict === "WATCH" ? "👀" : "❌"} ${d.verdict}</div>
+                </div>
+                <div class="ma-verdict" style="background:#0f172a; border:2px solid ${roiColor};">
+                    <div class="vl">ROI Score</div>
+                    <div class="vv" style="color:${roiColor};">${d.roi_score}<span style="font-size:0.7rem;color:#64748b;">/100</span></div>
+                </div>
+                ${d.buy_rationale ? `<div class="ma-rationale">💡 ${d.buy_rationale}</div>` : ""}
+            </div>
+
+            <div class="ma-metrics">
+                <div class="ma-card" style="border-top-color:#4ade80;">
+                    <div class="mac-label">💵 Avg Daily Rate</div>
+                    <div class="mac-value">$${d.adr}</div>
+                    <div class="mac-sub">Per booked night</div>
+                </div>
+                <div class="ma-card" style="border-top-color:#34d399;">
+                    <div class="mac-label">📅 Occupancy</div>
+                    <div class="mac-value">${d.occupancy}%</div>
+                    <div class="mac-sub">Annual avg</div>
+                </div>
+                <div class="ma-card" style="border-top-color:#a7f3d0;">
+                    <div class="mac-label">📈 Monthly Rev</div>
+                    <div class="mac-value">$${(d.monthly_revenue || 0).toLocaleString()}</div>
+                    <div class="mac-sub">Gross avg</div>
+                </div>
+                <div class="ma-card" style="border-top-color:#fbbf24;">
+                    <div class="mac-label">🏆 Annual Rev</div>
+                    <div class="mac-value">$${(d.annual_revenue || 0).toLocaleString()}</div>
+                    <div class="mac-sub">Projected gross</div>
+                </div>
+                <div class="ma-card" style="border-top-color:#6ee7b7;">
+                    <div class="mac-label">📊 Cap Rate</div>
+                    <div class="mac-value">${d.cap_rate_est}%</div>
+                    <div class="mac-sub">Estimated</div>
+                </div>
+                <div class="ma-card" style="border-top-color:#86efac;">
+                    <div class="mac-label">💰 Cash-on-Cash</div>
+                    <div class="mac-value">${d.cash_on_cash_est}%</div>
+                    <div class="mac-sub">Estimated</div>
+                </div>
+            </div>
+
+            <div class="ma-seasonal">
+                <div class="sec-title">Monthly Occupancy — Peak: ${MONTHS[peakIdx]} (${maxOcc}%) · Peak Season: ${d.peak_season} · Low: ${d.low_season}</div>
+                <div class="ma-bars">${barsHtml}</div>
+            </div>
+
+            <div class="ma-summary">
+                <div class="sec-title">Market Intelligence</div>
+                <p>${d.summary}</p>
+            </div>
+        `;
+        document.getElementById("ma-results").style.display = "block";
+    }
+})();
+</script>
 
 {% endblock %}

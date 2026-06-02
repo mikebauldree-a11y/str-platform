@@ -22,7 +22,6 @@
     <meta name="twitter:title" content="{{ brand_name }} — Professional STR Underwriting">
     <meta name="twitter:description" content="Investor-grade STR deal analysis. 5-year pro forma, risk assessment, Buy/Watch/Pass verdict. $49 per report.">
 
-
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
     {
@@ -122,10 +121,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link {% if active_page != 'markets' %}active{% endif %}" href="/">Underwriter</a>
+                        <a class="nav-link {% if active_page not in ['markets', 'analytics'] %}active{% endif %}" href="/">Underwriter</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if active_page == 'markets' %}active{% endif %}" href="/markets">Markets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'analytics' %}active{% endif %}" href="/analytics">Analytics</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn-nav-action ms-lg-4" href="/#dealForm">Start Analysis</a>
@@ -146,6 +148,7 @@
             <div class="mb-4">
                 <a href="/" class="text-decoration-none text-muted mx-2">Home</a>
                 <a href="/markets" class="text-decoration-none text-muted mx-2">All Markets</a>
+                <a href="/analytics" class="text-decoration-none text-muted mx-2">Market Analytics</a>
             </div>
             <div class="small opacity-75">
                 &copy; 2026 {{ brand_name }}. All rights reserved.<br>
