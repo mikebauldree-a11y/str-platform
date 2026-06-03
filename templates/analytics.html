@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}STR Market Analytics — Caribbean STR{% endblock %}
+{% block page_title %}STR Market Analytics — Caribbean STR{% endblock %}
 
-{% block meta %}
-<meta name="description" content="Free STR market analytics for Caribbean and US coastal markets. Occupancy rates, ADR, revenue projections, seasonality, and investment signals for Aruba, Dominican Republic, Turks & Caicos, and more.">
+{% block meta_description %}Free STR market analytics for Caribbean and US coastal markets. Occupancy rates, ADR, revenue projections, seasonality, and investment signals for Aruba, Dominican Republic, Turks & Caicos, and more.{% endblock %}
+
+{% block head_extra %}
 <link rel="canonical" href="https://caribbeanstr.com/analytics">
 {% endblock %}
 
@@ -19,389 +20,146 @@
     margin-bottom: 0.5rem;
   }
   .analytics-hero p {
-    color: #94a3b8;
+    color: #6c757d;
     font-size: 1rem;
     max-width: 540px;
     margin: 0 auto;
   }
 
-  /* Market selector grid */
+  /* Market selector */
   .market-section-label {
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: #64748b;
+    color: #6c757d;
     margin: 1.5rem 0 0.6rem;
+    font-weight: 600;
   }
-  .market-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 0.5rem;
-  }
+  .market-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem; }
   .market-chip {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #0f172a;
-    border: 1px solid #1e293b;
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    transition: all 0.15s ease;
+    display: flex; align-items: center; gap: 8px;
+    background: white; border: 1px solid #dee2e6;
+    border-radius: 8px; padding: 8px 14px;
+    cursor: pointer; transition: all 0.15s ease;
   }
-  .market-chip:hover {
-    border-color: #16a34a;
-    transform: translateY(-1px);
-  }
-  .market-chip.active {
-    border-color: #16a34a;
-    background: #0d2b18;
-  }
-  .market-chip .chip-name {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #e2e8f0;
-  }
-  .market-chip .chip-tag {
-    font-size: 0.65rem;
-    color: #475569;
-  }
+  .market-chip:hover  { border-color: #0077be; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,119,190,0.15); }
+  .market-chip.active { border-color: #0077be; background: #e8f4fd; }
+  .market-chip .chip-name { font-size: 0.82rem; font-weight: 600; color: #1a1a18; }
+  .market-chip .chip-tag  { font-size: 0.65rem; color: #6c757d; }
 
   /* Config bar */
   .config-bar {
-    background: #0f172a;
-    border: 1px solid #1e293b;
-    border-radius: 12px;
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    margin: 1.2rem 0;
+    background: #1a1a18; border-radius: 12px;
+    padding: 1.2rem 1.5rem; display: flex;
+    gap: 12px; flex-wrap: wrap; align-items: flex-end; margin: 1.2rem 0;
   }
-  .config-bar .field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .config-bar label {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #475569;
-  }
+  .config-bar .field { display: flex; flex-direction: column; gap: 4px; }
+  .config-bar label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; }
   .config-bar select,
   .config-bar input[type="text"] {
-    background: #020817;
-    border: 1px solid #1e293b;
-    border-radius: 6px;
-    padding: 8px 12px;
-    color: #e2e8f0;
-    font-size: 0.85rem;
-    font-family: inherit;
+    background: #0f172a; border: 1px solid #334155; border-radius: 6px;
+    padding: 8px 12px; color: #e2e8f0; font-size: 0.85rem; font-family: inherit;
   }
-  .config-bar input[type="text"] {
-    min-width: 200px;
-  }
+  .config-bar input[type="text"] { min-width: 200px; }
   .btn-analyze {
     background: linear-gradient(135deg, #15803d, #4ade80);
-    border: none;
-    border-radius: 8px;
-    padding: 9px 22px;
-    color: #020817;
-    font-weight: 700;
-    font-size: 0.85rem;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: opacity 0.2s;
+    border: none; border-radius: 8px; padding: 9px 22px;
+    color: #020817; font-weight: 700; font-size: 0.85rem;
+    cursor: pointer; white-space: nowrap; transition: opacity 0.2s;
   }
-  .btn-analyze:disabled {
-    background: #1e293b;
-    color: #475569;
-    cursor: not-allowed;
-  }
-  .error-msg { color: #f87171; font-size: 0.8rem; margin-top: 6px; }
+  .btn-analyze:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+  .error-msg { color: #dc3545; font-size: 0.82rem; margin-top: 6px; }
 
   /* Spinner */
-  .spinner-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #64748b;
-    font-size: 0.85rem;
-    padding: 1rem 0;
-  }
+  .spinner-wrap { display: flex; align-items: center; gap: 10px; color: #6c757d; font-size: 0.85rem; padding: 1rem 0; }
   .spinner {
     width: 16px; height: 16px;
-    border: 2px solid #1e293b;
-    border-top-color: #4ade80;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+    border: 2px solid #dee2e6; border-top-color: #0077be;
+    border-radius: 50%; animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Results */
-  #analytics-results {
-    animation: fadeUp 0.4s ease;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
+  #analytics-results { animation: fadeUp 0.4s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 
-  .results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 1.2rem;
-  }
-  .results-title {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #f1f5f9;
-  }
-  .results-sub {
-    font-size: 0.8rem;
-    color: #475569;
-    margin-top: 3px;
-  }
-  .verdict-box {
-    border-radius: 10px;
-    padding: 10px 18px;
-    text-align: center;
-    min-width: 90px;
-  }
-  .verdict-box .verdict-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
-  .verdict-box .verdict-val   { font-size: 1.6rem; font-weight: 800; line-height: 1; }
-  .verdict-BUY   { background: #052e16; border: 2px solid #16a34a; }
-  .verdict-BUY   .verdict-val { color: #4ade80; }
-  .verdict-WATCH { background: #1c1003; border: 2px solid #d97706; }
-  .verdict-WATCH .verdict-val { color: #fbbf24; }
-  .verdict-PASS  { background: #1a0505; border: 2px solid #dc2626; }
-  .verdict-PASS  .verdict-val { color: #f87171; }
+  .results-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 1.2rem; }
+  .results-title  { font-size: 1.8rem; font-weight: 800; color: #1a1a18; }
+  .results-sub    { font-size: 0.8rem; color: #6c757d; margin-top: 3px; }
 
-  .roi-box {
-    border-radius: 10px;
-    padding: 10px 16px;
-    text-align: center;
-    background: #0f172a;
-  }
-  .roi-box .roi-label { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
-  .roi-box .roi-val   { font-size: 1.6rem; font-weight: 800; line-height: 1; }
+  .verdict-box { border-radius: 10px; padding: 10px 18px; text-align: center; min-width: 90px; }
+  .verdict-box .verdict-label { font-size: 0.65rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+  .verdict-box .verdict-val   { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+  .verdict-BUY   { background:#052e16; border:2px solid #16a34a; } .verdict-BUY   .verdict-val { color:#4ade80; }
+  .verdict-WATCH { background:#1c1003; border:2px solid #d97706; } .verdict-WATCH .verdict-val { color:#fbbf24; }
+  .verdict-PASS  { background:#1a0505; border:2px solid #dc2626; } .verdict-PASS  .verdict-val { color:#f87171; }
+
+  .roi-box { border-radius: 10px; padding: 10px 16px; text-align: center; background: #0f172a; }
+  .roi-box .roi-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+  .roi-box .roi-val   { font-size: 1.5rem; font-weight: 800; line-height: 1; }
 
   /* Tabs */
-  .tabs {
-    display: flex;
-    gap: 2px;
-    border-bottom: 1px solid #1e293b;
-    margin-bottom: 1.2rem;
-  }
+  .tabs { display: flex; gap: 2px; border-bottom: 2px solid #dee2e6; margin-bottom: 1.2rem; }
   .tab-btn {
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    padding: 8px 18px;
-    color: #475569;
-    font-size: 0.8rem;
-    font-family: inherit;
-    cursor: pointer;
-    text-transform: capitalize;
-    transition: all 0.15s;
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: 8px 18px; color: #6c757d; font-size: 0.82rem; font-family: inherit;
+    cursor: pointer; text-transform: capitalize; transition: all 0.15s; margin-bottom: -2px;
   }
-  .tab-btn.active {
-    color: #4ade80;
-    border-bottom-color: #4ade80;
-  }
+  .tab-btn.active { color: #0077be; border-bottom-color: #0077be; font-weight: 600; }
 
   /* Metric cards */
-  .metric-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .metric-card {
-    background: #0a1628;
-    border: 1px solid #1e293b;
-    border-radius: 10px;
-    padding: 16px 18px;
-    border-top: 3px solid #4ade80;
-  }
-  .metric-card .mc-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; margin-bottom: 6px; }
-  .metric-card .mc-value { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; }
-  .metric-card .mc-sub   { font-size: 0.7rem; color: #475569; margin-top: 3px; }
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .metric-card { background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 16px 18px; border-top: 3px solid #0077be; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .metric-card .mc-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6c757d; margin-bottom: 6px; font-weight: 600; }
+  .metric-card .mc-value { font-size: 1.5rem; font-weight: 700; color: #1a1a18; }
+  .metric-card .mc-sub   { font-size: 0.7rem; color: #6c757d; margin-top: 3px; }
 
   /* Info panels */
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
-  .info-panel {
-    background: #0a1628;
-    border: 1px solid #1e293b;
-    border-radius: 10px;
-    padding: 16px 20px;
-  }
-  .info-panel .panel-title {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #475569;
-    margin-bottom: 12px;
-  }
-  .info-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px solid #0f172a;
-    font-size: 0.8rem;
-  }
-  .info-row .ir-label { color: #475569; }
-  .info-row .ir-val   { color: #e2e8f0; font-weight: 500; }
-  .ir-val.green  { color: #4ade80; }
-  .ir-val.yellow { color: #fbbf24; }
+  .info-panel { background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 16px 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .info-panel .panel-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6c757d; margin-bottom: 12px; font-weight: 600; }
+  .info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f8f9fa; font-size: 0.82rem; }
+  .info-row .ir-label { color: #6c757d; }
+  .info-row .ir-val   { color: #1a1a18; font-weight: 500; }
+  .ir-val.green  { color: #15803d; }
+  .ir-val.yellow { color: #d97706; }
 
-  .summary-panel {
-    background: #0a1628;
-    border: 1px solid #1e293b;
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 12px;
-  }
-  .summary-panel .panel-title {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #475569;
-    margin-bottom: 8px;
-  }
-  .summary-panel p { font-size: 0.85rem; color: #86efac; line-height: 1.7; margin: 0; }
+  .summary-panel { background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .summary-panel .panel-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6c757d; margin-bottom: 8px; font-weight: 600; }
+  .summary-panel p { font-size: 0.85rem; color: #495057; line-height: 1.7; margin: 0; }
 
-  .rationale-bar {
-    background: #0a1628;
-    border: 1px solid #1e293b;
-    border-left: 3px solid #4ade80;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 0.8rem;
-    color: #86efac;
-    margin-bottom: 1.2rem;
-  }
+  .rationale-bar { background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 3px solid #15803d; border-radius: 8px; padding: 10px 16px; font-size: 0.82rem; color: #15803d; margin-bottom: 1.2rem; }
 
   /* Seasonal chart */
-  .seasonal-panel {
-    background: #0a1628;
-    border: 1px solid #1e293b;
-    border-radius: 10px;
-    padding: 20px;
-  }
-  .bar-chart {
-    display: flex;
-    gap: 4px;
-    align-items: flex-end;
-    height: 90px;
-    margin: 1rem 0 0.5rem;
-  }
-  .bar-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-  }
-  .bar-inner {
-    width: 100%;
-    background: #020817;
-    border-radius: 4px;
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-    border: 1px solid #1e293b;
-    height: 70px;
-  }
-  .bar-fill {
-    width: 100%;
-    border-radius: 3px 3px 0 0;
-    transition: height 0.5s ease;
-  }
-  .bar-fill.peak    { background: linear-gradient(180deg, #4ade80, #16a34a); }
-  .bar-fill.normal  { background: linear-gradient(180deg, #166534, #14532d); }
-  .bar-month { font-size: 0.55rem; color: #475569; }
+  .seasonal-panel { background: white; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .bar-chart { display: flex; gap: 4px; align-items: flex-end; height: 90px; margin: 1rem 0 0.5rem; }
+  .bar-col   { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .bar-inner { width: 100%; background: #f8f9fa; border-radius: 4px; display: flex; align-items: flex-end; overflow: hidden; border: 1px solid #dee2e6; height: 70px; }
+  .bar-fill  { width: 100%; border-radius: 3px 3px 0 0; transition: height 0.5s ease; }
+  .bar-fill.peak   { background: linear-gradient(180deg, #0077be, #005a8e); }
+  .bar-fill.normal { background: linear-gradient(180deg, #cce5f6, #a8d4ee); }
+  .bar-month { font-size: 0.55rem; color: #6c757d; }
   .bar-val   { font-size: 0.55rem; }
 
   /* Amenity chips */
-  .amenity-chip {
-    background: #020817;
-    border: 1px solid #1e293b;
-    border-radius: 16px;
-    padding: 4px 10px;
-    font-size: 0.75rem;
-    color: #86efac;
-    display: inline-block;
-    margin: 3px 3px 0 0;
-  }
+  .amenity-chip { background: #e8f4fd; border: 1px solid #bee3f8; border-radius: 16px; padding: 4px 10px; font-size: 0.75rem; color: #0077be; display: inline-block; margin: 3px 3px 0 0; }
 
-  /* Risk items */
-  .risk-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 0;
-    border-bottom: 1px solid #0f172a;
-    font-size: 0.82rem;
-    color: #e2e8f0;
-  }
+  /* Risk */
+  .risk-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f8f9fa; font-size: 0.82rem; color: #1a1a18; }
 
   /* CTA */
-  .analytics-cta {
-    background: linear-gradient(135deg, #0d2b18, #0a1628);
-    border: 1px solid #1e3a2e;
-    border-radius: 10px;
-    padding: 1.2rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 1.2rem;
-  }
-  .analytics-cta p { margin: 0; font-size: 0.85rem; color: #64748b; }
-  .analytics-cta strong { color: #86efac; display: block; font-size: 0.95rem; margin-bottom: 3px; }
-  .btn-cta {
-    background: linear-gradient(135deg, #15803d, #4ade80);
-    border: none;
-    border-radius: 8px;
-    padding: 10px 22px;
-    color: #020817;
-    font-weight: 700;
-    font-size: 0.85rem;
-    text-decoration: none;
-    white-space: nowrap;
-  }
+  .analytics-cta { background: #1a1a18; border-radius: 10px; padding: 1.2rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 1.2rem; }
+  .analytics-cta p { margin: 0; font-size: 0.85rem; color: #94a3b8; }
+  .analytics-cta strong { color: #f8f9fa; display: block; font-size: 0.95rem; margin-bottom: 3px; }
+  .btn-cta { background: #c84b2f; border: none; border-radius: 8px; padding: 10px 22px; color: white; font-weight: 700; font-size: 0.85rem; text-decoration: none; white-space: nowrap; }
 
   /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: #1e293b;
-  }
-  .empty-state .es-icon { font-size: 3rem; opacity: 0.3; margin-bottom: 0.8rem; }
-  .empty-state p { color: #334155; font-size: 0.9rem; }
+  .empty-state { text-align: center; padding: 3rem 1rem; }
+  .empty-state .es-icon { font-size: 3rem; opacity: 0.2; margin-bottom: 0.8rem; }
+  .empty-state p { color: #adb5bd; font-size: 0.9rem; }
 
-  /* Disclaimer */
-  .disclaimer {
-    font-size: 0.7rem;
-    color: #1e293b;
-    text-align: center;
-    margin-top: 1.5rem;
-    padding-bottom: 2rem;
-  }
+  .disclaimer { font-size: 0.72rem; color: #adb5bd; text-align: center; margin-top: 1.5rem; padding-bottom: 2rem; }
 </style>
 
 <div class="analytics-hero">
@@ -409,7 +167,7 @@
   <p>Free market analytics for Caribbean and US coastal STR markets. Select a market to get occupancy benchmarks, revenue projections, and investment signals.</p>
 </div>
 
-<div class="container" style="max-width:960px; margin:0 auto; padding:0 1rem;">
+<div class="container" style="max-width:960px;">
 
   <!-- Market Selector -->
   <div class="market-section-label">🌴 Caribbean Markets</div>
@@ -427,23 +185,15 @@
     <div class="field">
       <label>Bedrooms</label>
       <select id="sel-bedrooms">
-        <option>1</option>
-        <option selected>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6+</option>
+        <option>1</option><option selected>2</option><option>3</option>
+        <option>4</option><option>5</option><option>6+</option>
       </select>
     </div>
     <div class="field">
       <label>Property Type</label>
       <select id="sel-proptype">
-        <option>Villa</option>
-        <option>Condo</option>
-        <option>House</option>
-        <option>Cottage</option>
-        <option>Beachfront Cottage</option>
-        <option>Penthouse</option>
+        <option>Villa</option><option>Condo</option><option>House</option>
+        <option>Cottage</option><option>Beachfront Cottage</option><option>Penthouse</option>
       </select>
     </div>
     <button class="btn-analyze" id="btn-analyze" onclick="runAnalysis()">→ Analyze</button>
@@ -456,39 +206,42 @@
   <!-- Results -->
   <div id="analytics-results" style="display:none;"></div>
 
-  <p class="disclaimer">AI-generated market estimates for research purposes. For a full investor-grade underwriting report on a specific property, <a href="/#dealForm" style="color:#4ade80;">see our $49 reports</a>.</p>
+  <!-- Empty state -->
+  <div id="empty-state" class="empty-state">
+    <div class="es-icon">🌴</div>
+    <p>Select a market above to begin your analysis</p>
+  </div>
 
+  <p class="disclaimer">AI-generated market estimates for research purposes only. For a full investor-grade underwriting report on a specific property, <a href="/#dealForm" style="color:#0077be;">see our $49 reports</a>.</p>
 </div>
 
 <script>
 const MARKETS = [
-  { flag:"🇦🇼", name:"Aruba",                region:"caribbean", tag:"Year-Round Powerhouse" },
-  { flag:"🇩🇴", name:"Dominican Republic",    region:"caribbean", tag:"Highest Tourism Volume" },
-  { flag:"🇧🇸", name:"The Bahamas",           region:"caribbean", tag:"Ultra-Luxury US Proximity" },
-  { flag:"🇹🇨", name:"Turks & Caicos",        region:"caribbean", tag:"Platinum ADR" },
-  { flag:"🇯🇲", name:"Jamaica",               region:"caribbean", tag:"Cultural & Beach Draw" },
-  { flag:"🇰🇾", name:"Cayman Islands",        region:"caribbean", tag:"Tax-Friendly Premium" },
-  { flag:"🇧🇧", name:"Barbados",              region:"caribbean", tag:"British-Caribbean Prestige" },
-  { flag:"🇵🇷", name:"Puerto Rico",           region:"caribbean", tag:"US Territory, No Passport" },
-  { flag:"🇻🇮", name:"U.S. Virgin Islands",   region:"caribbean", tag:"USVI Tax Advantages" },
-  { flag:"🌊", name:"Carolina Beach, NC",     region:"coastal",   tag:"High-Volume Drive Market" },
-  { flag:"🌊", name:"Outer Banks, NC",        region:"coastal",   tag:"NC Barrier Island Classic" },
-  { flag:"🌊", name:"Myrtle Beach, SC",       region:"coastal",   tag:"Southeast Volume Leader" },
-  { flag:"🌊", name:"Destin, FL",             region:"coastal",   tag:"Emerald Coast Premium" },
-  { flag:"🌊", name:"30A, FL",               region:"coastal",   tag:"Boutique Coastal Luxury" },
+  { flag:"🇦🇼", name:"Aruba",               region:"caribbean", tag:"Year-Round Powerhouse" },
+  { flag:"🇩🇴", name:"Dominican Republic",   region:"caribbean", tag:"Highest Tourism Volume" },
+  { flag:"🇧🇸", name:"The Bahamas",          region:"caribbean", tag:"Ultra-Luxury US Proximity" },
+  { flag:"🇹🇨", name:"Turks & Caicos",       region:"caribbean", tag:"Platinum ADR" },
+  { flag:"🇯🇲", name:"Jamaica",              region:"caribbean", tag:"Cultural & Beach Draw" },
+  { flag:"🇰🇾", name:"Cayman Islands",       region:"caribbean", tag:"Tax-Friendly Premium" },
+  { flag:"🇧🇧", name:"Barbados",             region:"caribbean", tag:"British-Caribbean Prestige" },
+  { flag:"🇵🇷", name:"Puerto Rico",          region:"caribbean", tag:"US Territory, No Passport" },
+  { flag:"🇻🇮", name:"U.S. Virgin Islands",  region:"caribbean", tag:"USVI Tax Advantages" },
+  { flag:"🌊",  name:"Carolina Beach, NC",   region:"coastal",   tag:"High-Volume Drive Market" },
+  { flag:"🌊",  name:"Outer Banks, NC",      region:"coastal",   tag:"NC Barrier Island Classic" },
+  { flag:"🌊",  name:"Myrtle Beach, SC",     region:"coastal",   tag:"Southeast Volume Leader" },
+  { flag:"🌊",  name:"Destin, FL",           region:"coastal",   tag:"Emerald Coast Premium" },
+  { flag:"🌊",  name:"30A, FL",             region:"coastal",   tag:"Boutique Coastal Luxury" },
 ];
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 let selectedMarket = null;
 
-// Build chips
 function buildChips() {
   ["caribbean","coastal"].forEach(region => {
     const el = document.getElementById(region + "-chips");
     MARKETS.filter(m => m.region === region).forEach(m => {
       const chip = document.createElement("div");
       chip.className = "market-chip";
-      chip.dataset.name = m.name;
       chip.innerHTML = `<span style="font-size:1.2rem">${m.flag}</span><div><div class="chip-name">${m.name}</div><div class="chip-tag">${m.tag}</div></div>`;
       chip.addEventListener("click", () => {
         document.querySelectorAll(".market-chip").forEach(c => c.classList.remove("active"));
@@ -504,69 +257,31 @@ function buildChips() {
 async function runAnalysis() {
   const custom = document.getElementById("custom-market").value.trim();
   const target = custom || (selectedMarket && selectedMarket.name);
-  if (!target) {
-    showError("Please select a market or enter a custom location.");
-    return;
-  }
+  if (!target) { showError("Please select a market or enter a custom location."); return; }
+
   hideError();
   showSpinner(true);
   document.getElementById("analytics-results").style.display = "none";
+  document.getElementById("empty-state").style.display = "none";
   document.getElementById("btn-analyze").disabled = true;
 
-  const bedrooms  = document.getElementById("sel-bedrooms").value;
-  const propType  = document.getElementById("sel-proptype").value;
-  const isCaribbean = (selectedMarket && selectedMarket.region === "caribbean") || !!custom;
-
-  const prompt = `You are a professional STR underwriter specializing in Caribbean and US coastal vacation rentals.
-
-Generate realistic, investor-grade STR market data for: ${target}, ${bedrooms} bedroom ${propType}.
-${isCaribbean
-  ? "This is a Caribbean/international market — factor in tourism seasonality, USD pricing, foreign ownership rules, and local tax incentives where applicable."
-  : "This is a US coastal market — factor in domestic tourism patterns, state regulations, and HOA/rental restrictions."}
-
-Respond ONLY with valid JSON, no markdown, no backticks:
-{
-  "market": "Full Market Name",
-  "region": "${isCaribbean ? 'caribbean' : 'coastal'}",
-  "adr": 285,
-  "occupancy": 71,
-  "monthly_revenue": 6100,
-  "annual_revenue": 73200,
-  "revpan": 202,
-  "roi_score": 78,
-  "verdict": "BUY",
-  "total_listings": 410,
-  "avg_rating": 4.82,
-  "peak_season": "December–April",
-  "low_season": "September–October",
-  "market_trend": "Growing",
-  "cap_rate_est": 7.2,
-  "cash_on_cash_est": 9.1,
-  "regulatory_notes": "One sentence on key STR rules or tax incentives.",
-  "currency_note": "USD",
-  "seasonal_occupancy": [78,80,72,65,60,55,52,50,42,48,68,82],
-  "top_amenities": ["Private Pool","Ocean View","AC","Beach Access","Concierge"],
-  "risk_factors": ["Hurricane Season Sep–Oct","Foreign Ownership Restrictions","Currency Risk"],
-  "summary": "2 sentences of investor-grade market insight with specific data points.",
-  "buy_rationale": "One sentence explaining the verdict."
-}`;
+  const bedrooms    = document.getElementById("sel-bedrooms").value;
+  const propType    = document.getElementById("sel-proptype").value;
+  const isCaribbean = custom ? true : (selectedMarket && selectedMarket.region === "caribbean");
 
   try {
-    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+    const resp = await fetch("/api/market-analysis", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }]
-      })
+      body: JSON.stringify({ market: target, bedrooms, prop_type: propType, is_caribbean: isCaribbean })
     });
-    const json = await resp.json();
-    const raw  = (json.content || []).find(b => b.type === "text")?.text || "";
-    const data = JSON.parse(raw.replace(/```json|```/g, "").trim());
-    renderResults(data, bedrooms, propType);
+    if (!resp.ok) throw new Error("Server error");
+    const d = await resp.json();
+    if (d.error) throw new Error(d.error);
+    renderResults(d, bedrooms, propType);
   } catch(e) {
     showError("Analysis failed. Please try again.");
+    document.getElementById("empty-state").style.display = "block";
   } finally {
     showSpinner(false);
     document.getElementById("btn-analyze").disabled = false;
@@ -576,24 +291,23 @@ Respond ONLY with valid JSON, no markdown, no backticks:
 function renderResults(d, bedrooms, propType) {
   const maxOcc  = Math.max(...d.seasonal_occupancy);
   const peakIdx = d.seasonal_occupancy.indexOf(maxOcc);
-  const roiColor = d.roi_score >= 75 ? "#4ade80" : d.roi_score >= 55 ? "#fbbf24" : "#f87171";
+  const roiColor = d.roi_score >= 75 ? "#15803d" : d.roi_score >= 55 ? "#d97706" : "#dc2626";
   const flag = (selectedMarket && selectedMarket.flag) || "🌍";
 
-  const barsHtml = MONTHS.map((m, i) => {
+  const barsHtml = MONTHS.map((m,i) => {
     const pct = Math.round((d.seasonal_occupancy[i] / maxOcc) * 100);
-    const cls = i === peakIdx ? "peak" : "normal";
-    const valColor = i === peakIdx ? "#4ade80" : "#475569";
+    const valColor = i === peakIdx ? "#0077be" : "#6c757d";
     return `<div class="bar-col">
       <div class="bar-inner">
-        <div class="bar-fill ${cls}" style="height:${pct}%"></div>
+        <div class="bar-fill ${i===peakIdx?'peak':'normal'}" style="height:${pct}%"></div>
       </div>
       <span class="bar-month">${m}</span>
       <span class="bar-val" style="color:${valColor}">${d.seasonal_occupancy[i]}%</span>
     </div>`;
   }).join("");
 
-  const amenityChips = (d.top_amenities || []).map(a => `<span class="amenity-chip">🌴 ${a}</span>`).join("");
-  const riskItems    = (d.risk_factors  || []).map(r => `<div class="risk-item"><span style="color:#fbbf24">⚠</span>${r}</div>`).join("");
+  const amenityChips = (d.top_amenities||[]).map(a=>`<span class="amenity-chip">🌴 ${a}</span>`).join("");
+  const riskItems    = (d.risk_factors ||[]).map(r=>`<div class="risk-item"><span style="color:#d97706;font-size:1rem">⚠</span>${r}</div>`).join("");
 
   const html = `
     <div class="results-header">
@@ -604,11 +318,11 @@ function renderResults(d, bedrooms, propType) {
       <div style="display:flex;gap:10px;align-items:center;">
         <div class="verdict-box verdict-${d.verdict}">
           <div class="verdict-label">Verdict</div>
-          <div class="verdict-val">${d.verdict === "BUY" ? "✅" : d.verdict === "WATCH" ? "👀" : "❌"} ${d.verdict}</div>
+          <div class="verdict-val">${d.verdict==="BUY"?"✅":d.verdict==="WATCH"?"👀":"❌"} ${d.verdict}</div>
         </div>
-        <div class="roi-box" style="border:2px solid ${roiColor}">
+        <div class="roi-box" style="border:2px solid ${roiColor};">
           <div class="roi-label">ROI Score</div>
-          <div class="roi-val" style="color:${roiColor}">${d.roi_score}<span style="font-size:0.8rem;color:#475569">/100</span></div>
+          <div class="roi-val" style="color:${roiColor};">${d.roi_score}<span style="font-size:0.75rem;color:#64748b;">/100</span></div>
         </div>
       </div>
     </div>
@@ -622,34 +336,13 @@ function renderResults(d, bedrooms, propType) {
       <button class="tab-btn" onclick="switchTab(this,'tab-risk')">Risk</button>
     </div>
 
-    <!-- Overview -->
     <div id="tab-overview">
       <div class="metric-grid">
-        <div class="metric-card" style="border-top-color:#4ade80">
-          <div class="mc-label">💵 Avg Daily Rate</div>
-          <div class="mc-value">$${d.adr}</div>
-          <div class="mc-sub">Per booked night</div>
-        </div>
-        <div class="metric-card" style="border-top-color:#34d399">
-          <div class="mc-label">📅 Occupancy Rate</div>
-          <div class="mc-value">${d.occupancy}%</div>
-          <div class="mc-sub">Annual average</div>
-        </div>
-        <div class="metric-card" style="border-top-color:#a7f3d0">
-          <div class="mc-label">📈 Monthly Revenue</div>
-          <div class="mc-value">$${(d.monthly_revenue||0).toLocaleString()}</div>
-          <div class="mc-sub">Gross avg</div>
-        </div>
-        <div class="metric-card" style="border-top-color:#fbbf24">
-          <div class="mc-label">🏆 Annual Revenue</div>
-          <div class="mc-value">$${(d.annual_revenue||0).toLocaleString()}</div>
-          <div class="mc-sub">Projected gross</div>
-        </div>
-        <div class="metric-card" style="border-top-color:#6ee7b7">
-          <div class="mc-label">🌙 RevPAN</div>
-          <div class="mc-value">$${d.revpan}</div>
-          <div class="mc-sub">Rev per avail. night</div>
-        </div>
+        <div class="metric-card" style="border-top-color:#0077be"><div class="mc-label">💵 Avg Daily Rate</div><div class="mc-value">$${d.adr}</div><div class="mc-sub">Per booked night</div></div>
+        <div class="metric-card" style="border-top-color:#15803d"><div class="mc-label">📅 Occupancy Rate</div><div class="mc-value">${d.occupancy}%</div><div class="mc-sub">Annual average</div></div>
+        <div class="metric-card" style="border-top-color:#6f42c1"><div class="mc-label">📈 Monthly Revenue</div><div class="mc-value">$${(d.monthly_revenue||0).toLocaleString()}</div><div class="mc-sub">Gross avg</div></div>
+        <div class="metric-card" style="border-top-color:#c84b2f"><div class="mc-label">🏆 Annual Revenue</div><div class="mc-value">$${(d.annual_revenue||0).toLocaleString()}</div><div class="mc-sub">Projected gross</div></div>
+        <div class="metric-card" style="border-top-color:#0077be"><div class="mc-label">🌙 RevPAN</div><div class="mc-value">$${d.revpan}</div><div class="mc-sub">Rev per avail. night</div></div>
       </div>
       <div class="info-grid">
         <div class="info-panel">
@@ -663,30 +356,25 @@ function renderResults(d, bedrooms, propType) {
         <div class="info-panel">
           <div class="panel-title">Top Amenities In Market</div>
           <div>${amenityChips}</div>
-          ${d.regulatory_notes ? `<div style="margin-top:12px;background:#020817;border-radius:6px;padding:10px 12px;font-size:0.75rem;color:#475569;border-left:2px solid #15803d;">⚖️ ${d.regulatory_notes}</div>` : ""}
+          ${d.regulatory_notes?`<div style="margin-top:12px;background:#f8f9fa;border-radius:6px;padding:10px 12px;font-size:0.75rem;color:#6c757d;border-left:2px solid #0077be;">⚖️ ${d.regulatory_notes}</div>`:""}
         </div>
       </div>
-      <div class="summary-panel">
-        <div class="panel-title">Market Summary</div>
-        <p>${d.summary}</p>
-      </div>
+      <div class="summary-panel"><div class="panel-title">Market Summary</div><p>${d.summary}</p></div>
     </div>
 
-    <!-- Seasonal -->
     <div id="tab-seasonal" style="display:none;">
       <div class="seasonal-panel">
-        <div class="panel-title">Monthly Occupancy Rate</div>
-        <div style="font-size:0.75rem;color:#475569;margin-bottom:4px;">Seasonal demand pattern · ${d.market}</div>
+        <div class="panel-title" style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:#6c757d;font-weight:600;margin-bottom:4px;">Monthly Occupancy Rate</div>
+        <div style="font-size:0.75rem;color:#6c757d;margin-bottom:4px;">Seasonal demand · ${d.market}</div>
         <div class="bar-chart">${barsHtml}</div>
-        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:0.75rem;color:#475569;">
-          <span><span style="color:#4ade80">■</span> Peak: <strong style="color:#e2e8f0">${MONTHS[peakIdx]} (${maxOcc}%)</strong></span>
-          <span>Peak Season: <strong style="color:#e2e8f0">${d.peak_season}</strong></span>
-          <span>Low Season: <strong style="color:#e2e8f0">${d.low_season}</strong></span>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:0.75rem;color:#6c757d;">
+          <span><span style="color:#0077be">■</span> Peak: <strong style="color:#1a1a18">${MONTHS[peakIdx]} (${maxOcc}%)</strong></span>
+          <span>Peak Season: <strong style="color:#1a1a18">${d.peak_season}</strong></span>
+          <span>Low Season: <strong style="color:#1a1a18">${d.low_season}</strong></span>
         </div>
       </div>
     </div>
 
-    <!-- Financials -->
     <div id="tab-financials" style="display:none;">
       <div class="info-panel" style="margin-bottom:10px;">
         <div class="panel-title">Investment Metrics — ${d.market}</div>
@@ -702,7 +390,6 @@ function renderResults(d, bedrooms, propType) {
       </div>
     </div>
 
-    <!-- Risk -->
     <div id="tab-risk" style="display:none;">
       <div class="info-panel" style="margin-bottom:10px;">
         <div class="panel-title">Risk Factors — ${d.market}</div>
@@ -710,11 +397,10 @@ function renderResults(d, bedrooms, propType) {
       </div>
       <div class="info-panel">
         <div class="panel-title">Regulatory Notes</div>
-        <p style="font-size:0.82rem;color:#86efac;line-height:1.6;margin:0;">⚖️ ${d.regulatory_notes}</p>
+        <p style="font-size:0.82rem;color:#495057;line-height:1.6;margin:0;">⚖️ ${d.regulatory_notes}</p>
       </div>
     </div>
 
-    <!-- CTA -->
     <div class="analytics-cta">
       <div>
         <strong>Ready to underwrite a specific property in ${d.market}?</strong>

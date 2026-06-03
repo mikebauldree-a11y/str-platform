@@ -4,6 +4,7 @@ from pathlib import Path
 from flask import Flask, render_template, request, redirect, url_for, send_file, abort, jsonify
 from dotenv import load_dotenv
 import stripe
+import anthropic
 from generate_report import generate_html_report
 
 load_dotenv()
@@ -128,7 +129,7 @@ def market_detail(slug):
         active_page="markets",
     )
 
-# ── NEW: Analytics route ──────────────────────────────────────────────────────
+# ── Analytics page ────────────────────────────────────────────────────────────
 @app.route("/analytics")
 def analytics():
     return render_template(
@@ -136,6 +137,69 @@ def analytics():
         brand_name=BRAND_NAME,
         active_page="analytics",
     )
+
+# ── Market Analysis API proxy (keeps Anthropic key server-side) ───────────────
+@app.route("/api/market-analysis", methods=["POST"])
+def market_analysis_api():
+    try:
+        body        = request.get_json()
+        market_name = body.get("market", "")
+        bedrooms    = body.get("bedrooms", "2")
+        prop_type   = body.get("prop_type", "Villa")
+        is_caribbean = body.get("is_caribbean", True)
+
+        if not market_name:
+            return jsonify({"error": "market is required"}), 400
+
+        prompt = f"""You are a professional STR underwriter specializing in Caribbean and US coastal vacation rentals.
+
+Generate realistic, investor-grade STR market data for: {market_name}, {bedrooms} bedroom {prop_type}.
+{"This is a Caribbean/international market — factor in tourism seasonality, USD pricing, foreign ownership rules, and local tax incentives where applicable." if is_caribbean else "This is a US coastal market — factor in domestic tourism patterns, state regulations, and HOA/rental restrictions."}
+
+Respond ONLY with valid JSON, no markdown, no backticks:
+{{
+  "market": "Full Market Name",
+  "adr": 285,
+  "occupancy": 71,
+  "monthly_revenue": 6100,
+  "annual_revenue": 73200,
+  "revpan": 202,
+  "roi_score": 78,
+  "verdict": "BUY",
+  "total_listings": 410,
+  "avg_rating": 4.82,
+  "peak_season": "December–April",
+  "low_season": "September–October",
+  "market_trend": "Growing",
+  "cap_rate_est": 7.2,
+  "cash_on_cash_est": 9.1,
+  "regulatory_notes": "One sentence on key STR rules or tax incentives.",
+  "currency_note": "USD",
+  "seasonal_occupancy": [78,80,72,65,60,55,52,50,42,48,68,82],
+  "top_amenities": ["Private Pool","Ocean View","AC","Beach Access","Concierge"],
+  "risk_factors": ["Hurricane Season Sep–Oct","Foreign Ownership Restrictions","Currency Risk"],
+  "summary": "2 sentences of investor-grade market insight with specific data points.",
+  "buy_rationale": "One sentence explaining the verdict."
+}}"""
+
+        client   = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        message  = client.messages.create(
+            model      = "claude-opus-4-5",
+            max_tokens = 1024,
+            messages   = [{"role": "user", "content": prompt}]
+        )
+
+        raw  = message.content[0].text
+        clean = raw.replace("```json", "").replace("```", "").strip()
+        data = json.loads(clean)
+        return jsonify(data)
+
+    except json.JSONDecodeError as e:
+        print(f"JSON parse error: {e}")
+        return jsonify({"error": "Failed to parse AI response"}), 500
+    except Exception as e:
+        print(f"Market analysis error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 # ── SEO routes ────────────────────────────────────────────────────────────────
 @app.route("/sitemap.xml")
