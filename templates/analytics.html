@@ -248,6 +248,7 @@ function buildChips() {
         chip.classList.add("active");
         selectedMarket = m;
         document.getElementById("custom-market").value = "";
+        runAnalysis();
       });
       el.appendChild(chip);
     });
