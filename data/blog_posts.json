@@ -7,18 +7,54 @@
     "category": "Dominican Republic",
     "meta_description": "A plain-English guide to CONFOTUR, the Dominican Republic's tourism tax incentive law, and how it affects short-term rental investment returns.",
     "body": [
-      {"type": "p", "text": "If you're evaluating a short-term rental purchase in the Dominican Republic, CONFOTUR is one of the most consequential pieces of fine print you'll encounter \u2014 and one of the most misunderstood. It's a tax incentive law that can materially change your investment math, but the details matter, and the marketing materials from developers don't always tell the full story."},
-      {"type": "h2", "text": "What CONFOTUR actually is"},
-      {"type": "p", "text": "CONFOTUR (Law 158-01, as amended) is the Dominican Republic's tourism development incentive law. Properties located within designated tourism poles \u2014 which include most of the country's major STR markets like Punta Cana, Puerto Plata, and Samana \u2014 can qualify for significant tax exemptions if the project is approved before construction begins."},
-      {"type": "p", "text": "For a qualifying property, the exemptions typically include relief from property tax (IPI), transfer tax on the initial purchase, and import duties on construction materials and equipment. The exemption period is commonly granted for up to 15 years from the date of approval, though the exact term depends on the specific project's CONFOTUR approval."},
-      {"type": "h2", "text": "Why this matters for your underwriting"},
-      {"type": "p", "text": "Property tax in the Dominican Republic (IPI) is assessed at 1% annually on the portion of a property's value exceeding a government-set threshold. For a $400,000-plus vacation property, that's a real ongoing expense \u2014 one that disappears entirely under an active CONFOTUR exemption. When you're comparing two similarly priced units, one with CONFOTUR status and one without, the tax savings alone can shift your cash-on-cash return by a meaningful margin over the holding period."},
-      {"type": "p", "text": "The transfer tax exemption matters at closing specifically. Dominican Republic property transfer tax is typically 3% of the registered value, so on a $400,000 purchase that's roughly $12,000 in upfront savings if the property carries CONFOTUR status at the time of sale."},
-      {"type": "h2", "text": "What to verify before you rely on it"},
-      {"type": "p", "text": "The single biggest mistake buyers make is assuming CONFOTUR status transfers automatically or applies to the whole development just because a sales brochure mentions it. In practice, you want documentation showing the specific decree number and approval date for the project, confirmation the exemption is still active and not nearing expiration, and written confirmation from your attorney that the exemption applies to your specific unit, not just commercial or common areas of a larger development."},
-      {"type": "p", "text": "It's also worth noting CONFOTUR exemptions are tied to the project's original approval, not renewed indefinitely. A development approved in 2012 with a 15-year exemption is approaching the end of its tax-free window now \u2014 which matters enormously if you're underwriting a 10-year hold."},
-      {"type": "h2", "text": "Bottom line"},
-      {"type": "p", "text": "CONFOTUR can be a genuine, material advantage for Dominican Republic STR investment \u2014 but it requires verification, not assumption. Every Caribbean STR report for a Dominican Republic property flags CONFOTUR status as part of the tax and legal section, specifically so this doesn't get missed during underwriting."}
+      {
+        "type": "p",
+        "text": "If you're evaluating a short-term rental purchase in the Dominican Republic, CONFOTUR is one of the most consequential pieces of fine print you'll encounter — and one of the most misunderstood. It's a tax incentive law that can materially change your investment math, but the details matter, and the marketing materials from developers don't always tell the full story."
+      },
+      {
+        "type": "h2",
+        "text": "What CONFOTUR actually is"
+      },
+      {
+        "type": "p",
+        "text": "CONFOTUR (Law 158-01, as amended) is the Dominican Republic's tourism development incentive law. Properties located within designated tourism poles — which include most of the country's major STR markets like Punta Cana, Puerto Plata, and Samana — can qualify for significant tax exemptions if the project is approved before construction begins."
+      },
+      {
+        "type": "p",
+        "text": "For a qualifying property, the exemptions typically include relief from property tax (IPI), transfer tax on the initial purchase, and import duties on construction materials and equipment. The exemption period is commonly granted for up to 15 years from the date of approval, though the exact term depends on the specific project's CONFOTUR approval."
+      },
+      {
+        "type": "h2",
+        "text": "Why this matters for your underwriting"
+      },
+      {
+        "type": "p",
+        "text": "Property tax in the Dominican Republic (IPI) is assessed at 1% annually on the portion of a property's value exceeding a government-set threshold. For a $400,000-plus vacation property, that's a real ongoing expense — one that disappears entirely under an active CONFOTUR exemption. When you're comparing two similarly priced units, one with CONFOTUR status and one without, the tax savings alone can shift your cash-on-cash return by a meaningful margin over the holding period."
+      },
+      {
+        "type": "p",
+        "text": "The transfer tax exemption matters at closing specifically. Dominican Republic property transfer tax is typically 3% of the registered value, so on a $400,000 purchase that's roughly $12,000 in upfront savings if the property carries CONFOTUR status at the time of sale."
+      },
+      {
+        "type": "h2",
+        "text": "What to verify before you rely on it"
+      },
+      {
+        "type": "p",
+        "text": "The single biggest mistake buyers make is assuming CONFOTUR status transfers automatically or applies to the whole development just because a sales brochure mentions it. In practice, you want documentation showing the specific decree number and approval date for the project, confirmation the exemption is still active and not nearing expiration, and written confirmation from your attorney that the exemption applies to your specific unit, not just commercial or common areas of a larger development."
+      },
+      {
+        "type": "p",
+        "text": "It's also worth noting CONFOTUR exemptions are tied to the project's original approval, not renewed indefinitely. A development approved in 2012 with a 15-year exemption is approaching the end of its tax-free window now — which matters enormously if you're underwriting a 10-year hold."
+      },
+      {
+        "type": "h2",
+        "text": "Bottom line"
+      },
+      {
+        "type": "p",
+        "text": "CONFOTUR can be a genuine, material advantage for Dominican Republic STR investment — but it requires verification, not assumption. Every Caribbean STR report for a Dominican Republic property flags CONFOTUR status as part of the tax and legal section, specifically so this doesn't get missed during underwriting."
+      }
     ]
   },
   "aruba-vs-dominican-republic-str-investment": {
@@ -29,18 +65,174 @@
     "category": "Market Comparison",
     "meta_description": "A side-by-side comparison of Aruba and Dominican Republic short-term rental markets for 2026, covering revenue, occupancy, regulation, and investment risk.",
     "body": [
-      {"type": "p", "text": "Aruba and the Dominican Republic are consistently the two most-searched Caribbean markets for short-term rental investment, and for good reason \u2014 both have strong, established tourism economies. But they're fundamentally different investments, and the right choice depends heavily on what kind of investor you are."},
-      {"type": "h2", "text": "Revenue and occupancy patterns"},
-      {"type": "p", "text": "Aruba's appeal is consistency. It sits outside the Atlantic hurricane belt, which gives it a near year-round occupancy curve without the steep seasonal dip many Caribbean markets see in late summer and early fall. That stability tends to produce more predictable cash flow projections, which matters if you're financing the purchase and need dependable debt-service coverage."},
-      {"type": "p", "text": "The Dominican Republic, particularly Punta Cana, runs at a larger scale with a more pronounced seasonal curve \u2014 strong winter high season, a softer shoulder period. Gross revenue potential can be very strong in absolute terms given the volume of tourism the country attracts, but the swings between peak and off-season months are wider, which means your downside-scenario modeling needs to do more work."},
-      {"type": "h2", "text": "Regulatory and tax environment"},
-      {"type": "p", "text": "This is where the two markets diverge most. The Dominican Republic offers CONFOTUR, the tourism tax incentive law that can exempt qualifying properties from property tax, transfer tax, and import duties for years at a time \u2014 a significant lever if your unit qualifies."},
-      {"type": "p", "text": "Aruba doesn't have an equivalent broad incentive program, but it offsets this with a more streamlined, foreign-investor-friendly purchase process and straightforward property tax treatment. There's less complexity to navigate, which some investors prefer even if the headline tax savings are smaller."},
-      {"type": "h2", "text": "Buy-in cost and entry point"},
-      {"type": "p", "text": "Dominican Republic entry pricing tends to be more accessible at the lower end of the market, with a wide range of condo product available across price points in Punta Cana and Puerto Plata. Aruba's market is smaller and more constrained by limited land, which generally pushes entry prices higher but also tends to support steadier appreciation given the supply constraint."},
-      {"type": "h2", "text": "Which one fits your strategy"},
-      {"type": "p", "text": "If you're prioritizing predictable, lower-volatility cash flow and a simpler regulatory path, Aruba tends to fit that profile. If you're optimizing for revenue scale and are willing to do the work of verifying CONFOTUR eligibility and modeling a more seasonal revenue curve, the Dominican Republic can offer a stronger top-line return."},
-      {"type": "p", "text": "Either way, the deciding factor shouldn't be a generic market reputation \u2014 it should be the specific numbers for the specific property. That's true of any market comparison, which is exactly why a property-level underwriting report matters more than a market-level overview when you're close to making an offer."}
+      {
+        "type": "p",
+        "text": "Aruba and the Dominican Republic are consistently the two most-searched Caribbean markets for short-term rental investment, and for good reason — both have strong, established tourism economies. But they're fundamentally different investments, and the right choice depends heavily on what kind of investor you are."
+      },
+      {
+        "type": "h2",
+        "text": "Revenue and occupancy patterns"
+      },
+      {
+        "type": "p",
+        "text": "Aruba's appeal is consistency. It sits outside the Atlantic hurricane belt, which gives it a near year-round occupancy curve without the steep seasonal dip many Caribbean markets see in late summer and early fall. That stability tends to produce more predictable cash flow projections, which matters if you're financing the purchase and need dependable debt-service coverage."
+      },
+      {
+        "type": "p",
+        "text": "The Dominican Republic, particularly Punta Cana, runs at a larger scale with a more pronounced seasonal curve — strong winter high season, a softer shoulder period. Gross revenue potential can be very strong in absolute terms given the volume of tourism the country attracts, but the swings between peak and off-season months are wider, which means your downside-scenario modeling needs to do more work."
+      },
+      {
+        "type": "h2",
+        "text": "Regulatory and tax environment"
+      },
+      {
+        "type": "p",
+        "text": "This is where the two markets diverge most. The Dominican Republic offers CONFOTUR, the tourism tax incentive law that can exempt qualifying properties from property tax, transfer tax, and import duties for years at a time — a significant lever if your unit qualifies."
+      },
+      {
+        "type": "p",
+        "text": "Aruba doesn't have an equivalent broad incentive program, but it offsets this with a more streamlined, foreign-investor-friendly purchase process and straightforward property tax treatment. There's less complexity to navigate, which some investors prefer even if the headline tax savings are smaller."
+      },
+      {
+        "type": "h2",
+        "text": "Buy-in cost and entry point"
+      },
+      {
+        "type": "p",
+        "text": "Dominican Republic entry pricing tends to be more accessible at the lower end of the market, with a wide range of condo product available across price points in Punta Cana and Puerto Plata. Aruba's market is smaller and more constrained by limited land, which generally pushes entry prices higher but also tends to support steadier appreciation given the supply constraint."
+      },
+      {
+        "type": "h2",
+        "text": "Which one fits your strategy"
+      },
+      {
+        "type": "p",
+        "text": "If you're prioritizing predictable, lower-volatility cash flow and a simpler regulatory path, Aruba tends to fit that profile. If you're optimizing for revenue scale and are willing to do the work of verifying CONFOTUR eligibility and modeling a more seasonal revenue curve, the Dominican Republic can offer a stronger top-line return."
+      },
+      {
+        "type": "p",
+        "text": "Either way, the deciding factor shouldn't be a generic market reputation — it should be the specific numbers for the specific property. That's true of any market comparison, which is exactly why a property-level underwriting report matters more than a market-level overview when you're close to making an offer."
+      }
+    ]
+  },
+  "realistic-cap-rate-carolina-beach-vacation-rental": {
+    "title": "What's a Realistic Cap Rate for a Carolina Beach Vacation Rental?",
+    "excerpt": "Cap rate headlines for coastal NC properties get thrown around loosely. Here's how to calculate a realistic number for a Carolina Beach STR, and what's actually driving it.",
+    "date": "2026-06-10",
+    "author": "Caribbean STR",
+    "category": "Carolina Beach NC",
+    "meta_description": "How to calculate a realistic cap rate for a Carolina Beach, NC short-term rental, including the expense items investors commonly underestimate.",
+    "body": [
+      {
+        "type": "p",
+        "text": "Cap rate is the single number most STR investors reach for first, and the one most likely to be quoted without context. \"Coastal Carolina cap rates run 8 to 12 percent\" is a real range you'll see cited in regional investment analysis, but that range covers a lot of ground, and where a specific Carolina Beach property lands within it depends on details that a market-wide statistic can't capture."
+      },
+      {
+        "type": "h2",
+        "text": "What cap rate actually measures"
+      },
+      {
+        "type": "p",
+        "text": "Cap rate is net operating income divided by purchase price. It tells you the unleveraged yield of the property, independent of how you finance it. That's useful for comparing deals on equal footing, but it also means cap rate alone doesn't tell you anything about your actual cash flow after debt service, which is the number that determines whether the property is liquid month to month."
+      },
+      {
+        "type": "p",
+        "text": "The part investors most often get wrong is the NOI calculation itself. Gross revenue minus a guessed expense ratio is not NOI. A defensible cap rate calculation requires a full, itemized operating expense build: property tax, insurance, HOA dues if applicable, platform fees, cleaning and turnover costs, repairs and maintenance reserves, utilities, and property management if you're not self-managing."
+      },
+      {
+        "type": "h2",
+        "text": "Why Carolina Beach expenses run differently than inland comps"
+      },
+      {
+        "type": "p",
+        "text": "Coastal North Carolina properties carry expense items that don't show up in a generic STR spreadsheet template. Insurance is the biggest one. Coastal NC owners commonly carry a three-policy stack: a standard homeowners policy, a separate wind policy through the NC Beach Plan (NCIUA) for properties in the coastal wind pool, and NFIP flood coverage. That's structurally different from a single-policy inland property, and it's a materially higher annual cost that needs to be modeled explicitly rather than estimated as a percentage of revenue."
+      },
+      {
+        "type": "p",
+        "text": "New Hanover County, which includes Carolina Beach, levies a room occupancy tax on top of state and local sales tax. This is typically collected from guests and remitted, not an owner expense in the traditional sense, but it affects your gross-to-net revenue math and needs a line item, since not every booking platform automatically calculates and remits it correctly for every jurisdiction."
+      },
+      {
+        "type": "p",
+        "text": "Turnover and maintenance costs also run higher in barrier island and beach-adjacent markets than inland alternatives. Salt air accelerates wear on HVAC systems, exterior finishes, and decking, and a realistic underwrite should include a higher annual maintenance reserve than you'd use for a property thirty miles inland."
+      },
+      {
+        "type": "h2",
+        "text": "Regulatory tailwind worth factoring in"
+      },
+      {
+        "type": "p",
+        "text": "North Carolina's Short-Term Rental Act gives existing STR operations real protection: local governments generally can't ban a short-term rental that was legally operating before a new local ordinance was enacted. Carolina Beach and the broader Wilmington area permit STRs with registration requirements rather than the permit caps or waitlists seen in some neighboring beach towns. That regulatory stability is a genuine factor in long-term cap rate durability — a market where the rules can change abruptly underneath you carries more underwriting risk than one with a clearer legal foundation, even if the headline numbers look similar."
+      },
+      {
+        "type": "h2",
+        "text": "Getting to a realistic number for your property"
+      },
+      {
+        "type": "p",
+        "text": "A defensible cap rate for a specific Carolina Beach property starts with a real revenue estimate built from seasonal occupancy and ADR data for that property type and location, not a flat annual average. Summer months carry the bulk of the year's revenue in this market, and a credible underwrite needs a month-by-month projection, not just a single blended figure."
+      },
+      {
+        "type": "p",
+        "text": "From there, build the full expense stack — including the three-policy insurance structure, occupancy tax handling, and an appropriate maintenance reserve — and divide the resulting NOI by your all-in purchase price including closing costs. That number, specific to the property in front of you, is the one worth underwriting to. A market-wide range is a useful sanity check, not a substitute for the calculation."
+      }
+    ]
+  },
+  "outer-banks-risk-vs-reward-str": {
+    "title": "The Outer Banks: The Risk vs. Reward of STR Investment",
+    "excerpt": "The Outer Banks is the most established STR market in North Carolina — and also one of the most exposed to hurricane, insurance, and erosion risk. Here's how to weigh both sides honestly.",
+    "date": "2026-06-18",
+    "author": "Caribbean STR",
+    "category": "Outer Banks NC",
+    "meta_description": "An honest look at the risk and reward of short-term rental investment on North Carolina's Outer Banks — insurance, hurricane exposure, regulation, and revenue potential.",
+    "body": [
+      {
+        "type": "p",
+        "text": "The Outer Banks is widely regarded as the most established and STR-friendly vacation rental market in North Carolina. It's also a barrier island chain directly exposed to Atlantic hurricane risk, rising insurance costs, and long-term erosion concerns. Both of those things are true at once, and a serious underwriting decision has to hold them together rather than focusing on only one side."
+      },
+      {
+        "type": "h2",
+        "text": "The reward case"
+      },
+      {
+        "type": "p",
+        "text": "The Outer Banks has decades of established vacation rental infrastructure: large, experienced property management companies, a deep base of repeat visitors, and a tourism economy built specifically around weekly rental stays rather than the shorter, more volatile booking patterns seen in some other markets. That maturity tends to produce more predictable demand patterns than a newer or less-established market."
+      },
+      {
+        "type": "p",
+        "text": "Demand isn't limited to peak summer either. The region draws a meaningful shoulder-season market built around weddings and events, which can help smooth the revenue curve compared to a market that's purely a summer play. Most Outer Banks communities also fall outside HOA structures — fewer than 5% of homes sold in the area carry HOA membership — which removes a layer of dues and rental-restriction risk that complicates underwriting in many other coastal and resort markets."
+      },
+      {
+        "type": "h2",
+        "text": "The regulatory environment favors existing operators"
+      },
+      {
+        "type": "p",
+        "text": "North Carolina's Short-Term Rental Act limits the ability of local governments to ban STRs that were legally operating before a new local ordinance took effect, and the Outer Banks has no Los Angeles-style fragmented permitting system to navigate. Dare County applies a 6% room occupancy tax on top of state and local sales tax, a cost structure that's well understood and consistently administered rather than a moving target."
+      },
+      {
+        "type": "h2",
+        "text": "The risk case, in detail"
+      },
+      {
+        "type": "p",
+        "text": "Insurance is the most consequential and least glamorous part of Outer Banks underwriting. Coastal NC properties typically require three separate policies — standard homeowners coverage, a wind policy through the NC Beach Plan (NCIUA) for properties in the coastal wind pool, and NFIP flood insurance — and the cost of that stack has been rising. Verifying current premiums for the specific property, not a regional estimate, is essential before finalizing any cash flow projection."
+      },
+      {
+        "type": "p",
+        "text": "Hurricane season runs June through November, and mandatory evacuations are a real operational fact of owning here, not a remote tail risk. Under the North Carolina Vacation Rental Act, guests aren't automatically entitled to a refund for a mandatory evacuation if they were offered and declined trip insurance — which protects an owner's revenue in many cases, but it also means building a realistic reserve for the storm-disrupted weeks that will happen over a multi-year hold, rather than assuming every booked week converts cleanly to revenue."
+      },
+      {
+        "type": "p",
+        "text": "Erosion and dune protection rules are a longer-horizon risk that's easy to underweight when you're focused on year-one cash flow. Building setback requirements near dunes and public beach access points constrain what you can do with a property over time, and any specific parcel's erosion exposure and flood zone designation should be verified against current FEMA and local floodplain maps before purchase, not assumed from the listing photos."
+      },
+      {
+        "type": "h2",
+        "text": "Weighing both sides"
+      },
+      {
+        "type": "p",
+        "text": "The Outer Banks isn't a market where the risk disqualifies the opportunity, or where the reward case excuses skipping the risk work. It's a market where the insurance stack, evacuation/refund mechanics, and erosion exposure need to be priced into the underwriting explicitly, line by line, rather than folded into a generic expense percentage. Done that way, the Outer Banks' demand stability and regulatory protections are a real advantage — they just have to be weighed against real, well-documented coastal risk rather than against an idealized version of the market."
+      }
     ]
   }
 }
