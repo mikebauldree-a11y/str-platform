@@ -242,5 +242,67 @@
     ],
     "related_market": "nc-coastal",
     "related_market_name": "NC Coastal"
+  },
+  "cash-on-cash-vs-cap-rate-which-number-to-trust": {
+    "title": "Cash-on-Cash Return vs. Cap Rate: Which Number Should You Actually Trust?",
+    "excerpt": "Two investors can look at the same STR listing and walk away with completely different numbers in their head — because they're answering two different questions. Here's what each metric actually tells you, and when to lean on which one.",
+    "date": "2026-06-09",
+    "author": "Caribbean STR",
+    "category": "Underwriting Fundamentals",
+    "meta_description": "Cash-on-cash return and cap rate measure different things in short-term rental underwriting. A clear explanation of each metric, how they're calculated, and when to use which one.",
+    "body": [
+      {
+        "type": "p",
+        "text": "Every STR underwriting report leads with a handful of headline numbers, and two of the most commonly confused are cap rate and cash-on-cash return. They're both expressed as percentages, both describe \"return,\" and both show up on the same summary page — which is exactly why investors mix them up. They're not measuring the same thing, and using the wrong one to answer the wrong question is a real source of bad investment decisions."
+      },
+      {
+        "type": "h2",
+        "text": "What cap rate actually answers"
+      },
+      {
+        "type": "p",
+        "text": "Cap rate answers one specific question: how does this property perform on its own, independent of how you finance it? The formula is net operating income divided by purchase price. Net operating income (NOI) is gross revenue minus operating expenses — property tax, insurance, HOA dues, platform fees, cleaning and turnover, maintenance, utilities, management if applicable — but explicitly before debt service. That last part is what makes cap rate an unlevered metric: it deliberately strips out your mortgage so you can compare two properties on equal footing, regardless of whether one buyer is paying cash and another is putting 20% down."
+      },
+      {
+        "type": "p",
+        "text": "This is why cap rate is the right tool for comparing properties against each other, or against a market benchmark. If a Caribbean STR report shows two condos in the same building with similar NOI and similar price, similar cap rates tell you the underlying economics are comparable — even if you and another buyer would finance them completely differently."
+      },
+      {
+        "type": "h2",
+        "text": "What cash-on-cash return actually answers"
+      },
+      {
+        "type": "p",
+        "text": "Cash-on-cash return answers a different question entirely: given how I'm actually financing this specific deal, what's my return on the cash I'm putting in? The formula is annual pre-tax cash flow (NOI minus debt service) divided by total cash invested (down payment plus closing costs and any initial setup costs). Unlike cap rate, this number changes completely depending on your down payment size, interest rate, and loan term — it's a levered metric, built specifically to reflect your financing structure."
+      },
+      {
+        "type": "p",
+        "text": "This is why two investors looking at the identical property can calculate two very different cash-on-cash numbers. A 25% down payment at a low rate produces a different cash-on-cash return than a 40% down payment at a higher rate, even though the cap rate — the property's underlying performance — hasn't changed at all."
+      },
+      {
+        "type": "h2",
+        "text": "A simple example of how they diverge"
+      },
+      {
+        "type": "p",
+        "text": "Take a property with a 7% cap rate. With favorable financing terms, that same property might produce a 10–12% cash-on-cash return, because leverage is amplifying the return on your actual cash outlay. With expensive financing — a high interest rate or a smaller down payment that increases debt service relative to NOI — the same 7% cap rate property might produce a cash-on-cash return closer to 4–5%. The property didn't change. Your financing did, and that's exactly the variable cap rate is designed to ignore and cash-on-cash is designed to capture."
+      },
+      {
+        "type": "h2",
+        "text": "Why STR cap rates run higher than long-term rental benchmarks"
+      },
+      {
+        "type": "p",
+        "text": "If you're cross-referencing cap rate benchmarks from general real estate sources, it's worth knowing that short-term rental cap rates typically run two to three percentage points higher than long-term rental cap rates in the same market. That's not a sign STRs are automatically a better deal — it's compensation for the additional operational complexity and revenue variability: cleaning and turnover costs, furnishing, more active management, and seasonal swings that a long-term lease doesn't carry. A 7% cap rate on a long-term rental and a 9% cap rate on an STR in the same building can represent a similar risk-adjusted return once you account for that added complexity, not a meaningfully better deal on the STR side."
+      },
+      {
+        "type": "h2",
+        "text": "Which one should you actually trust"
+      },
+      {
+        "type": "p",
+        "text": "Neither, in isolation — they're built to answer different questions, and a serious underwrite needs both. Use cap rate when you're screening a property against the market or comparing it to similar listings, since it strips out financing noise and lets you compare properties on equal footing. Use cash-on-cash return when you're deciding whether a specific deal, financed the way you actually plan to finance it, clears your personal return threshold. A property can have an attractive cap rate and a mediocre cash-on-cash return if your financing terms are unfavorable, or the reverse if you're using aggressive leverage. Both numbers are true at the same time; they're just answering different questions, which is exactly why a full underwriting report calculates both rather than leading with just one."
+      }
+    ]
   }
 }
