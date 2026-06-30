@@ -1,6 +1,7 @@
 import os, json, uuid
 
 from pathlib import Path
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_file, abort, jsonify
 from dotenv import load_dotenv
 import stripe
@@ -24,6 +25,11 @@ for d in [PENDING_DIR, REPORTS_DIR, SAMPLES_DIR]: d.mkdir(exist_ok=True)
 _markets_path = BASE_DIR / "data" / "markets.json"
 with open(_markets_path, "r", encoding="utf-8") as _f:
     MARKETS = json.load(_f)
+
+# ── Load blog posts once at startup ──────────────────────────────────────────
+_blog_posts_path = BASE_DIR / "data" / "blog_posts.json"
+with open(_blog_posts_path, "r", encoding="utf-8") as _f:
+    BLOG_POSTS = json.load(_f)
 
 BRAND_NAME = "Caribbean STR"
 
@@ -129,6 +135,45 @@ def market_detail(slug):
         active_page="markets",
     )
 
+# ── Blog routes ───────────────────────────────────────────────────────────────
+def _blog_date_display(date_str):
+    return datetime.strptime(date_str, "%Y-%m-%d").strftime("%B %-d, %Y")
+
+@app.route("/blog")
+def blog_index():
+    posts = []
+    for slug, post in BLOG_POSTS.items():
+        posts.append({
+            "slug": slug,
+            "title": post["title"],
+            "excerpt": post["excerpt"],
+            "category": post["category"],
+            "date": post["date"],
+            "date_display": _blog_date_display(post["date"]),
+        })
+    posts.sort(key=lambda p: p["date"], reverse=True)
+    return render_template(
+        "blog.html",
+        posts=posts,
+        brand_name=BRAND_NAME,
+        active_page="blog",
+    )
+
+@app.route("/blog/<slug>")
+def blog_post(slug):
+    post_data = BLOG_POSTS.get(slug)
+    if not post_data:
+        abort(404)
+    post = dict(post_data)
+    post["slug"] = slug
+    post["date_display"] = _blog_date_display(post["date"])
+    return render_template(
+        "blog_post.html",
+        post=post,
+        brand_name=BRAND_NAME,
+        active_page="blog",
+    )
+
 # ── Analytics page ────────────────────────────────────────────────────────────
 @app.route("/analytics")
 def analytics():
@@ -208,11 +253,14 @@ def sitemap():
         ("https://caribbeanstr.com/", "weekly", "1.0"),
         ("https://caribbeanstr.com/markets", "weekly", "0.9"),
         ("https://caribbeanstr.com/analytics", "weekly", "0.9"),
+        ("https://caribbeanstr.com/blog", "weekly", "0.8"),
         ("https://caribbeanstr.com/sample-report", "monthly", "0.8"),
         ("https://caribbeanstr.com/sample-report-caribbean", "monthly", "0.8"),
     ]
     for slug in MARKETS:
         urls.append((f"https://caribbeanstr.com/markets/{slug}", "monthly", "0.7"))
+    for slug in BLOG_POSTS:
+        urls.append((f"https://caribbeanstr.com/blog/{slug}", "monthly", "0.6"))
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for loc, freq, priority in urls:

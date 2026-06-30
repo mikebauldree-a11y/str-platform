@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block page_title %}{{ post.title }} — {{ brand_name }}{% endblock %}
+{% block meta_description %}{{ post.meta_description }}{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ post.title|tojson }},
+  "description": {{ post.meta_description|tojson }},
+  "datePublished": "{{ post.date }}",
+  "author": { "@type": "Organization", "name": "{{ brand_name }}" },
+  "publisher": { "@type": "Organization", "name": "{{ brand_name }}" },
+  "mainEntityOfPage": "https://caribbeanstr.com/blog/{{ post.slug }}"
+}
+</script>
+<style>
+  .post-hero {
+    background: var(--primary-dark);
+    color: white;
+    padding: 3rem 2rem 3.5rem;
+    text-align: center;
+  }
+  .post-hero-meta {
+    font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5); text-transform: uppercase;
+    margin-bottom: 1rem; display: flex; gap: 0.6rem; justify-content: center; align-items: center;
+  }
+  .post-hero-meta .cat { color: #e8a87c; }
+  .post-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 400; line-height: 1.25; max-width: 700px; margin: 0 auto;
+    color: white;
+  }
+
+  .post-body { max-width: 640px; margin: 0 auto; padding: 3rem 1.5rem 2rem; }
+  .post-body p {
+    font-size: 16px; line-height: 1.8; color: #2a2a28; margin-bottom: 1.4rem;
+  }
+  .post-body h2 {
+    font-family: 'DM Serif Display', serif; font-size: 1.5rem; font-weight: 400;
+    color: var(--primary-dark); margin: 2.2rem 0 1rem;
+  }
+
+  .post-back {
+    max-width: 640px; margin: 0 auto; padding: 0 1.5rem 3rem;
+  }
+  .post-back a {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--accent-orange); text-decoration: none;
+  }
+  .post-back a:hover { text-decoration: underline; }
+
+  .post-cta {
+    background: #f5f2eb; padding: 2.5rem 1.5rem; text-align: center; margin-top: 1rem;
+  }
+  .post-cta-inner { max-width: 480px; margin: 0 auto; }
+  .post-cta h3 {
+    font-family: 'DM Serif Display', serif; font-size: 1.3rem; font-weight: 400;
+    color: var(--primary-dark); margin-bottom: 0.6rem;
+  }
+  .post-cta p { font-size: 13.5px; color: #7a7870; margin-bottom: 1.25rem; }
+  .post-cta a {
+    display: inline-block; background: var(--accent-orange); color: white;
+    font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; padding: 0.8rem 2rem; border-radius: 3px;
+    transition: background 0.2s;
+  }
+  .post-cta a:hover { background: #a93d27; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="post-hero">
+  <div class="post-hero-meta">
+    <span class="cat">{{ post.category }}</span>
+    <span>·</span>
+    <span>{{ post.date_display }}</span>
+  </div>
+  <h1>{{ post.title }}</h1>
+</section>
+
+<article class="post-body">
+  {% for block in post.body %}
+    {% if block.type == 'p' %}
+      <p>{{ block.text }}</p>
+    {% elif block.type == 'h2' %}
+      <h2>{{ block.text }}</h2>
+    {% endif %}
+  {% endfor %}
+</article>
+
+<div class="post-cta">
+  <div class="post-cta-inner">
+    <h3>Get the full underwriting picture</h3>
+    <p>This article covers the market. A Caribbean STR report covers your specific property — revenue scenarios, expenses, and a Buy/Watch/Pass verdict.</p>
+    <a href="/#dealForm">Get my report — $49 →</a>
+  </div>
+</div>
+
+<div class="post-back">
+  <a href="/blog">← Back to all articles</a>
+</div>
+
+{% endblock %}

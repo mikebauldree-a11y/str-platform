@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block page_title %}Blog — {{ brand_name }} Investment Insights{% endblock %}
+{% block meta_description %}Caribbean and US coastal short-term rental investment insights — market comparisons, tax incentives, regulatory guides, and underwriting strategy.{% endblock %}
+
+{% block head_extra %}
+<style>
+  .blog-hero {
+    background: var(--primary-dark);
+    color: white;
+    padding: 3.5rem 2rem 4rem;
+    text-align: center;
+  }
+  .blog-hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.45); text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .blog-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    font-weight: 400; margin-bottom: 0.75rem; color: white;
+  }
+  .blog-hero p {
+    font-size: 14.5px; color: rgba(255,255,255,0.62);
+    max-width: 480px; margin: 0 auto; line-height: 1.7;
+  }
+
+  .blog-list { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+  .blog-card {
+    display: block; text-decoration: none; color: inherit;
+    border-bottom: 1px solid rgba(26,26,24,0.10);
+    padding: 2rem 0;
+    transition: opacity 0.2s;
+  }
+  .blog-card:first-child { padding-top: 0; }
+  .blog-card:last-child { border-bottom: none; }
+  .blog-card:hover { opacity: 0.7; }
+  .blog-card-meta {
+    font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+    color: #a09a90; text-transform: uppercase; margin-bottom: 0.6rem;
+    display: flex; gap: 0.75rem; align-items: center;
+  }
+  .blog-card-meta .cat {
+    color: var(--accent-orange); font-weight: 500;
+  }
+  .blog-card h2 {
+    font-family: 'DM Serif Display', serif; font-size: 1.4rem;
+    font-weight: 400; color: var(--primary-dark); margin-bottom: 0.6rem; line-height: 1.3;
+  }
+  .blog-card p {
+    font-size: 14px; color: #6a6a66; line-height: 1.65; margin-bottom: 0;
+  }
+  .blog-card-read {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
+    color: var(--accent-orange); text-transform: uppercase; margin-top: 0.85rem; display: inline-block;
+  }
+
+  .blog-empty {
+    text-align: center; padding: 3rem 1.5rem; color: #a09a90; font-size: 14px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="blog-hero">
+  <div class="blog-hero-eyebrow">{{ brand_name }} Blog</div>
+  <h1>Investment insights for the Caribbean &amp; coast</h1>
+  <p>Market comparisons, tax incentives, and underwriting strategy for short-term rental investors.</p>
+</section>
+
+<div class="blog-list">
+  {% if posts %}
+    {% for post in posts %}
+    <a class="blog-card" href="/blog/{{ post.slug }}">
+      <div class="blog-card-meta">
+        <span class="cat">{{ post.category }}</span>
+        <span>·</span>
+        <span>{{ post.date_display }}</span>
+      </div>
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.excerpt }}</p>
+      <span class="blog-card-read">Read article →</span>
+    </a>
+    {% endfor %}
+  {% else %}
+    <div class="blog-empty">New articles are on the way. Check back soon.</div>
+  {% endif %}
+</div>
+
+{% endblock %}

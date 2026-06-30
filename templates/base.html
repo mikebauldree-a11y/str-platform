@@ -121,10 +121,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link {% if active_page not in ['markets', 'analytics'] %}active{% endif %}" href="/">Underwriter</a>
+                        <a class="nav-link {% if active_page not in ['markets', 'analytics', 'blog'] %}active{% endif %}" href="/">Underwriter</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if active_page == 'markets' %}active{% endif %}" href="/markets">Markets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if active_page == 'blog' %}active{% endif %}" href="/blog">Blog</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if active_page == 'analytics' %}active{% endif %}" href="/analytics">Analytics</a>
@@ -148,6 +151,7 @@
             <div class="mb-4">
                 <a href="/" class="text-decoration-none text-muted mx-2">Home</a>
                 <a href="/markets" class="text-decoration-none text-muted mx-2">All Markets</a>
+                <a href="/blog" class="text-decoration-none text-muted mx-2">Blog</a>
                 <a href="/analytics" class="text-decoration-none text-muted mx-2">Market Analytics</a>
             </div>
             <div class="small opacity-75">
