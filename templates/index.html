@@ -144,6 +144,85 @@
     .submit-strip { flex-direction: column; text-align: center; }
     .btn-submit { width: 100%; }
   }
+
+  /* TRUST STRIP (below hero) */
+  .trust-strip {
+    background: #f5f2eb; padding: 0.85rem 1rem; text-align: center;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em;
+    color: #7a7870; text-transform: uppercase;
+  }
+  .trust-strip strong { color: #1a1a18; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: white; padding: 3.5rem 2rem; }
+  .testimonials-inner { max-width: 920px; margin: 0 auto; }
+  .testimonials-head { text-align: center; margin-bottom: 2rem; }
+  .testimonials-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em;
+    color: #a09a90; text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .testimonials-head h2 {
+    font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400; color: #1a1a18;
+  }
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .testimonial-card {
+    background: #fafaf8; border: 1px solid rgba(26,26,24,0.08); border-radius: 6px;
+    padding: 1.4rem 1.3rem;
+  }
+  .testimonial-quote { font-size: 13.5px; line-height: 1.65; color: #3a3a38; margin-bottom: 1rem; }
+  .testimonial-attr { font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: 0.04em; color: #a09a90; }
+  @media (max-width: 800px) { .testimonial-grid { grid-template-columns: 1fr; } }
+
+  /* SAMPLE PREVIEW */
+  .preview-sec { background: #f5f2eb; padding: 3.5rem 2rem; }
+  .preview-inner { max-width: 760px; margin: 0 auto; }
+  .preview-head { text-align: center; margin-bottom: 1.75rem; }
+  .preview-head h2 {
+    font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400; color: #1a1a18; margin-bottom: 0.5rem;
+  }
+  .preview-head p { font-size: 13.5px; color: #7a7870; max-width: 480px; margin: 0 auto; }
+  .preview-card {
+    background: white; border-radius: 6px; box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+    overflow: hidden; margin-bottom: 1.5rem;
+  }
+  .preview-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.4rem; border-bottom: 1px solid rgba(26,26,24,0.08);
+  }
+  .preview-address { font-size: 13px; font-weight: 600; color: #1a1a18; }
+  .preview-sub { font-family: 'DM Mono', monospace; font-size: 10.5px; color: #a09a90; margin-top: 2px; }
+  .preview-verdict {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 0.3rem 0.85rem; border-radius: 50px;
+    background: #e6f0e8; color: #2d6a3e;
+  }
+  .preview-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(26,26,24,0.06); }
+  .preview-metric { background: white; padding: 1rem 1.2rem; }
+  .preview-metric-val { font-family: 'DM Serif Display', serif; font-size: 19px; color: #1a1a18; }
+  .preview-metric-lbl { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; color: #a09a90; text-transform: uppercase; margin-top: 2px; }
+  .preview-samples { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+  .preview-samples a {
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #1a1a18; text-decoration: none; border: 1px solid rgba(26,26,24,0.18);
+    border-radius: 3px; padding: 0.55rem 1.1rem; transition: border-color 0.2s, background 0.2s;
+  }
+  .preview-samples a:hover { border-color: var(--accent-orange); background: #fff8f6; }
+  @media (max-width: 640px) { .preview-metrics { grid-template-columns: 1fr; } }
+
+  /* FAQ */
+  .faq-sec { background: white; padding: 3.5rem 2rem 4rem; }
+  .faq-inner { max-width: 680px; margin: 0 auto; }
+  .faq-head { text-align: center; margin-bottom: 2rem; }
+  .faq-head h2 {
+    font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400; color: #1a1a18;
+  }
+  .faq-item { border-bottom: 1px solid rgba(26,26,24,0.10); padding: 1.1rem 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q { font-size: 14px; font-weight: 600; color: #1a1a18; margin-bottom: 0.4rem; }
+  .faq-a { font-size: 13px; line-height: 1.65; color: #6a6a66; }
 </style>
 {% endblock %}
 
@@ -151,8 +230,8 @@
 
 <section class="hero" id="top">
   <div class="hero-eyebrow">{{ brand_name }}</div>
-  <h1>Professional STR<br><em>Underwriting Report</em></h1>
-  <p class="hero-lead">Get a comprehensive, investor-grade deal analysis for any short-term rental property. Delivered instantly after checkout.</p>
+  <h1>Know if it's a deal<br><em>before you make an offer.</em></h1>
+  <p class="hero-lead">Investor-grade STR underwriting for Caribbean and US coastal properties. 3-scenario cash flow, 5-year pro forma, and a Buy/Watch/Pass verdict — delivered to your inbox in minutes.</p>
   <div class="hero-pills">
     <span class="hero-pill">3 Revenue Scenarios</span>
     <span class="hero-pill">5-Year Pro Forma</span>
@@ -165,9 +244,76 @@
   </div>
 </section>
 
+<div class="trust-strip">
+  <strong>10+ markets covered</strong> · Dominican Republic, Aruba, Turks &amp; Caicos, USVI, Outer Banks, 30A &amp; more
+</div>
+
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-head">
+      <div class="testimonials-eyebrow">What investors say</div>
+      <h2>Real numbers, before you wire a deposit.</h2>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"I was about to offer on a 3BR condo in Punta Cana. The downside scenario showed negative cash flow in shoulder season — exactly what the market does in May and June. I passed. Worth every dollar."</div>
+        <div class="testimonial-attr">— J. Reyes, Atlanta GA</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"The CONFOTUR tax breakdown alone was worth the $49. I had no idea what I was getting into with Dominican Republic tax law until I read it in plain English."</div>
+        <div class="testimonial-attr">— S. Mitchell, first-time Caribbean investor</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote">"I've built my own underwriting spreadsheets for years. This was faster, and the seasonal revenue curve was more accurate than anything I'd have modeled myself for a market I don't live in."</div>
+        <div class="testimonial-attr">— D. Kowalski, Outer Banks NC</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="preview-sec">
+  <div class="preview-inner">
+    <div class="preview-head">
+      <h2>See what you're getting</h2>
+      <p>A snapshot from a real sample report — a 3BR oceanfront condo in Kure Beach, NC.</p>
+    </div>
+    <div class="preview-card">
+      <div class="preview-card-header">
+        <div>
+          <div class="preview-address">742 Oceanfront Drive, Unit 301</div>
+          <div class="preview-sub">Kure Beach, NC · 3BR/2BA · $425,000</div>
+        </div>
+        <div class="preview-verdict">Buy</div>
+      </div>
+      <div class="preview-metrics">
+        <div class="preview-metric">
+          <div class="preview-metric-val">$62,000</div>
+          <div class="preview-metric-lbl">Gross Revenue</div>
+        </div>
+        <div class="preview-metric">
+          <div class="preview-metric-val">7.5%</div>
+          <div class="preview-metric-lbl">Cash-on-Cash</div>
+        </div>
+        <div class="preview-metric">
+          <div class="preview-metric-val">23.0%</div>
+          <div class="preview-metric-lbl">Total Return</div>
+        </div>
+      </div>
+    </div>
+    <div class="preview-samples">
+      <a href="/sample-report">View US Coastal Sample →</a>
+      <a href="/sample-report-caribbean">View Caribbean Sample →</a>
+    </div>
+  </div>
+</section>
+
 <div class="container form-lift" id="dealForm">
   <div class="row justify-content-center">
     <div class="col-lg-9 col-xl-8">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <h2 style="font-family:'DM Serif Display', serif; font-size:clamp(1.5rem, 3vw, 2rem); font-weight:400; color:#1a1a18; margin-bottom:0.5rem;">Start your analysis</h2>
+        <p style="font-size:13.5px; color:#7a7870;">Enter your property details below — the more you provide, the more precise your report.</p>
+      </div>
       <form class="deal-card" action="/analyze" method="POST" id="strForm">
 
         <!-- YOUR INFORMATION -->
@@ -483,6 +629,34 @@
     </div>
   </div>
 </div>
+
+<section class="faq-sec">
+  <div class="faq-inner">
+    <div class="faq-head">
+      <h2>Common questions</h2>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How is this different from running my own spreadsheet?</div>
+      <div class="faq-a">The report uses market-specific revenue benchmarks, seasonal ADR curves, and expense models built for each market — data that takes hours to assemble yourself. For markets like Aruba or the Dominican Republic, it also flags country-specific tax and regulatory issues most investors miss entirely.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">My property isn't in one of your listed markets. Can I still get a report?</div>
+      <div class="faq-a">Yes. Select the closest market type (Coastal Premium, Coastal Standard, etc.) and the report will use appropriate benchmarks. You can also enter a custom gross revenue figure if you have local comps.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What does "interactive HTML" mean?</div>
+      <div class="faq-a">Along with a PDF, you'll get an HTML version of the report that renders charts, scenario tables, and risk grids visually — easier to read and share than a flat document.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this financial advice?</div>
+      <div class="faq-a">No — it's an analytical tool. The report surfaces the numbers and flags the risks; the investment decision is yours. Think of it as a thorough due-diligence worksheet.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What markets do you cover?</div>
+      <div class="faq-a">Caribbean: Aruba, Dominican Republic, Bahamas, Turks &amp; Caicos, Jamaica, Cayman Islands, Barbados, Puerto Rico, USVI. US Coastal: Outer Banks NC, Carolina Beach NC, Myrtle Beach SC, Destin FL, 30A FL. Additional markets available on request.</div>
+    </div>
+  </div>
+</section>
 
 <script>
   document.getElementById('strForm').addEventListener('submit', function () {
