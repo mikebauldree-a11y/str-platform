@@ -99,6 +99,11 @@
     <h3>Get the full underwriting picture</h3>
     <p>This article covers the market. A Caribbean STR report covers your specific property — revenue scenarios, expenses, and a Buy/Watch/Pass verdict.</p>
     <a href="/#dealForm">Get my report — $49 →</a>
+    {% if post.related_market %}
+    <div style="margin-top:1rem;">
+      <a href="/markets/{{ post.related_market }}" style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--primary-dark); text-decoration:underline;">View {{ post.related_market_name }} market data →</a>
+    </div>
+    {% endif %}
   </div>
 </div>
 

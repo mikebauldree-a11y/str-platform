@@ -55,7 +55,9 @@
         "type": "p",
         "text": "CONFOTUR can be a genuine, material advantage for Dominican Republic STR investment — but it requires verification, not assumption. Every Caribbean STR report for a Dominican Republic property flags CONFOTUR status as part of the tax and legal section, specifically so this doesn't get missed during underwriting."
       }
-    ]
+    ],
+    "related_market": "dominican-republic",
+    "related_market_name": "Dominican Republic"
   },
   "aruba-vs-dominican-republic-str-investment": {
     "title": "Aruba vs. Dominican Republic: Where Should You Buy an STR in 2026?",
@@ -113,7 +115,9 @@
         "type": "p",
         "text": "Either way, the deciding factor shouldn't be a generic market reputation — it should be the specific numbers for the specific property. That's true of any market comparison, which is exactly why a property-level underwriting report matters more than a market-level overview when you're close to making an offer."
       }
-    ]
+    ],
+    "related_market": "dominican-republic",
+    "related_market_name": "Dominican Republic"
   },
   "realistic-cap-rate-carolina-beach-vacation-rental": {
     "title": "What's a Realistic Cap Rate for a Carolina Beach Vacation Rental?",
@@ -175,7 +179,9 @@
         "type": "p",
         "text": "From there, build the full expense stack — including the three-policy insurance structure, occupancy tax handling, and an appropriate maintenance reserve — and divide the resulting NOI by your all-in purchase price including closing costs. That number, specific to the property in front of you, is the one worth underwriting to. A market-wide range is a useful sanity check, not a substitute for the calculation."
       }
-    ]
+    ],
+    "related_market": "nc-coastal",
+    "related_market_name": "NC Coastal"
   },
   "outer-banks-risk-vs-reward-str": {
     "title": "The Outer Banks: The Risk vs. Reward of STR Investment",
@@ -233,6 +239,8 @@
         "type": "p",
         "text": "The Outer Banks isn't a market where the risk disqualifies the opportunity, or where the reward case excuses skipping the risk work. It's a market where the insurance stack, evacuation/refund mechanics, and erosion exposure need to be priced into the underwriting explicitly, line by line, rather than folded into a generic expense percentage. Done that way, the Outer Banks' demand stability and regulatory protections are a real advantage — they just have to be weighed against real, well-documented coastal risk rather than against an idealized version of the market."
       }
-    ]
+    ],
+    "related_market": "nc-coastal",
+    "related_market_name": "NC Coastal"
   }
 }

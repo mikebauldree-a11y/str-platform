@@ -131,6 +131,7 @@ def market_detail(slug):
         "market_detail.html",
         market=market,
         slug=slug,
+        blog_posts=BLOG_POSTS,
         brand_name=BRAND_NAME,
         active_page="markets",
     )

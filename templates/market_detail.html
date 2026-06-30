@@ -49,6 +49,31 @@
                 </div>
             </div>
 
+            {% if market.related_posts %}
+            <section class="mb-5">
+                <h2 class="h3 fw-bold mb-4 d-flex align-items-center">
+                    <span class="me-3 p-2 bg-primary text-white rounded-3 shadow-sm">📰</span>
+                    Related Reading
+                </h2>
+                <div class="row g-3">
+                    {% for slug in market.related_posts %}
+                    {% set post = blog_posts.get(slug) %}
+                    {% if post %}
+                    <div class="col-md-6">
+                        <a href="/blog/{{ slug }}" class="text-decoration-none">
+                            <div class="h-100 p-4 bg-white border rounded-4 shadow-sm">
+                                <div class="small text-uppercase fw-bold text-primary mb-2" style="letter-spacing:0.06em; font-size:0.7rem;">{{ post.category }}</div>
+                                <div class="fw-bold text-dark mb-2" style="font-size:1.02rem; line-height:1.35;">{{ post.title }}</div>
+                                <div class="small text-secondary" style="line-height:1.5;">{{ post.excerpt }}</div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
             <!-- ── Live Market Analytics Widget ─────────────────────────────── -->
             <section id="market-analytics" class="mb-5">
                 <h2 class="h3 fw-bold mb-1 d-flex align-items-center">
