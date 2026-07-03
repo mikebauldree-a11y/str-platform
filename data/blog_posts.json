@@ -304,5 +304,71 @@
         "text": "Neither, in isolation — they're built to answer different questions, and a serious underwrite needs both. Use cap rate when you're screening a property against the market or comparing it to similar listings, since it strips out financing noise and lets you compare properties on equal footing. Use cash-on-cash return when you're deciding whether a specific deal, financed the way you actually plan to finance it, clears your personal return threshold. A property can have an attractive cap rate and a mediocre cash-on-cash return if your financing terms are unfavorable, or the reverse if you're using aggressive leverage. Both numbers are true at the same time; they're just answering different questions, which is exactly why a full underwriting report calculates both rather than leading with just one."
       }
     ]
+  },
+  "str-14-day-rule-tax-mistakes-first-time-investors": {
+    "title": "The 14-Day Rule and Other STR Tax Mistakes First-Time Investors Make",
+    "excerpt": "The IRS uses the number '14 days' in two completely different STR tax rules that are easy to conflate — and confusing them can cost you either a clean tax-free income stream or your ability to deduct losses against other income.",
+    "date": "2026-06-22",
+    "author": "Caribbean STR",
+    "category": "Underwriting Fundamentals",
+    "meta_description": "A plain-English guide to the IRS 14-day rule for short-term rentals, how it differs from the personal use day threshold, and the most common STR tax mistakes first-time investors make.",
+    "body": [
+      {
+        "type": "p",
+        "text": "Search 'STR 14-day rule' and you'll find two overlapping concepts that most articles treat as one thing. They're not. The IRS uses the number 14 days in two separate provisions of IRC Section 280A that address completely different situations, and conflating them is one of the most common and consequential tax mistakes first-time STR investors make. This post separates them, explains when each one applies, and covers the personal use day counting error that can quietly invalidate your STR's tax treatment without you realizing it."
+      },
+      {
+        "type": "h2",
+        "text": "The first 14-day rule: the Augusta Rule income exclusion"
+      },
+      {
+        "type": "p",
+        "text": "Under IRC Section 280A(g), if you rent your personal residence for 14 days or fewer during a tax year, the rental income is completely excluded from federal gross income. You don't report it. There's no cap on the dollar amount — you could collect $30,000 renting your home during a major event for two weeks and owe nothing federally on that income, as long as the total rental days in the year don't exceed 14. This provision is commonly called the Augusta Rule, named after Augusta, Georgia, where homeowners have long rented to Masters Tournament visitors under exactly this structure."
+      },
+      {
+        "type": "p",
+        "text": "The trade-off is that you can't deduct any rental expenses against that excluded income — no cleaning costs, no platform fees, no depreciation. But the exclusion typically produces a far better outcome than deducting expenses against taxable income anyway. This rule applies to personal residences, meaning properties you actually live in. It is not available for a dedicated investment STR you never personally occupy. That distinction matters enormously, and it's the source of the most common misapplication of this rule: investors reading about the Augusta Rule and believing it applies to their Caribbean or coastal investment property when it doesn't."
+      },
+      {
+        "type": "h2",
+        "text": "The second 14-day rule: the personal use day threshold"
+      },
+      {
+        "type": "p",
+        "text": "This is a completely separate provision, and the one that most directly affects STR investors with dedicated rental properties. Under IRC Section 280A, if your personal use of a rental property exceeds the greater of 14 days or 10% of the total days rented at fair market rate during the year, the property is reclassified as a mixed-use personal residence. That reclassification limits your ability to deduct rental losses against other income — exactly the tax treatment most STR investors are trying to preserve."
+      },
+      {
+        "type": "p",
+        "text": "The 10% prong matters here in a way people often miss. If you rent your property for 200 days in a year, the threshold isn't 14 days — it's 20 days (10% of 200). Staying at the property for 21 days triggers the limitation. The threshold is dynamic, not fixed, and investors who use a flat 14-day number as their personal-use ceiling without accounting for their actual rental days can inadvertently cross the line."
+      },
+      {
+        "type": "h2",
+        "text": "What counts as a personal use day — and what doesn't"
+      },
+      {
+        "type": "p",
+        "text": "The IRS counts personal use days more broadly than most investors assume. Your own stays count, obviously. But so do stays by family members — even if they pay rent — unless they're paying full fair market value. Below-market rentals to friends count as personal use days too. Swap arrangements, where you let another property owner use your place in exchange for using theirs, also count. The inclusion of family-at-below-market-rate is the one that catches the most investors off guard, particularly for Caribbean properties where owners often have relatives stay during the shoulder season."
+      },
+      {
+        "type": "p",
+        "text": "Days spent primarily on maintenance and repairs are explicitly excluded from the personal use count, even if you sleep at the property that night. If the primary purpose of the trip is contractor coordination, restocking, or hands-on repairs, those days don't count against you — but documentation matters. If the IRS questions the characterization of a day, your burden is to show the primary purpose was maintenance, not personal use."
+      },
+      {
+        "type": "h2",
+        "text": "The 7-day rule: a third provision that often gets confused with the other two"
+      },
+      {
+        "type": "p",
+        "text": "Separate from both 14-day rules is the 7-day passive activity rule under Treasury Regulation 1.469-1T(e)(3)(ii). If the average guest stay at your STR is 7 days or fewer, the property is classified as a trade or business activity rather than a rental activity for passive loss purposes. That classification, combined with material participation in the property's management (meeting one of the IRS's seven material participation tests, most commonly the 100-hour test), means losses from the property can offset non-passive income like W-2 wages. This is distinct from both 14-day provisions and is why you'll sometimes hear STR described as a 'loophole' for high-income earners using cost segregation and accelerated depreciation to generate paper losses against their salaries."
+      },
+      {
+        "type": "h2",
+        "text": "The practical upshot for STR investors"
+      },
+      {
+        "type": "p",
+        "text": "If you own a dedicated STR investment property — a Caribbean condo, a coastal vacation rental — that you also use personally, the personal use day threshold (the second 14-day rule) is the one that directly governs your tax treatment. Staying below it preserves your ability to treat losses as non-passive and deduct them against other income if you materially participate and your average guest stay is 7 days or under. The Augusta Rule income exclusion is a separate, valuable provision for homeowners renting their primary residence occasionally — not for dedicated STR investment properties. Keeping the two straight is the first step to not leaving money on the table or inadvertently disqualifying your tax position. As always, the specifics of your situation are a conversation for a CPA with STR expertise, not a blog post — but knowing the vocabulary before that conversation is exactly what makes it productive."
+      }
+    ]
   }
 }
