@@ -90,6 +90,11 @@ def calculate(data):
     market_type  = data.get('market_type') or 'coastal_standard'
     country      = data.get('country', 'United States')
     rev_override = safe_float(data.get('annual_revenue', 0))
+    occ_override = safe_float(data.get('expected_occupancy_pct', 0))
+    management_type = data.get('management_type') or 'self'
+    is_self_managed = management_type != 'third_party'
+    mgmt_fee_input   = safe_float(data.get('management_fee_pct'), 0)
+    mgmt_fee_pct     = 0.0 if is_self_managed else (mgmt_fee_input if mgmt_fee_input > 0 else 20.0)
 
     is_carib = country in CARIBBEAN
     is_us_terr = country in US_TERR
@@ -112,6 +117,11 @@ def calculate(data):
         nights_base = gross / base_adr if base_adr else 0
         occ = min(nights_base / 365, 0.95)
         adr = base_adr
+    elif occ_override > 0:
+        occ = min(occ_override / 100, 0.95)
+        adr = base_adr
+        nights_base = 365 * occ
+        gross = nights_base * adr
     else:
         occ = base_occ
         adr = base_adr
@@ -183,11 +193,13 @@ def calculate(data):
     accounting   = 500 if is_domestic or is_us_terr else 600
     misc         = 500
 
+    management_fee = 0.0 if is_self_managed else gross * (mgmt_fee_pct / 100)
+
     total_opex = (platform_fee + cleaning + insurance + prop_tax +
                   hoa_annual + utilities + maintenance + furn_reserve +
-                  internet + permit + accounting + misc)
+                  internet + permit + accounting + misc + management_fee)
 
-    pm_cost = gross * 0.20   # PM savings benchmark
+    pm_cost = gross * 0.20   # benchmark: cost of a 20% property manager (self-managed reports only)
 
     noi = gross - total_opex
 
@@ -271,6 +283,8 @@ def calculate(data):
         'maintenance': maintenance, 'furn_reserve': furn_reserve,
         'internet': internet, 'permit_cost': permit, 'accounting': accounting, 'misc': misc,
         'total_opex': total_opex, 'pm_cost': pm_cost,
+        'management_type': management_type, 'is_self_managed': is_self_managed,
+        'management_fee': management_fee, 'mgmt_fee_pct': mgmt_fee_pct,
         'noi': noi, 'noi_up': noi_up, 'noi_down': noi_down,
         'cf': cf, 'cf_up': cf_up, 'cf_down': cf_down,
         'coc': coc, 'coc_up': coc_up, 'coc_down': coc_down,
@@ -736,7 +750,8 @@ def generate_html_report(data):
         exp_row('Accounting / tax prep', f['accounting'], 'STR-specific CPA' + (' + FBAR/FATCA' if f['is_carib'] else '')) +
         exp_row('Miscellaneous / contingency', f['misc'], 'Unforeseen guest issues, supplies') +
         exp_row('Platform booking fees', f['platform_fee'], f'Blended ~5.5% of gross (Airbnb 3% + VRBO 8%)') +
-        exp_row('Cleaning & turnover', f['cleaning'], f'~{usd(f["clean_per"])}/clean × {turnovers_approx} turnovers/yr')
+        exp_row('Cleaning & turnover', f['cleaning'], f'~{usd(f["clean_per"])}/clean × {turnovers_approx} turnovers/yr') +
+        (exp_row('Property management', f['management_fee'], f'{fmt_pct(f["mgmt_fee_pct"])} of gross revenue, 3rd-party manager') if not f['is_self_managed'] else '')
     )
     opex_pct = f['total_opex'] / gross * 100 if gross else 0
     debt_pct  = f['annual_debt'] / gross * 100 if gross else 0
@@ -875,7 +890,7 @@ def generate_html_report(data):
   <div class="metric-box"><div class="metric-label">CASH-ON-CASH</div><div class="metric-val {'green' if f['coc']>=0.05 else 'amber' if f['coc']>=0 else 'red'}">{fmt_pct(f['coc']*100)}</div><div class="metric-sub">pre-tax, year 1</div></div>
   <div class="metric-box"><div class="metric-label">CAP RATE</div><div class="metric-val">{fmt_pct(f['cap_rate']*100)}</div><div class="metric-sub">NOI / purchase price</div></div>
   <div class="metric-box"><div class="metric-label">DSCR</div><div class="metric-val {'amber' if f['dscr']<1.25 else ''}">{dscr_str}</div><div class="metric-sub">NOI / debt service</div></div>
-  <div class="metric-box"><div class="metric-label">PM SAVINGS</div><div class="metric-val green">{usd(f['pm_cost'])}</div><div class="metric-sub">vs. 20% managed</div></div>
+  {'<div class="metric-box"><div class="metric-label">PM SAVINGS</div><div class="metric-val green">' + usd(f['pm_cost']) + '</div><div class="metric-sub">vs. 20% managed</div></div>' if f['is_self_managed'] else '<div class="metric-box"><div class="metric-label">MGMT FEE</div><div class="metric-val amber">' + usd(f['management_fee']) + '</div><div class="metric-sub">' + fmt_pct(f['mgmt_fee_pct']) + ' of gross, 3rd-party</div></div>'}
 </div>
 
 <div class="section-title">Property overview</div>
@@ -975,8 +990,8 @@ def generate_html_report(data):
 <div class="analysis-block"><h3>Revenue assumptions</h3><p>{esc(rev_v)}</p></div>
 <div class="analysis-block"><h3>Market dynamics</h3><p>{esc(mkt_d)}</p></div>
 
-<div class="section-title">Self-management strategy</div>
-<div class="analysis-block"><h3>Platform approach</h3><p>Dual-list on Airbnb (3% host fee) and VRBO (8% host fee). {'Consider Booking.com for European travelers, a significant segment of Caribbean visitors.' if f['is_carib'] else 'Airbnb dominates domestic leisure; VRBO captures longer-stay family groups. Both platforms are necessary to reach 60%+ occupancy.'} Self-management saves {usd(f['pm_cost'])}/yr versus a 20% property manager — a savings that substantially improves cash-on-cash return.</p></div>
+<div class="section-title">{'Self-management strategy' if f['is_self_managed'] else 'Property management strategy'}</div>
+<div class="analysis-block"><h3>Platform approach</h3><p>Dual-list on Airbnb (3% host fee) and VRBO (8% host fee). {'Consider Booking.com for European travelers, a significant segment of Caribbean visitors.' if f['is_carib'] else 'Airbnb dominates domestic leisure; VRBO captures longer-stay family groups. Both platforms are necessary to reach 60%+ occupancy.'} {f"Self-management saves {usd(f['pm_cost'])}/yr versus a 20% property manager — a savings that substantially improves cash-on-cash return." if f['is_self_managed'] else f"A 3rd-party property manager is budgeted at {fmt_pct(f['mgmt_fee_pct'])} of gross revenue ({usd(f['management_fee'])}/yr), which is already deducted as an operating expense throughout this analysis. Confirm exactly what's included — guest communication, dynamic pricing, and turnover coordination are commonly bundled, while cleaning and maintenance are often billed separately."}</p></div>
 <div class="analysis-block"><h3>Operational requirements</h3><p>{'Local cleaning team (' + usd(f["clean_per"]) + '/turn), smart lock, WhatsApp-based guest communication for international travelers, airport transfer coordination, professional photography, bilingual listings.' if f['is_carib'] else 'Local cleaning team (' + usd(f["clean_per"]) + '/turn recommended), smart lock, noise monitoring device (Minut or NoiseAware), dynamic pricing tool (PriceLabs or Wheelhouse), professional photography, and guest automation software (Hospitable or Hostfully).'}</p></div>
 <div class="analysis-block"><h3>Revenue optimization tactics</h3><p>Dynamic pricing with weekly updates, {'3-night minimums during peak winter season, bilingual listings (English/Spanish), curated local experience guides, and Superhost targeting via rapid response rate.' if f['is_carib'] else '3-night minimums during peak summer weekends, 7-night minimums during holiday weeks, seasonal pricing uplift of 40–60% in June–August, and Superhost targeting via response rate and review management.'}</p></div>
 

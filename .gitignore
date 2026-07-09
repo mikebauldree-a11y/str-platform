@@ -9,6 +9,9 @@ __pycache__/
 reports/*.html
 pending_deals/*.json
 
+# Personal local analysis tool (never deploy to Railway)
+local_reports/
+
 # OS specific files
 .DS_Store
 Thumbs.db
