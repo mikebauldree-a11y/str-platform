@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block page_title %}STR Underwriting Reports, $49 | {{ brand_name }}{% endblock %}
+
+{% block meta_description %}Investor-grade STR underwriting reports, $49. 3-scenario cash flow, 5-year pro forma, and a clear Buy/Watch/Pass verdict for Caribbean and US coastal properties.{% endblock %}
+
 {% block head_extra %}
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -7,7 +11,7 @@
   .hero {
     background: var(--primary-dark);
     color: white;
-    padding: 4rem 2rem 5rem;
+    padding: 4rem 2rem 4.5rem;
     text-align: center;
   }
   .hero-eyebrow {
@@ -24,11 +28,50 @@
   .hero h1 em { color: #e8a87c; font-style: normal; }
   .hero .hero-lead {
     font-size: 15px; color: rgba(255,255,255,0.62);
-    max-width: 520px; margin: 0 auto 1.75rem; line-height: 1.7;
+    max-width: 520px; margin: 0 auto 1.5rem; line-height: 1.7;
   }
+  .hero-price {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.6rem; margin-bottom: 1.4rem;
+  }
+  .hero-price-fig {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4.5vw, 2.6rem); line-height: 1; color: white;
+  }
+  .hero-price-note {
+    text-align: left; font-family: 'DM Mono', monospace;
+    font-size: 10.5px; line-height: 1.5; letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.45);
+  }
+  .hero-cta {
+    display: inline-block; background: #e8a87c; color: #2a1408;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    padding: 0.85rem 2.2rem; border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .hero-cta:hover { background: #f0bb96; color: #2a1408; }
+  .hero-samples-wrap {
+    max-width: 400px; margin: 1.75rem auto 1.5rem;
+    padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .hero-samples-label {
+    font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 0.75rem;
+  }
+  .hero-samples { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
+  .hero-samples a {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 13px; color: rgba(255,255,255,0.9); text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.22); border-radius: 4px;
+    padding: 0.6rem 1.1rem;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+  .hero-samples a:hover {
+    color: white; border-color: #e8a87c; background: rgba(232,168,124,0.10);
+  }
+  .hero-samples svg { width: 16px; height: 16px; color: #e8a87c; flex: none; }
   .hero-pills {
     display: flex; justify-content: center;
-    flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;
+    flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0;
   }
   .hero-pill {
     background: rgba(255,255,255,0.08);
@@ -37,14 +80,12 @@
     font-size: 11px; font-family: 'DM Mono', monospace;
     letter-spacing: 0.05em; padding: 0.3rem 0.85rem; border-radius: 50px;
   }
-  .hero-pill::before { content: "✓ "; color: var(--accent-orange); }
-  .hero-samples { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
-  .hero-samples a {
-    font-size: 12px; color: rgba(255,255,255,0.5);
-    text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2);
-    padding-bottom: 1px; transition: color 0.2s;
+  .hero-pill::before { content: "\2713 "; color: var(--accent-orange); }
+  .hero a:focus-visible { outline: 2px solid #e8a87c; outline-offset: 3px; }
+  @media (max-width: 480px) {
+    .hero-samples { flex-direction: column; }
+    .hero-samples a { justify-content: center; }
   }
-  .hero-samples a:hover { color: white; }
 
   /* FORM LIFT */
   .form-lift { margin-top: -2.5rem; padding-bottom: 4rem; }
@@ -230,17 +271,48 @@
 
 <section class="hero" id="top">
   <div class="hero-eyebrow">{{ brand_name }}</div>
-  <h1>Know if it's a deal<br><em>before you make an offer.</em></h1>
-  <p class="hero-lead">Investor-grade STR underwriting for Caribbean and US coastal properties. 3-scenario cash flow, 5-year pro forma, and a Buy/Watch/Pass verdict — delivered to your inbox in minutes.</p>
+
+  <h1>Underwrite Any Short-Term Rental<br><em>Before You Make An Offer.</em></h1>
+
+  <p class="hero-lead">Know if it's a deal, not a guess. 3-scenario cash flow, a 5-year pro forma, and a Buy/Watch/Pass verdict &mdash; delivered to your inbox in minutes.</p>
+
+  <div class="hero-price">
+    <span class="hero-price-fig">$49</span>
+    <span class="hero-price-note">Per Property<br>No Subscription</span>
+  </div>
+
+  <div><a class="hero-cta" href="#dealForm">Get Your Report</a></div>
+
+  <div class="hero-samples-wrap">
+    <div class="hero-samples-label">See a Real Report Before You Buy</div>
+    <div class="hero-samples">
+      <a href="/sample-report">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 21h18"/><path d="M12 21V9"/>
+          <path d="M12 9a9 9 0 0 0-9 5h18a9 9 0 0 0-9-5z"/>
+        </svg>
+        US Coastal Sample
+      </a>
+      <a href="/sample-report-caribbean">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M13 21c0-6-1-10-3-13"/>
+          <path d="M10 8c-2.5-2-5.5-1.5-7 1"/>
+          <path d="M10 8c2.5-2 5.5-1.5 7 1"/>
+          <path d="M10 8c-1-2.8.5-5 3-5.5"/>
+          <path d="M10 8c1.5 2.5 1 5-1 7"/>
+        </svg>
+        Caribbean Sample
+      </a>
+    </div>
+  </div>
+
   <div class="hero-pills">
     <span class="hero-pill">3 Revenue Scenarios</span>
     <span class="hero-pill">5-Year Pro Forma</span>
     <span class="hero-pill">Risk Assessment</span>
     <span class="hero-pill">Auto Verdict</span>
-  </div>
-  <div class="hero-samples">
-    <a href="/sample-report">🏖️ US Coastal Sample</a>
-    <a href="/sample-report-caribbean">🌴 Caribbean Sample</a>
   </div>
 </section>
 
@@ -311,7 +383,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-9 col-xl-8">
       <div style="text-align:center; margin-bottom:1.5rem;">
-        <h2 style="font-family:'DM Serif Display', serif; font-size:clamp(1.5rem, 3vw, 2rem); font-weight:400; color:#1a1a18; margin-bottom:0.5rem;">Start your analysis</h2>
+        <h2 style="font-family:'DM Serif Display', serif; font-size:clamp(1.5rem, 3vw, 2rem); font-weight:400; color:#1a1a18; margin-bottom:0.5rem;">Get Your Report</h2>
         <p style="font-size:13.5px; color:#7a7870;">Enter your property details below — the more you provide, the more precise your report.</p>
       </div>
       <form class="deal-card" action="/analyze" method="POST" id="strForm">
@@ -648,7 +720,7 @@
             </div>
             <div class="price-note">Instant delivery to your email after checkout. PDF + interactive HTML.</div>
           </div>
-          <button type="submit" class="btn-submit" id="submitBtn">GET MY REPORT →</button>
+          <button type="submit" class="btn-submit" id="submitBtn">Get Your Report →</button>
         </div>
 
       </form>

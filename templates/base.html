@@ -17,6 +17,16 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Caribbean STR">
 
+    <!-- Social preview image
+         Create a 1200x630 PNG at static/og-image.png, then uncomment
+         these four lines and change twitter:card to summary_large_image. -->
+    <!--
+    <meta property="og:image" content="https://caribbeanstr.com/static/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:image" content="https://caribbeanstr.com/static/og-image.png">
+    -->
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="{{ brand_name }} — Professional STR Underwriting">
@@ -111,7 +121,7 @@
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand text-dark" href="/">
-                <span style="color: var(--caribbean-blue);">🌴</span> {{ brand_name }}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:20px;height:20px;color:var(--caribbean-blue);vertical-align:-3px;"><path d="M13 21c0-6-1-10-3-13"/><path d="M10 8c-2.5-2-5.5-1.5-7 1"/><path d="M10 8c2.5-2 5.5-1.5 7 1"/><path d="M10 8c-1-2.8.5-5 3-5.5"/><path d="M10 8c1.5 2.5 1 5-1 7"/></svg> {{ brand_name }}
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -133,7 +143,7 @@
                         <a class="nav-link {% if active_page == 'analytics' %}active{% endif %}" href="/analytics">Analytics</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn-nav-action ms-lg-4" href="/#dealForm">Start Analysis</a>
+                        <a class="nav-link btn-nav-action ms-lg-4" href="/#dealForm">Get Your Report</a>
                     </li>
                 </ul>
             </div>
