@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block page_title %}Caribbean & Coastal STR Markets — Caribbean STR{% endblock %}
-{% block meta_description %}Compare short-term rental investment markets across the Caribbean and US Coast. Revenue projections, occupancy rates, cap rates, and regulatory guides for Aruba, Dominican Republic, Bahamas, Turks &amp; Caicos, and NC Coastal.{% endblock %}
+{% block page_title %}STR Revenue Data by Destination — {{ brand_name }}{% endblock %}
+{% block meta_description %}Short-term rental revenue, occupancy, and cap rate data for Aruba, the Dominican Republic, Turks &amp; Caicos, the Outer Banks and more. Compare STR returns before you buy.{% endblock %}
 {% block content %}
 <div class="container py-5">
-    <h2 class="fw-bold mb-2">Caribbean Market Intelligence</h2>
-    <p class="text-muted mb-5">Select a market to view regulations, benchmarks, and investment data.</p>
+    <h1 class="fw-bold mb-2">STR Revenue Data by Destination</h1>
+    <p class="text-muted mb-5">Select a destination to view STR regulations, revenue benchmarks, and investor return data.</p>
     
 <div class="row g-4">
     {% for slug, market in markets.items() %}
