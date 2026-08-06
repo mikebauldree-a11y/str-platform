@@ -16,10 +16,22 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_PRICE_ID = os.getenv("STRIPE_PRICE_ID")
 
 BASE_DIR = Path(__file__).parent
-PENDING_DIR = BASE_DIR / "pending_deals"
-REPORTS_DIR = BASE_DIR / "reports"
-SAMPLES_DIR = BASE_DIR / "samples"
-for d in [PENDING_DIR, REPORTS_DIR, SAMPLES_DIR]: d.mkdir(exist_ok=True)
+
+# Persistent storage. On Railway set DATA_DIR=/data and attach a volume
+# mounted at /data, otherwise these directories live on the container
+# filesystem and are wiped on every redeploy — taking paid customers'
+# reports and in-flight orders with them.
+DATA_DIR = Path(os.getenv("DATA_DIR", BASE_DIR))
+
+PENDING_DIR = DATA_DIR / "pending_deals"
+REPORTS_DIR = DATA_DIR / "reports"
+SAMPLES_DIR = BASE_DIR / "samples"          # ships with the repo, not user data
+
+for d in [PENDING_DIR, REPORTS_DIR]:
+    d.mkdir(parents=True, exist_ok=True)
+SAMPLES_DIR.mkdir(exist_ok=True)
+
+print(f"[startup] DATA_DIR={DATA_DIR}  persistent={DATA_DIR != BASE_DIR}")
 
 # ── Load markets data once at startup ────────────────────────────────────────
 _markets_path = BASE_DIR / "data" / "markets.json"
