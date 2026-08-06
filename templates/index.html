@@ -68,7 +68,7 @@
   .hero-samples a:hover {
     color: white; border-color: #e8a87c; background: rgba(232,168,124,0.10);
   }
-  .hero-samples svg { width: 16px; height: 16px; color: #e8a87c; flex: none; }
+  .hero-samples .hero-sample-icon { font-size: 15px; line-height: 1; flex: none; }
   .hero-pills {
     display: flex; justify-content: center;
     flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0;
@@ -287,22 +287,11 @@
     <div class="hero-samples-label">See a Real Report Before You Buy</div>
     <div class="hero-samples">
       <a href="/sample-report">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 21h18"/><path d="M12 21V9"/>
-          <path d="M12 9a9 9 0 0 0-9 5h18a9 9 0 0 0-9-5z"/>
-        </svg>
+        <span class="hero-sample-icon" aria-hidden="true">🏖️</span>
         US Coastal Sample
       </a>
       <a href="/sample-report-caribbean">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M13 21c0-6-1-10-3-13"/>
-          <path d="M10 8c-2.5-2-5.5-1.5-7 1"/>
-          <path d="M10 8c2.5-2 5.5-1.5 7 1"/>
-          <path d="M10 8c-1-2.8.5-5 3-5.5"/>
-          <path d="M10 8c1.5 2.5 1 5-1 7"/>
-        </svg>
+        <span class="hero-sample-icon" aria-hidden="true">🌴</span>
         Caribbean Sample
       </a>
     </div>
