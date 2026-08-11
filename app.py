@@ -1,5 +1,6 @@
-import os, json, uuid
+import os, json, uuid, smtplib, ssl, traceback
 
+from email.message import EmailMessage
 from pathlib import Path
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_file, abort, jsonify
@@ -14,6 +15,16 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-key-123")
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_PRICE_ID = os.getenv("STRIPE_PRICE_ID")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+# ── Email config ──────────────────────────────────────────────────────────────
+SMTP_HOST   = os.getenv("SMTP_HOST")
+SMTP_PORT   = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USER   = os.getenv("SMTP_USER")
+SMTP_PASS   = os.getenv("SMTP_PASS")
+FROM_EMAIL  = os.getenv("FROM_EMAIL", SMTP_USER)
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
+BASE_URL    = os.getenv("BASE_URL", "https://caribbeanstr.com").rstrip("/")
 
 BASE_DIR = Path(__file__).parent
 
@@ -45,7 +56,134 @@ with open(_blog_posts_path, "r", encoding="utf-8") as _f:
 
 BRAND_NAME = "Caribbean STR"
 
-# ── Existing routes (unchanged) ───────────────────────────────────────────────
+# ── Report generation + delivery ──────────────────────────────────────────────
+def _send_report_email(data, order_id, report_html):
+    """Email the finished report to the buyer as an attachment.
+
+    Returns True on success. Never raises — a mail failure must not break
+    the purchase flow, since the report is already saved and downloadable.
+    """
+    to_addr = (data.get("email") or "").strip()
+    if not to_addr:
+        print(f"[email] {order_id}: no email address on file, skipping")
+        return False
+    if not (SMTP_HOST and SMTP_USER and SMTP_PASS):
+        print(f"[email] {order_id}: SMTP not configured, skipping")
+        return False
+
+    name    = (data.get("client_name") or "").strip() or "there"
+    address = (data.get("address") or "your property").strip()
+    city    = (data.get("city") or "").strip()
+    state   = (data.get("state") or "").strip()
+    where   = ", ".join(p for p in [city, state] if p)
+    prop    = f"{address}, {where}" if where else address
+    link    = f"{BASE_URL}/download/{order_id}"
+
+    msg = EmailMessage()
+    msg["Subject"] = f"Your STR underwriting report — {address}"
+    msg["From"]    = FROM_EMAIL
+    msg["To"]      = to_addr
+    msg.set_content(
+        f"""Hi {name},
+
+Your short-term rental underwriting report for {prop} is attached.
+
+It covers three revenue scenarios, a 5-year pro forma, risk assessment,
+and a Buy/Watch/Pass verdict.
+
+You can also view it online any time:
+{link}
+
+Order reference: {order_id}
+
+Questions about anything in the report? Just reply to this email.
+
+— {BRAND_NAME}
+{BASE_URL}
+"""
+    )
+    msg.add_attachment(
+        report_html.encode("utf-8"),
+        maintype="text",
+        subtype="html",
+        filename=f"STR-Report-{order_id}.html",
+    )
+
+    try:
+        ctx = ssl.create_default_context()
+        if SMTP_PORT == 465:
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=ctx, timeout=30) as s:
+                s.login(SMTP_USER, SMTP_PASS)
+                s.send_message(msg)
+        else:
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as s:
+                s.starttls(context=ctx)
+                s.login(SMTP_USER, SMTP_PASS)
+                s.send_message(msg)
+        print(f"[email] {order_id}: sent to {to_addr}")
+    except Exception as e:
+        print(f"[email] {order_id}: FAILED — {e}")
+        traceback.print_exc()
+        return False
+
+    # Notify the owner that a sale completed.
+    if ADMIN_EMAIL:
+        try:
+            note = EmailMessage()
+            note["Subject"] = f"New report sold — {address}"
+            note["From"]    = FROM_EMAIL
+            note["To"]      = ADMIN_EMAIL
+            note.set_content(
+                f"Order {order_id}\nBuyer: {name} <{to_addr}>\n"
+                f"Property: {prop}\nReport: {link}\n"
+            )
+            ctx = ssl.create_default_context()
+            if SMTP_PORT == 465:
+                with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=ctx, timeout=30) as s:
+                    s.login(SMTP_USER, SMTP_PASS); s.send_message(note)
+            else:
+                with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as s:
+                    s.starttls(context=ctx); s.login(SMTP_USER, SMTP_PASS); s.send_message(note)
+        except Exception as e:
+            print(f"[email] {order_id}: admin notice failed — {e}")
+
+    return True
+
+
+def _fulfill_order(order_id):
+    """Generate the report if needed and email it. Idempotent.
+
+    Safe to call from the webhook, the success page, or check_status —
+    whichever happens first does the work; later calls are no-ops.
+    """
+    if not order_id:
+        return False
+    json_path   = PENDING_DIR / f"{order_id}.json"
+    report_path = REPORTS_DIR / f"{order_id}.html"
+    sent_marker = REPORTS_DIR / f"{order_id}.sent"
+
+    if not json_path.exists():
+        print(f"[fulfill] {order_id}: no pending deal found")
+        return False
+
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    if report_path.exists():
+        report_html = report_path.read_text(encoding="utf-8")
+    else:
+        report_html = generate_html_report(data)
+        report_path.write_text(report_html, encoding="utf-8")
+        print(f"[fulfill] {order_id}: report generated")
+
+    if not sent_marker.exists():
+        if _send_report_email(data, order_id, report_html):
+            sent_marker.write_text(datetime.utcnow().isoformat(), encoding="utf-8")
+
+    return True
+
+
+# ── Existing routes ───────────────────────────────────────────────────────────
 @app.route("/")
 def index():
     return render_template("index.html", brand_name=BRAND_NAME)
@@ -72,18 +210,12 @@ def analyze():
 @app.route("/success")
 def success():
     order_id = request.args.get("order_id")
-    json_path = PENDING_DIR / f"{order_id}.json"
-    report_path = REPORTS_DIR / f"{order_id}.html"
-    if json_path.exists() and not report_path.exists():
-        try:
-            with open(json_path, 'r') as f:
-                data = json.load(f)
-            html_out = generate_html_report(data)
-            with open(report_path, 'w', encoding='utf-8') as f:
-                f.write(html_out)
-        except Exception as e:
-            print(f"Generation Error: {e}")
-            return "Error generating report", 500
+    try:
+        _fulfill_order(order_id)
+    except Exception as e:
+        print(f"Generation Error: {e}")
+        traceback.print_exc()
+        return "Error generating report", 500
     return render_template("success.html", order_id=order_id, brand_name=BRAND_NAME)
 
 @app.route("/download/<order_id>")
@@ -94,22 +226,54 @@ def download(order_id):
 
 @app.route("/check_status/<order_id>")
 def check_status(order_id):
-    report_path = REPORTS_DIR / f"{order_id}.html"
-    if report_path.exists():
+    if (REPORTS_DIR / f"{order_id}.html").exists():
         return jsonify({"status": "ready"})
-    json_path = PENDING_DIR / f"{order_id}.json"
-    if json_path.exists():
-        try:
-            with open(json_path, 'r') as f:
-                data = json.load(f)
-            html_out = generate_html_report(data)
-            with open(report_path, 'w', encoding='utf-8') as f:
-                f.write(html_out)
+    try:
+        if _fulfill_order(order_id):
             return jsonify({"status": "ready"})
-        except Exception as e:
-            print(f"check_status generation error: {e}")
-            return jsonify({"status": "error", "message": str(e)}), 500
+    except Exception as e:
+        print(f"check_status generation error: {e}")
+        traceback.print_exc()
+        return jsonify({"status": "error", "message": str(e)}), 500
     return jsonify({"status": "pending"})
+
+
+# ── Stripe webhook ────────────────────────────────────────────────────────────
+@app.route("/stripe/webhook", methods=["POST"])
+def stripe_webhook():
+    """Fulfil on payment confirmation, not on the customer returning to the site.
+
+    Without this, a buyer who closes the tab at Stripe's confirmation screen
+    has paid and never receives anything.
+    """
+    payload    = request.data
+    sig_header = request.headers.get("Stripe-Signature", "")
+
+    if not STRIPE_WEBHOOK_SECRET:
+        print("[webhook] STRIPE_WEBHOOK_SECRET not set, refusing")
+        return "Webhook not configured", 500
+
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, STRIPE_WEBHOOK_SECRET)
+    except ValueError:
+        return "Invalid payload", 400
+    except stripe.error.SignatureVerificationError:
+        print("[webhook] signature verification failed")
+        return "Invalid signature", 400
+
+    if event["type"] == "checkout.session.completed":
+        session  = event["data"]["object"]
+        order_id = session.get("client_reference_id")
+        print(f"[webhook] checkout.session.completed for order {order_id}")
+        try:
+            _fulfill_order(order_id)
+        except Exception as e:
+            print(f"[webhook] fulfilment failed for {order_id}: {e}")
+            traceback.print_exc()
+            # 500 tells Stripe to retry.
+            return "Fulfilment error", 500
+
+    return jsonify({"received": True}), 200
 
 # ── Sample report routes ──────────────────────────────────────────────────────
 @app.route("/sample-report")
