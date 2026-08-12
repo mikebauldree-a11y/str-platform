@@ -1,6 +1,6 @@
-import os, json, uuid, smtplib, ssl, traceback
+import os, json, uuid, base64, traceback
 
-from email.message import EmailMessage
+import requests
 from pathlib import Path
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, send_file, abort, jsonify
@@ -17,12 +17,15 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_PRICE_ID = os.getenv("STRIPE_PRICE_ID")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
-# ── Email config ──────────────────────────────────────────────────────────────
-SMTP_HOST   = os.getenv("SMTP_HOST")
-SMTP_PORT   = int(os.getenv("SMTP_PORT", "587"))
-SMTP_USER   = os.getenv("SMTP_USER")
-SMTP_PASS   = os.getenv("SMTP_PASS")
-FROM_EMAIL  = os.getenv("FROM_EMAIL", SMTP_USER)
+# ── Email config (Resend HTTP API) ────────────────────────────────────────────
+# Railway blocks outbound SMTP on all ports, so mail goes over HTTPS.
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RESEND_URL     = "https://api.resend.com/emails"
+
+# Until caribbeanstr.com is verified in Resend, leave FROM_EMAIL unset and
+# this falls back to Resend's sandbox sender, which works immediately but
+# can only deliver to your own account address.
+FROM_EMAIL  = os.getenv("FROM_EMAIL", "onboarding@resend.dev")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 BASE_URL    = os.getenv("BASE_URL", "https://caribbeanstr.com").rstrip("/")
 
@@ -57,6 +60,29 @@ with open(_blog_posts_path, "r", encoding="utf-8") as _f:
 BRAND_NAME = "Caribbean STR"
 
 # ── Report generation + delivery ──────────────────────────────────────────────
+def _resend_send(payload, order_id, label):
+    """POST one message to Resend. Returns True on success, never raises."""
+    try:
+        r = requests.post(
+            RESEND_URL,
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json=payload,
+            timeout=20,
+        )
+        if r.status_code in (200, 201):
+            print(f"[email] {order_id}: {label} sent")
+            return True
+        print(f"[email] {order_id}: {label} FAILED — HTTP {r.status_code} {r.text[:400]}")
+        return False
+    except Exception as e:
+        print(f"[email] {order_id}: {label} FAILED — {e}")
+        traceback.print_exc()
+        return False
+
+
 def _send_report_email(data, order_id, report_html):
     """Email the finished report to the buyer as an attachment.
 
@@ -67,8 +93,8 @@ def _send_report_email(data, order_id, report_html):
     if not to_addr:
         print(f"[email] {order_id}: no email address on file, skipping")
         return False
-    if not (SMTP_HOST and SMTP_USER and SMTP_PASS):
-        print(f"[email] {order_id}: SMTP not configured, skipping")
+    if not RESEND_API_KEY:
+        print(f"[email] {order_id}: RESEND_API_KEY not set, skipping")
         return False
 
     name    = (data.get("client_name") or "").strip() or "there"
@@ -79,12 +105,7 @@ def _send_report_email(data, order_id, report_html):
     prop    = f"{address}, {where}" if where else address
     link    = f"{BASE_URL}/download/{order_id}"
 
-    msg = EmailMessage()
-    msg["Subject"] = f"Your STR underwriting report — {address}"
-    msg["From"]    = FROM_EMAIL
-    msg["To"]      = to_addr
-    msg.set_content(
-        f"""Hi {name},
+    text_body = f"""Hi {name},
 
 Your short-term rental underwriting report for {prop} is attached.
 
@@ -101,53 +122,48 @@ Questions about anything in the report? Just reply to this email.
 — {BRAND_NAME}
 {BASE_URL}
 """
+
+    html_body = f"""<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#2a2a28;">
+<p>Hi {name},</p>
+<p>Your short-term rental underwriting report for <strong>{prop}</strong> is attached.</p>
+<p>It covers three revenue scenarios, a 5-year pro forma, risk assessment, and a Buy/Watch/Pass verdict.</p>
+<p><a href="{link}" style="display:inline-block;background:#c84b2f;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:4px;">View Your Report Online</a></p>
+<p style="color:#7a7870;font-size:13px;">Order reference: {order_id}</p>
+<p>Questions about anything in the report? Just reply to this email.</p>
+<p style="color:#7a7870;font-size:13px;">— {BRAND_NAME}<br><a href="{BASE_URL}" style="color:#7a7870;">{BASE_URL}</a></p>
+</div>"""
+
+    attachment = base64.b64encode(report_html.encode("utf-8")).decode("ascii")
+
+    ok = _resend_send(
+        {
+            "from": FROM_EMAIL,
+            "to": [to_addr],
+            "subject": f"Your STR underwriting report — {address}",
+            "text": text_body,
+            "html": html_body,
+            "attachments": [
+                {"filename": f"STR-Report-{order_id}.html", "content": attachment}
+            ],
+        },
+        order_id,
+        f"report to {to_addr}",
     )
-    msg.add_attachment(
-        report_html.encode("utf-8"),
-        maintype="text",
-        subtype="html",
-        filename=f"STR-Report-{order_id}.html",
-    )
 
-    try:
-        ctx = ssl.create_default_context()
-        if SMTP_PORT == 465:
-            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=ctx, timeout=30) as s:
-                s.login(SMTP_USER, SMTP_PASS)
-                s.send_message(msg)
-        else:
-            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as s:
-                s.starttls(context=ctx)
-                s.login(SMTP_USER, SMTP_PASS)
-                s.send_message(msg)
-        print(f"[email] {order_id}: sent to {to_addr}")
-    except Exception as e:
-        print(f"[email] {order_id}: FAILED — {e}")
-        traceback.print_exc()
-        return False
+    if ok and ADMIN_EMAIL:
+        _resend_send(
+            {
+                "from": FROM_EMAIL,
+                "to": [ADMIN_EMAIL],
+                "subject": f"New report sold — {address}",
+                "text": (f"Order {order_id}\nBuyer: {name} <{to_addr}>\n"
+                         f"Property: {prop}\nReport: {link}\n"),
+            },
+            order_id,
+            "admin notice",
+        )
 
-    # Notify the owner that a sale completed.
-    if ADMIN_EMAIL:
-        try:
-            note = EmailMessage()
-            note["Subject"] = f"New report sold — {address}"
-            note["From"]    = FROM_EMAIL
-            note["To"]      = ADMIN_EMAIL
-            note.set_content(
-                f"Order {order_id}\nBuyer: {name} <{to_addr}>\n"
-                f"Property: {prop}\nReport: {link}\n"
-            )
-            ctx = ssl.create_default_context()
-            if SMTP_PORT == 465:
-                with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=ctx, timeout=30) as s:
-                    s.login(SMTP_USER, SMTP_PASS); s.send_message(note)
-            else:
-                with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as s:
-                    s.starttls(context=ctx); s.login(SMTP_USER, SMTP_PASS); s.send_message(note)
-        except Exception as e:
-            print(f"[email] {order_id}: admin notice failed — {e}")
-
-    return True
+    return ok
 
 
 def _fulfill_order(order_id):
