@@ -27,6 +27,10 @@ RESEND_URL     = "https://api.resend.com/emails"
 # can only deliver to your own account address.
 FROM_EMAIL  = os.getenv("FROM_EMAIL", "onboarding@resend.dev")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
+
+# Resend is send-only, so reports@caribbeanstr.com cannot receive mail.
+# Customer replies are routed to a mailbox that is actually monitored.
+REPLY_TO    = os.getenv("REPLY_TO")
 BASE_URL    = os.getenv("BASE_URL", "https://caribbeanstr.com").rstrip("/")
 
 BASE_DIR = Path(__file__).parent
@@ -135,20 +139,20 @@ Questions about anything in the report? Just reply to this email.
 
     attachment = base64.b64encode(report_html.encode("utf-8")).decode("ascii")
 
-    ok = _resend_send(
-        {
-            "from": FROM_EMAIL,
-            "to": [to_addr],
-            "subject": f"Your STR underwriting report — {address}",
-            "text": text_body,
-            "html": html_body,
-            "attachments": [
-                {"filename": f"STR-Report-{order_id}.html", "content": attachment}
-            ],
-        },
-        order_id,
-        f"report to {to_addr}",
-    )
+    payload = {
+        "from": FROM_EMAIL,
+        "to": [to_addr],
+        "subject": f"Your STR underwriting report — {address}",
+        "text": text_body,
+        "html": html_body,
+        "attachments": [
+            {"filename": f"STR-Report-{order_id}.html", "content": attachment}
+        ],
+    }
+    if REPLY_TO:
+        payload["reply_to"] = REPLY_TO
+
+    ok = _resend_send(payload, order_id, f"report to {to_addr}")
 
     if ok and ADMIN_EMAIL:
         _resend_send(
